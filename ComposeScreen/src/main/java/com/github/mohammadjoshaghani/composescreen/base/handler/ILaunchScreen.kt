@@ -1,0 +1,3 @@
+package com.github.mohammadjoshaghani.composescreen.base.handler
+
+interface ILaunchScreen
