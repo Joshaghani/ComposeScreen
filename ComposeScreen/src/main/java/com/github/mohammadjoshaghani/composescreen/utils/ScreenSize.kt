@@ -1,6 +1,8 @@
 package com.github.mohammadjoshaghani.composescreen.utils
 
+import androidx.compose.ui.unit.Dp
+
 data class ScreenSize(
-    val width: Int,
-    val height: Int,
+    val width: Dp,
+    val height: Dp,
 )
