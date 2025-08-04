@@ -6,7 +6,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
@@ -15,6 +17,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
+val topBarHeightPx = mutableIntStateOf(0)
 
 class TopBar {
 
