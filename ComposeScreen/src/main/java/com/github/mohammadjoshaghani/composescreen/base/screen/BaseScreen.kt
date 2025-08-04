@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
@@ -27,6 +29,8 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     private var scrollPositionBaseScreen = mutableIntStateOf(0)
 
     fun getState() = viewModel.viewState.value
+
+    var maxHeight: Dp = 0.dp
 
     @Composable
     override fun ShowScreenFromApp() {
@@ -45,10 +49,11 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         }
 
         UIRefreshableContent {
+            this@BaseScreen.maxHeight = maxHeight
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .height(this.maxHeight)
+                    .height(maxHeight)
                     .verticalScroll(mainScrollState!!)
             ) {
                 ComposeView(viewModel.viewState.value)
