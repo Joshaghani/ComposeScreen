@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.topbar
 
+import android.R.attr.type
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.base.screen.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
+import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,12 +35,28 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
         actions = {
             val screen = Navigator.currentScreen.value
             if (screen is IShowTopbar) {
-                screen.leftIconsTopBar().forEach {
-                    ClickableIcon(
-                        it.iconId,
-                        badgeCount = it.badgeCount,
-                        onClick = it.onIconPressed
-                    )
+                screen.leftIconsTopBar().forEach { icon ->
+                    when (icon) {
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
+
+                        is IClickableIconModel.ClickableIconVectorModel -> {
+                            ClickableIcon(
+                                icon.iconId,
+                                onClick = icon.onIconPressed,
+                                badgeCount = icon.badgeCount,
+                            )
+
+                            ClickableIcon(
+                                icon.iconId,
+                                badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
+                            )
+                        }
+                    }
                 }
             }
         },

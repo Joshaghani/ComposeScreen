@@ -35,7 +35,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     internal var isVisibleAnimation = mutableStateOf(false)
     private var updatedDataModel: List<Any>? = null
 
-    protected var onEventSent: (Event) -> Unit = { event ->
+    var onEventSent: (Event) -> Unit = { event ->
         viewModel.setEvent(event)
     }
 

@@ -23,25 +23,57 @@ import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 @Composable
 fun ClickableIcon(
     icon: ImageVector,
+    badgeCount: Int? = null,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     onClick: () -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .size(56.dp)
-            .clip(CircleShape)
-            .clickableTheme(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.size(24.dp),
-            tint = tint
-        )
+
+    when (badgeCount) {
+        null -> {
+            IconBox(
+                icon,
+                modifier,
+                tint,
+                contentDescription,
+                onClick
+            )
+        }
+
+        0 -> {
+            BadgedBox(
+                badge = { Badge(Modifier.offset(y = 16.dp, x = (-16).dp)) } // فقط دایره خالی
+            ) {
+                IconBox(
+                    icon,
+                    modifier,
+                    tint,
+                    contentDescription,
+                    onClick
+                )
+            }
+        }
+
+        else -> {
+            BadgedBox(
+                badge = {
+                    Badge(Modifier.padding(12.dp)) {
+                        Text("$badgeCount")
+                    }
+                }
+            ) {
+                IconBox(
+                    icon,
+                    modifier,
+                    tint,
+                    contentDescription,
+                    onClick
+                )
+            }
+        }
     }
+
 }
 
 @Composable
@@ -96,7 +128,6 @@ fun ClickableIcon(
                 )
             }
         }
-
     }
 }
 
@@ -117,6 +148,30 @@ fun IconBox(
     ) {
         Icon(
             painter = painterResource(icon),
+            contentDescription = contentDescription,
+            modifier = Modifier.size(24.dp),
+            tint = tint
+        )
+    }
+}
+
+@Composable
+fun IconBox(
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+    tint: Color = MaterialTheme.colorScheme.onSurface,
+    contentDescription: String? = null,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .size(56.dp)
+            .clip(CircleShape)
+            .clickableTheme(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
             contentDescription = contentDescription,
             modifier = Modifier.size(24.dp),
             tint = tint

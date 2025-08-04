@@ -1,13 +1,13 @@
 package com.github.mohammadjoshaghani.composescreen.base.handler
 
-import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIconModel
+import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 
 interface IShowTopbarMain {
 
-    fun leftIconsTopBar(): List<ClickableIconModel> {
+    fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()
     }
 
-    fun menuIconTopBar(): ClickableIconModel?
+    fun menuIconTopBar(): IClickableIconModel?
 
 }

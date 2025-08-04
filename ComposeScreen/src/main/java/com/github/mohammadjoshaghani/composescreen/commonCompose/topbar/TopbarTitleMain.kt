@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.topbar
 
+import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -15,6 +16,7 @@ import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
+import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 
@@ -34,22 +36,54 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
         navigationIcon = {
             if (screen is IShowTopbarMain) {
                 screen.menuIconTopBar()?.let { icon ->
-                    ClickableIcon(
-                        icon.iconId,
-                        badgeCount = icon.badgeCount,
-                        onClick = icon.onIconPressed
-                    )
+                    when (icon) {
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
+
+                        is IClickableIconModel.ClickableIconVectorModel -> {
+                            ClickableIcon(
+                                icon.iconId,
+                                badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
+                            )
+
+                            ClickableIcon(
+                                icon.iconId,
+                                badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
+                            )
+                        }
+                    }
                 }
             }
         },
         actions = {
             if (screen is IShowTopbarMain) {
-                screen.leftIconsTopBar().forEach {
-                    ClickableIcon(
-                        it.iconId,
-                        badgeCount = it.badgeCount,
-                        onClick = it.onIconPressed
-                    )
+                screen.actionIconsTopBar().forEach { icon ->
+                    when (icon) {
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
+
+                        is IClickableIconModel.ClickableIconVectorModel -> {
+                            ClickableIcon(
+                                icon.iconId,
+                                badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
+                            )
+
+                            ClickableIcon(
+                                icon.iconId,
+                                badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
+                            )
+                        }
+                    }
                 }
             }
         },

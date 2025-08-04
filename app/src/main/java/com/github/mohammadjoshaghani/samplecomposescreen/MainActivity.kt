@@ -14,7 +14,7 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.BaseScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIconModel
+import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.commonCompose.errorScreen.ErrorScreenMessageModel
 import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastMessageModel
 import com.github.mohammadjoshaghani.composescreen.utils.Config
@@ -56,7 +56,7 @@ class MainScreen : BaseScreen<
     override fun ComposeView(state: MainScreenContract.State) {
     }
 
-    override fun menuIconTopBar(): ClickableIconModel? {
+    override fun menuIconTopBar(): IClickableIconModel? {
         return null
     }
 
