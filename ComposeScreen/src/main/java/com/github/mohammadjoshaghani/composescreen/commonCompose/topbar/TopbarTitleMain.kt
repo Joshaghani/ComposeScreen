@@ -53,12 +53,6 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                                 badgeCount = icon.badgeCount,
                                 onClick = icon.onIconPressed
                             )
-
-                            ClickableIcon(
-                                icon.iconId,
-                                badgeCount = icon.badgeCount,
-                                onClick = icon.onIconPressed
-                            )
                         }
                     }
                 }
@@ -75,12 +69,6 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                         )
 
                         is IClickableIconModel.ClickableIconVectorModel -> {
-                            ClickableIcon(
-                                icon.iconId,
-                                badgeCount = icon.badgeCount,
-                                onClick = icon.onIconPressed
-                            )
-
                             ClickableIcon(
                                 icon.iconId,
                                 badgeCount = icon.badgeCount,
