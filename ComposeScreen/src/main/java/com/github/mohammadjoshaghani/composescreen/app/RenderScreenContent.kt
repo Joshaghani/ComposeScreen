@@ -41,7 +41,7 @@ fun RenderScreenContent() {
         ProvideLayoutDirection {
             Column(
                 modifier = Modifier
-                    .padding(top = padding.calculateTopPadding())
+                    .padding(top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding())
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
                     .clickableWitoutHighlight {
