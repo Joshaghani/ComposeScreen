@@ -9,9 +9,5 @@ val bottomBarHeightPx = mutableIntStateOf(0)
 
 interface IShowBottombar {
     @Composable
-    fun BottomBarView(
-        modifier: Modifier = Modifier.onGloballyPositioned { coordinates ->
-            bottomBarHeightPx.intValue = coordinates.size.height
-        },
-    )
+    fun BottomBarView()
 }
