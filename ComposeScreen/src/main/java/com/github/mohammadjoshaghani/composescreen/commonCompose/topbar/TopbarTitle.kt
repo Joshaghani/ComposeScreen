@@ -41,12 +41,18 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
             val screen = Navigator.currentScreen.value
             if (screen is IShowTopbar) {
                 screen.leftIconsTopBar().forEach { icon ->
-                    when (icon) {
+                        when (icon) {
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
+
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
                                 icon.iconId,
-                                onClick = icon.onIconPressed,
                                 badgeCount = icon.badgeCount,
+                                onClick = icon.onIconPressed
                             )
                         }
                     }

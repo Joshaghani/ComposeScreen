@@ -41,7 +41,11 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
             if (screen is IShowTopbarMain) {
                 screen.menuIconTopBar()?.let { icon ->
                     when (icon) {
-                      
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
 
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
@@ -49,8 +53,6 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                                 badgeCount = icon.badgeCount,
                                 onClick = icon.onIconPressed
                             )
-
-                        
                         }
                     }
                 }
@@ -60,7 +62,11 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
             if (screen is IShowTopbarMain) {
                 screen.actionIconsTopBar().forEach { icon ->
                     when (icon) {
-                   
+                        is IClickableIconModel.ClickableIconModel -> ClickableIcon(
+                            icon.iconId,
+                            badgeCount = icon.badgeCount,
+                            onClick = icon.onIconPressed
+                        )
 
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
@@ -68,7 +74,6 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                                 badgeCount = icon.badgeCount,
                                 onClick = icon.onIconPressed
                             )
-
                         }
                     }
                 }
