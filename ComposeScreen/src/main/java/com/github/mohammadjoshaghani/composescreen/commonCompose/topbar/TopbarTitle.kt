@@ -52,7 +52,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
                             ClickableIcon(
                                 icon.iconId,
                                 onClick = icon.onIconPressed,
-                                badgeCount = 0,
+                                badgeCount = icon.badgeCount,
                             )
                         }
                     }
