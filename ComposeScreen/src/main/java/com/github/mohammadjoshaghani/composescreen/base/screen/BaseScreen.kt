@@ -22,7 +22,7 @@ import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableCo
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 
 abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
-    RootScreen<State, Event, Effect, VM>(), IScreenInitializer {
+    RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
 
     private var mainScrollState: ScrollState? = null
 
@@ -41,7 +41,7 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     @SuppressLint("UnusedBoxWithConstraintsScope")
     @Composable
-    override fun InitBaseComposeScreen() {
+    override fun InitBaseComposeScreen(state: State) {
         mainScrollState = rememberScrollState()
 
         LaunchedEffect(scrollPositionBaseScreen) {

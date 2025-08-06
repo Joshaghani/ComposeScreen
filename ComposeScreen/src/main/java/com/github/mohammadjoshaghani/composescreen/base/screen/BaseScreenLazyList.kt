@@ -33,7 +33,8 @@ abstract class BaseScreenLazyList<
         Event : ViewEvent,
         Effect : ViewSideEffect,
         VM : BaseViewModel<Event, State, Effect>,
-        > : RootScreen<State, Event, Effect, VM>(), IScreenInitializer, ILazyListScreen {
+        > : RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event>,
+    ILazyListScreen<State, Event> {
 
     protected var warningMessageEmptyList = "لیست خالی می‌باشد!"
     open val isStickyHeader = false
@@ -54,7 +55,7 @@ abstract class BaseScreenLazyList<
         ExperimentalUuidApi::class
     )
     @Composable
-    override fun InitBaseComposeScreen() {
+    override fun InitBaseComposeScreen(state: State) {
         lazyListState =
             rememberLazyListState(initialFirstVisibleItemIndex = scrollPositionListScreen)
 
@@ -65,10 +66,10 @@ abstract class BaseScreenLazyList<
                     modifier = Modifier.fillMaxSize()
                 ) {
                     renderHeader(viewModel.viewState.value)
-                    renderItems()
-                    renderLoadMore()
-                    renderEmptyState()
-                    item { FooterUI() }
+                    renderItems(state)
+                    renderLoadMore(state)
+                    renderEmptyState(state)
+                    item { FooterUI(state) }
                     item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
                 }
             } else {
@@ -76,10 +77,10 @@ abstract class BaseScreenLazyList<
                     state = lazyListState!!, modifier = Modifier.fillMaxSize()
                 ) {
                     renderHeader(viewModel.viewState.value)
-                    renderItems()
-                    renderLoadMore()
-                    renderEmptyState()
-                    item { FooterUI() }
+                    renderItems(state)
+                    renderLoadMore(state)
+                    renderEmptyState(state)
+                    item { FooterUI(state) }
                     item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
                 }
             }
@@ -136,57 +137,62 @@ abstract class BaseScreenLazyList<
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun LazyListScope.renderItems() {
+    private fun LazyListScope.renderItems(state: State) {
         itemsIndexed(
-            getItemsList(), key = { _, item -> item.id ?: Uuid.random() }) { index, item ->
+            getItemsList(state), key = { _, item -> item.id ?: Uuid.random() }) { index, item ->
             ItemUI(index, item)
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun LazyGridScope.renderItems() {
+    private fun LazyGridScope.renderItems(state: State) {
         itemsIndexed(
-            getItemsList(), key = { _, item -> item.id ?: Uuid.random() }) { index, item ->
+            getItemsList(state), key = { _, item -> item.id ?: Uuid.random() }) { index, item ->
             ItemUI(index, item)
         }
     }
 
-    private fun LazyListScope.renderLoadMore() {
+    private fun LazyListScope.renderLoadMore(state: State) {
         if (this@BaseScreenLazyList is ILazyLoadingList) {
             item {
                 LaunchedEffect(true) {
-                    if (isLoadMoreList(getItemsList())) lazyColumnScrolledEnd()
+                    if (isLoadMoreList(getItemsList(state))) lazyColumnScrolledEnd()
                 }
             }
-            if (getItemsList().isNotEmpty() && getItemsList().size % 10 == 0) {
+            if (getItemsList(state).isNotEmpty() && getItemsList(state).size % 10 == 0) {
                 item { LoadMoreProgressbar() }
             }
         }
     }
 
-    private fun LazyGridScope.renderLoadMore() {
+    private fun LazyGridScope.renderLoadMore(state: State) {
         if (this@BaseScreenLazyList is ILazyLoadingList) {
             item {
                 LaunchedEffect(true) {
-                    if (isLoadMoreList(getItemsList())) lazyColumnScrolledEnd()
+                    if (isLoadMoreList(getItemsList(state))) lazyColumnScrolledEnd()
                 }
             }
-            if (getItemsList().isNotEmpty() && getItemsList().size % 10 == 0) {
+            if (getItemsList(state).isNotEmpty() && getItemsList(state).size % 10 == 0) {
                 item { LoadMoreProgressbar() }
             }
         }
     }
 
-    private fun LazyListScope.renderEmptyState() {
-        if (getItemsList().isEmpty()) {
+    private fun LazyListScope.renderEmptyState(state: State) {
+        if (getItemsList(state).isEmpty()) {
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth().height(86.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(86.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxWidth(0.85f).padding(top = 24.dp).height(86.dp),
+                        modifier = Modifier
+                            .fillMaxWidth(0.85f)
+                            .padding(top = 24.dp)
+                            .height(86.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -202,16 +208,21 @@ abstract class BaseScreenLazyList<
         }
     }
 
-    private fun LazyGridScope.renderEmptyState() {
-        if (getItemsList().isEmpty()) {
+    private fun LazyGridScope.renderEmptyState(state: State) {
+        if (getItemsList(state).isEmpty()) {
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth().height(86.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(86.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxWidth(0.85f).padding(top = 24.dp).height(86.dp),
+                        modifier = Modifier
+                            .fillMaxWidth(0.85f)
+                            .padding(top = 24.dp)
+                            .height(86.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -230,7 +241,9 @@ abstract class BaseScreenLazyList<
     @Composable
     fun LoadMoreProgressbar() {
         Row(
-            Modifier.padding(32.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
+            Modifier
+                .padding(32.dp)
+                .fillMaxWidth(), horizontalArrangement = Arrangement.Center
         ) {
             CircularProgressIndicator()
         }

@@ -64,7 +64,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     abstract fun ShowScreenFromApp()
 
     @Composable
-    protected fun SetStateComposeScreen(screen: IScreenInitializer) {
+    protected fun SetStateComposeScreen(screen: IScreenInitializer<State, Event>) {
         viewModel.launchOnScope {
             viewModel.effect.onEach { effect ->
                 handler.handleEffects(effect, viewModel)
@@ -80,13 +80,13 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
 
     @Composable
-    private fun ShowContent(screen: IScreenInitializer) {
+    private fun ShowContent(screen: IScreenInitializer<State, Event>) {
         if (this is IDeactiveSwipeBackHandler) {
             SwipeToGoBackWrapper {
-                screen.InitBaseComposeScreen()
+                screen.InitBaseComposeScreen(viewModel.viewState.value)
             }
         } else {
-            screen.InitBaseComposeScreen()
+            screen.InitBaseComposeScreen(viewModel.viewState.value)
         }
 
         viewModel.viewState.value.toastMessage?.let { toastMessage ->
