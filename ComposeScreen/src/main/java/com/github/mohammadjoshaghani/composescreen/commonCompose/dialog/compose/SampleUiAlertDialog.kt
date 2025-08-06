@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.extension.clickableWitoutHighlight
 
@@ -93,6 +94,10 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                                     color = cancelButtonContentColor,
                                 )
                             }
+                        }
+
+                        if (buttonCancelTitle != null && buttonActionText != null){
+                            UISpacer(8)
                         }
 
                         buttonActionText?.let { textTitle ->
