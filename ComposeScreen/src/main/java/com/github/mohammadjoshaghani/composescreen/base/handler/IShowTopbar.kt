@@ -6,7 +6,7 @@ interface IShowTopbar {
 
     fun titleTopBar(): String
 
-    fun leftIconsTopBar(): List<IClickableIconModel> {
+    fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()
     }
 

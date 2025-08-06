@@ -1,6 +1,5 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.topbar
 
-import android.R.attr.type
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -40,7 +39,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
         actions = {
             val screen = Navigator.currentScreen.value
             if (screen is IShowTopbar) {
-                screen.leftIconsTopBar().forEach { icon ->
+                screen.actionIconsTopBar().forEach { icon ->
                     when (icon) {
                         is IClickableIconModel.ClickableIconModel -> ClickableIcon(
                             icon.iconId,
