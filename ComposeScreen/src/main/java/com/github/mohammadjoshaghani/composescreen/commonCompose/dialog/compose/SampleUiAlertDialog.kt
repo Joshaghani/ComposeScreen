@@ -82,7 +82,6 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                         buttonCancelTitle?.let {
                             TextButton(
                                 modifier = Modifier
-                                    .padding(end = 16.dp)
                                     .weight(1f),
                                 onClick = {
                                     dismiss()
@@ -107,7 +106,6 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                                     contentColor = primaryButtonContentColor
                                 ),
                                 modifier = Modifier
-                                    .padding(horizontal = 16.dp)
                                     .weight(1f),
                                 shape = MaterialTheme.shapes.large
                             ) {
