@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
-import com.github.mohammadjoshaghani.composescreen.base.screen.BaseScreenLazyList
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 val topBarHeightPx = mutableIntStateOf(0)

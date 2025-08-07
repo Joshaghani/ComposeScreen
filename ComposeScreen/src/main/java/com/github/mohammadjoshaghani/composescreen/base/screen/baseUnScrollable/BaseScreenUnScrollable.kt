@@ -1,36 +1,26 @@
-package com.github.mohammadjoshaghani.composescreen.base.screen
+package com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable
 
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
+import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
+import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 import kotlinx.coroutines.flow.MutableStateFlow
 
-abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
+abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
-
-    private var mainScrollState: ScrollState? = null
-
-    private var scrollPositionBaseScreen = mutableIntStateOf(0)
-
-    var maxHeight: Dp = 0.dp
 
     var windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
 
@@ -43,33 +33,33 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        mainScrollState = rememberScrollState()
-
-        LaunchedEffect(scrollPositionBaseScreen) {
-            mainScrollState?.scrollTo(scrollPositionBaseScreen.intValue)
+        if (this is IRefreshableScreen) {
+            throw IllegalStateException(
+                "This screen must not implement IRefreshableScreen. " +
+                        "Use BaseScreenLazyList or BaseScreen instead BaseScreenUnScrollable if you need pull-to-refresh support."
+            )
         }
 
-        UIRefreshableContent {
-            this@BaseScreen.maxHeight = maxHeight
+        BoxWithConstraints {
             val sizeClass = remember(this.maxWidth) {
-                windowSizeClass.value = WindowSizeClass.fromWidth(maxWidth)
+                windowSizeClass.value = WindowSizeClass.Companion.fromWidth(maxWidth)
                 windowSizeClass.value
             }
 
             when (sizeClass) {
                 WindowSizeClass.Compact -> {
-                    CompactUI()
+                    CompactUI(maxHeight)
                 }
 
                 WindowSizeClass.Medium -> {
                     MediumUI {
-                        CompactUI()
+                        CompactUI(maxHeight)
                     }
                 }
 
                 WindowSizeClass.Expanded -> {
                     ExpandedUI {
-                        CompactUI()
+                        CompactUI(maxHeight)
                     }
                 }
             }
@@ -77,19 +67,14 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
     @Composable
-    private fun CompactUI() {
+    private fun CompactUI(maxHeight: Dp) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .height(maxHeight)
-                .verticalScroll(mainScrollState!!)
         ) {
             ComposeView(viewModel.viewState.value)
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        scrollPositionBaseScreen.intValue = mainScrollState?.value ?: 0
-    }
 }

@@ -4,14 +4,16 @@ import SwipeToGoBackWrapper
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.app.RenderDialogs
 import com.github.mohammadjoshaghani.composescreen.base.BaseHandler
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
@@ -22,13 +24,15 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IDeactiveSwipeBackHandler
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
+import com.github.mohammadjoshaghani.composescreen.commonCompose.awareFading.awareHeaderHeight
+import com.github.mohammadjoshaghani.composescreen.commonCompose.awareFading.showAwareHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.stickyHeaderHeight
 import com.github.mohammadjoshaghani.composescreen.commonCompose.bottomSheet.UIBottomSheet
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastCreator
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-
 
 abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> {
 
@@ -171,23 +175,46 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
 
     @Composable
-    fun ExpandedUI(compactUI : @Composable () -> Unit) {
+    fun ExpandedUI(compactUI: @Composable () -> Unit) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column {
+                Spacer(
+                    Modifier.height(
+                        stickyHeaderHeight + if (showAwareHeader)
+                            awareHeaderHeight
+                        else 0.dp
+                    )
+                )
                 StartedExpandedUI()
             }
             Column(Modifier.fillMaxHeight().weight(1f)) {
                 compactUI()
             }
             Column {
+                Spacer(
+                    Modifier.height(
+                        stickyHeaderHeight +
+                                if (showAwareHeader)
+                                    awareHeaderHeight
+                                else 0.dp
+                    )
+                )
                 EndedExpandedUI()
             }
         }
     }
+
     @Composable
-    fun MediumUI(compactUI : @Composable () -> Unit) {
+    fun MediumUI(compactUI: @Composable () -> Unit) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column {
+                Spacer(
+                    Modifier.height(
+                        stickyHeaderHeight + if (showAwareHeader)
+                            awareHeaderHeight
+                        else 0.dp
+                    )
+                )
                 StartedExpandedUI()
             }
             Column(Modifier.fillMaxHeight().weight(1f)) {
