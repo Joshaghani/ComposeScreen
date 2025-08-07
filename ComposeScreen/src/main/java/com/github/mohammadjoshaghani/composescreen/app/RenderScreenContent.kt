@@ -2,6 +2,8 @@ package com.github.mohammadjoshaghani.composescreen.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,11 +19,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.fab.UIFab
+import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.NavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.commonCompose.topbar.TopBar
 import com.github.mohammadjoshaghani.composescreen.extension.clickableWitoutHighlight
+import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
-private var keyboardController: SoftwareKeyboardController? = null
-private var focusManager: FocusManager? = null
+internal var keyboardController: SoftwareKeyboardController? = null
+internal var focusManager: FocusManager? = null
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,32 +36,53 @@ fun RenderScreenContent() {
     keyboardController = LocalSoftwareKeyboardController.current
     focusManager = LocalFocusManager.current
 
-    Scaffold(
-        floatingActionButton = { UIFab() },
-        topBar = { ProvideLayoutDirection { TopBar().Show(scrollBehavior) } },
-        bottomBar = { ProvideLayoutDirection { BottomBarRender() } },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-    ) { padding ->
-        ProvideLayoutDirection {
-            Column(
-                modifier = Modifier
-                    .padding(top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding())
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .clickableWitoutHighlight {
-                        hideKeyboard()
+
+    Row(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (!ApplicationConfig.config.isRtl) {
+            NavigationSideBar().Show()
+        }
+
+        Scaffold(
+            floatingActionButton = { UIFab() },
+            topBar = { ProvideLayoutDirection { TopBar().Show(scrollBehavior) } },
+            bottomBar = { ProvideLayoutDirection { BottomBarRender() } },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        ) { padding ->
+            ProvideLayoutDirection {
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                            bottom = padding.calculateBottomPadding()
+                        )
+                        .fillMaxSize()
+                        .background(ApplicationConfig.config.color.background)
+                        .clickableWitoutHighlight {
+                            hideKeyboard()
+                        }
+                ) {
+                    Navigator.currentScreen.value?.let { screen ->
+                        screen.ShowScreenFromApp()
+                        screen.isVisibleAnimation.value = true
                     }
-            ) {
-                Navigator.currentScreen.value?.let { screen ->
-                    screen.ShowScreenFromApp()
-                    screen.isVisibleAnimation.value = true
                 }
             }
         }
+
+        if (ApplicationConfig.config.isRtl) {
+            NavigationSideBar().Show()
+        }
     }
+
 }
 
-fun hideKeyboard() {
-    keyboardController?.hide()
-    focusManager?.clearFocus()
-}
+
+
+
+
+

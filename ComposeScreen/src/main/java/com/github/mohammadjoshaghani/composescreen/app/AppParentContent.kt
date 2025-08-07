@@ -9,12 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 @Composable
 fun AppParentContent(content: @Composable () -> Unit) {
     Surface(
         modifier = Modifier.imePadding().fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = ApplicationConfig.config.color.background
     ) {
         Box(Modifier.fillMaxSize().statusBarsPadding()) {
             Box(
