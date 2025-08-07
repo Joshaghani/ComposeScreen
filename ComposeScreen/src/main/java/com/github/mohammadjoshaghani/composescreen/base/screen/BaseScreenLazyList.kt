@@ -1,11 +1,30 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -19,14 +38,15 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyListScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyLoadingList
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowFab
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 import com.github.mohammadjoshaghani.composescreen.commonCompose.topbar.TopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
+import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 
 abstract class BaseScreenLazyList<
         State : ViewState<Event>,
@@ -37,8 +57,10 @@ abstract class BaseScreenLazyList<
     ILazyListScreen<State, Event> {
 
     protected var warningMessageEmptyList = "لیست خالی می‌باشد!"
-    open val isStickyHeader = false
+    open val isStickyHeader = mutableStateOf(false)
     open val verticalGridMinSize = 1
+
+    val windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
 
     private var lazyListState: LazyListState? = null
 
@@ -60,42 +82,67 @@ abstract class BaseScreenLazyList<
             rememberLazyListState(initialFirstVisibleItemIndex = scrollPositionListScreen)
 
         UIRefreshableContent {
-            if (verticalGridMinSize > 1) {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(verticalGridMinSize.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    renderHeader(viewModel.viewState.value)
-                    renderItems(state)
-                    renderLoadMore(state)
-                    renderEmptyState(state)
-                    item { FooterUI(state) }
-                    item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
+            val sizeClass = remember(this.maxWidth) {
+                windowSizeClass.value = WindowSizeClass.fromWidth(maxWidth)
+                windowSizeClass.value
+            }
+
+            when (sizeClass) {
+                WindowSizeClass.Compact -> {
+                    CompactUI(state)
                 }
-            } else {
-                LazyColumn(
-                    state = lazyListState!!, modifier = Modifier.fillMaxSize()
-                ) {
-                    renderHeader(viewModel.viewState.value)
-                    renderItems(state)
-                    renderLoadMore(state)
-                    renderEmptyState(state)
-                    item { FooterUI(state) }
-                    item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
+
+                WindowSizeClass.Medium -> {
+                    MediumUI {
+                        CompactUI(state)
+                    }
+                }
+
+                WindowSizeClass.Expanded -> {
+                    ExpandedUI {
+                        CompactUI(state)
+                    }
                 }
             }
         }
 
     }
 
+    @Composable
+    private fun CompactUI(state: State) {
+        if (verticalGridMinSize > 1) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(verticalGridMinSize.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                renderHeader(viewModel.viewState.value)
+                renderItems(state)
+                renderLoadMore(state)
+                renderEmptyState(state)
+                item { FooterUI(state) }
+                item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
+            }
+        } else {
+            LazyColumn(
+                state = lazyListState!!, modifier = Modifier.fillMaxSize()
+            ) {
+                renderHeader(viewModel.viewState.value)
+                renderItems(state)
+                renderLoadMore(state)
+                renderEmptyState(state)
+                item { FooterUI(state) }
+                item { UISpacer(if (this@BaseScreenLazyList is IShowFab) 150 else 50) }
+            }
+        }
+    }
+
     private fun LazyListScope.renderHeader(state: State) {
-        if (isStickyHeader) {
+        if (isStickyHeader.value) {
             stickyHeader {
                 Column {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         color = ApplicationConfig.config.color.background,
-                        shape = RoundedCornerShape(0),
                         shadowElevation = if (TopBar.isScrolled.value) 5.dp else 0.dp
                     ) {
                         ComposeView(state)
@@ -113,13 +160,12 @@ abstract class BaseScreenLazyList<
     }
 
     private fun LazyGridScope.renderHeader(state: State) {
-        if (isStickyHeader) {
+        if (isStickyHeader.value) {
             stickyHeader {
                 Column {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         color = ApplicationConfig.config.color.background,
-                        shape = RoundedCornerShape(0),
                         shadowElevation = if (TopBar.isScrolled.value) 5.dp else 0.dp
                     ) {
                         ComposeView(state)

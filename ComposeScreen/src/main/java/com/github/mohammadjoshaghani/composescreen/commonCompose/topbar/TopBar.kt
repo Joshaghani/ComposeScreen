@@ -8,7 +8,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
@@ -30,7 +29,7 @@ class TopBar {
 
         val elevation = if (
             isScrolled.value &&
-            (screen !is BaseScreenLazyList || !screen.isStickyHeader)
+            (screen !is BaseScreenLazyList || !screen.isStickyHeader.value)
         ) 5.dp else 0.dp
 
         Surface(

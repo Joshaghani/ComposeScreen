@@ -1,6 +1,5 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.topbar
 
-import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -24,12 +23,8 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
-    val screen = Navigator.currentScreen.value
 
     CenterAlignedTopAppBar(
-        modifier = Modifier.onGloballyPositioned { coordinates ->
-            topBarHeightPx.intValue = coordinates.size.height
-        },
         title = {
             Image(
                 modifier = Modifier.size(56.dp),
@@ -89,7 +84,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
         if (screen is BaseScreenLazyList) {
-            if (screen.isStickyHeader) return
+            if (screen.isStickyHeader.value) return
         }
         HorizontalDivider()
     }

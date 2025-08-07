@@ -7,8 +7,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
@@ -23,9 +21,6 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
 
     TopAppBar(
-        modifier = Modifier.onGloballyPositioned { coordinates ->
-            topBarHeightPx.intValue = coordinates.size.height
-        },
         title = {
             Text(
                 (screen as IShowTopbar).titleTopBar(),
@@ -68,7 +63,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
         if (screen is BaseScreenLazyList) {
-            if (screen.isStickyHeader) return
+            if (screen.isStickyHeader.value) return
         }
         HorizontalDivider()
     }

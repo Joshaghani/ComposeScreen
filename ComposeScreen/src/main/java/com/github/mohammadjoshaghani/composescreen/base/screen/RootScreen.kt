@@ -2,12 +2,16 @@ package com.github.mohammadjoshaghani.composescreen.base.screen
 
 import SwipeToGoBackWrapper
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import com.github.mohammadjoshaghani.composescreen.app.RenderDialogs
 import com.github.mohammadjoshaghani.composescreen.base.BaseHandler
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
@@ -163,6 +167,51 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
             else -> Navigator.back()
         }
 
+    }
+
+
+    @Composable
+    fun ExpandedUI(compactUI : @Composable () -> Unit) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Column {
+                StartedExpandedUI()
+            }
+            Column(Modifier.fillMaxHeight().weight(1f)) {
+                compactUI()
+            }
+            Column {
+                EndedExpandedUI()
+            }
+        }
+    }
+    @Composable
+    fun MediumUI(compactUI : @Composable () -> Unit) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Column {
+                StartedExpandedUI()
+            }
+            Column(Modifier.fillMaxHeight().weight(1f)) {
+                compactUI()
+            }
+        }
+    }
+
+    /**
+     * این کامپوز تنها زمانی فراخوانی می‌شود که صفحه در حالت **گسترده (Expanded)** باشد.
+     *
+     * می‌توانید برای نمایش محتوای دلخواه در سمت **شروع** (مثلاً چپ) در حالت دسکتاپ، این تابع را override کنید.
+     */
+    @Composable
+    open fun StartedExpandedUI() {
+    }
+
+    /**
+     * این کامپوز تنها زمانی فراخوانی می‌شود که صفحه در حالت **گسترده (Expanded)** باشد.
+     *
+     * می‌توانید برای نمایش محتوای دلخواه در سمت **پایان** (مثلاً راست) در حالت دسکتاپ، این تابع را override کنید.
+     */
+    @Composable
+    open fun EndedExpandedUI() {
     }
 
     companion object {

@@ -11,16 +11,18 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.UiComposable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content : @Composable @UiComposable BoxWithConstraintsScope.() -> Unit) {
+internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content: @Composable @UiComposable BoxWithConstraintsScope.(WindowSizeClass) -> Unit) {
 
     val isRefreshable = this is IRefreshableScreen
 
@@ -28,7 +30,10 @@ internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content : @Composable @
 
     val content: @Composable BoxScope.() -> Unit = {
         BoxWithConstraints {
-           content()
+            val sizeClass = remember(maxWidth) {
+                WindowSizeClass.fromWidth(maxWidth)
+            }
+            content(sizeClass)
         }
     }
 
