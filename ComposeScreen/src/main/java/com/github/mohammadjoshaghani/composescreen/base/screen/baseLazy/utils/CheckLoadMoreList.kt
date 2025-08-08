@@ -1,4 +1,4 @@
-package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension
+package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils
 
 fun isLoadMoreList(list: MutableList<*>?): Boolean {
 

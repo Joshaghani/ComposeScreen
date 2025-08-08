@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
-import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -81,9 +80,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
     )
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
-        if (screen is BaseScreenLazyList) {
-            if (screen.isStickyHeader.value) return
-        }
+        if (screen!!.isPermissionShowSticky.value) return
         HorizontalDivider()
     }
 }

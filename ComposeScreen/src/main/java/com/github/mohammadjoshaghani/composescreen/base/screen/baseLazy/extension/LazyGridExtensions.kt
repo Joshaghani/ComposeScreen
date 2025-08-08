@@ -1,39 +1,15 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyLoadingList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.EmptyListContent
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.LoadMoreProgressbar
-import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.StickyHeaderUI
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.isLoadMoreList
 
-// --- LazyVerticalGrid header (span across all columns)
-fun LazyGridScope.renderListHeader(
-    isSticky: Boolean = false,
-    headerHeight: Dp,
-    content: @Composable () -> Unit,
-) {
-    if (isSticky) {
-        stickyHeader {
-            StickyHeaderUI {
-                content()
-            }
-        }
-    } else {
-        item {
-            Spacer(modifier = Modifier.height(headerHeight))
-            content()
-        }
-    }
-
-}
 
 // --- LazyVerticalGrid itemsIndexed
 fun <T> LazyGridScope.renderItemsIndexed(

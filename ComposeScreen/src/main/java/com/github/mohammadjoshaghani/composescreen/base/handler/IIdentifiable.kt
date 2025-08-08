@@ -1,5 +1,10 @@
 package com.github.mohammadjoshaghani.composescreen.base.handler
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 interface IIdentifiable {
-    val id: Any?
+    @OptIn(ExperimentalUuidApi::class)
+    val id: Any
+        get() = Uuid.Companion.random()
 }

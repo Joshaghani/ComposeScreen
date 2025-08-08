@@ -23,19 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.app.screenSize
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
+import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
-class NavigationSideBar {
+class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
     @Composable
     fun Show() {
 
-        val windowClass = WindowSizeClass.fromWidth(screenSize.value.width)
+        val windowClass = WindowSizeClass.fromWidth(startScreen.screenSize.value.width)
 
         val showNavigationRail = windowClass != WindowSizeClass.Compact
 

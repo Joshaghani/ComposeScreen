@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
@@ -16,13 +16,11 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScre
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
+import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
-import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
-
-    var windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
 
     @Composable
     override fun ShowScreenFromApp() {
@@ -41,9 +39,16 @@ abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEven
         }
 
         BoxWithConstraints {
-            val sizeClass = remember(this.maxWidth) {
-                windowSizeClass.value = WindowSizeClass.Companion.fromWidth(maxWidth)
-                windowSizeClass.value
+            val sizeClass = WindowSizeClass.fromWidth(this.maxWidth)
+
+            LaunchedEffect(sizeClass) {
+                windowSizeClass.value = sizeClass
+            }
+
+            LaunchedEffect(maxWidth, maxHeight) {
+                val width = maxWidth
+                val height = maxHeight
+                screenSize.value = ScreenSize(width, height)
             }
 
             when (sizeClass) {

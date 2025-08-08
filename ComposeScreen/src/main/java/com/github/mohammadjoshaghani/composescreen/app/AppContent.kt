@@ -8,7 +8,7 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 fun AppContent(startScreen: RootScreen<*, *, *, *>) {
 
     AppParentContent {
-        RenderScreenContent()
+        RenderScreenContent(startScreen)
         RenderNotifications()
     }
 

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.fab.UIFab
 import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.NavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.commonCompose.topbar.TopBar
@@ -27,9 +27,10 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 internal var keyboardController: SoftwareKeyboardController? = null
 internal var focusManager: FocusManager? = null
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderScreenContent() {
+fun RenderScreenContent(startScreen: RootScreen<*, *, *, *>) {
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -41,7 +42,7 @@ fun RenderScreenContent() {
         modifier = Modifier.fillMaxSize()
     ) {
         if (!ApplicationConfig.config.isRtl) {
-            NavigationSideBar().Show()
+            NavigationSideBar(startScreen).Show()
         }
 
         Scaffold(
@@ -75,7 +76,7 @@ fun RenderScreenContent() {
         }
 
         if (ApplicationConfig.config.isRtl) {
-            NavigationSideBar().Show()
+            NavigationSideBar(startScreen).Show()
         }
     }
 

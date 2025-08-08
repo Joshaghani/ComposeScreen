@@ -3,7 +3,8 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
@@ -13,7 +14,6 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializ
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.ContentScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseScreenLazyList<
@@ -21,16 +21,13 @@ abstract class BaseScreenLazyList<
         Event : ViewEvent,
         Effect : ViewSideEffect,
         VM : BaseViewModel<Event, State, Effect>,
-        > : RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event>,
+        > : RootScreen<State, Event, Effect, VM>(),
+    IScreenInitializer<State, Event>,
     ILazyListScreen<State, Event> {
 
     var warningMessageEmptyList = "لیست خالی می‌باشد!"
 
-    open val isStickyHeader = mutableStateOf(false)
-
     open val verticalGridMinSize = 1
-
-    val windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
 
     var lazyListState: LazyListState? = null
 
@@ -47,15 +44,21 @@ abstract class BaseScreenLazyList<
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        lazyListState =
-            rememberLazyListState(initialFirstVisibleItemIndex = scrollPositionListScreen)
+        val listState = rememberSaveable(saver = LazyListState.Saver) {
+            LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
+        }
+        lazyListState = listState
         ContentScreen(state)
     }
+
 
     @Composable
     override fun ComposeView(state: State) {
     }
 
+    @Composable
+    open fun ComposeStickyView(state: State) {
+    }
 
     override fun onPause() {
         super.onPause()

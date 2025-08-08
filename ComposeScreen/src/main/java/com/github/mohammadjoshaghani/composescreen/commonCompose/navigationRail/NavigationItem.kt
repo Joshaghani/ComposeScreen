@@ -1,6 +1,5 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail
 
-
 data class NavigationItem(
     val title: String,
     val unselectedIcon: Int,

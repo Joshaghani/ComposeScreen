@@ -33,12 +33,10 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.awareFading.awareHeaderHeight
-import com.github.mohammadjoshaghani.composescreen.commonCompose.awareFading.showAwareHeader
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UIStickyHeader
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
-import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
@@ -49,7 +47,6 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     var maxHeight: Dp = 0.dp
 
-    var windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
 
     @Composable
     override fun ShowScreenFromApp() {
@@ -73,7 +70,7 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
                 windowSizeClass.value
             }
 
-            Box {
+            Box (){
 
                 when (sizeClass) {
                     WindowSizeClass.Compact -> {
@@ -93,15 +90,30 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
                     }
                 }
 
-                if (this@BaseScreen is IShowScrollAwareFadingHeader) {
+                Column {
+                    StickyHeader(state)
                     ScrollAwareFadingHeaderPreservingSpace()
                 }
+
             }
         }
     }
 
     @Composable
+    private fun StickyHeader(state: State) {
+        if (!isPermissionShowSticky.value) return
+        UIStickyHeader(this) {
+            ComposeStickyView(state)
+        }
+    }
+
+    @Composable
+    open fun ComposeStickyView(state: State) {
+    }
+
+    @Composable
     private fun ScrollAwareFadingHeaderPreservingSpace() {
+        if (this@BaseScreen !is IShowScrollAwareFadingHeader) return
 
         val density = LocalDensity.current
         var lastScrollOffset by remember { mutableStateOf(0) }
@@ -131,14 +143,12 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
             enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
             exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut()
         ) {
-
-            if (this@BaseScreen is IShowScrollAwareFadingHeader) {
-                UIScrollAwareFadingHeader(
-                    modifier = Modifier.onGloballyPositioned { coordinates ->
-                        awareHeaderHeight = with(density) { coordinates.size.height.toDp() }
-                    }
-                )
-            }
+            UIScrollAwareFadingHeader(
+                modifier = Modifier.onGloballyPositioned { coordinates ->
+                    heightAwareFaideHeader.value =
+                        with(density) { coordinates.size.height.toDp() }
+                }
+            )
         }
     }
 
@@ -150,13 +160,13 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
                 .height(this@BaseScreen.maxHeight)
                 .verticalScroll(mainScrollState!!)
         ) {
-            if (this@BaseScreen is IShowScrollAwareFadingHeader) {
-                Spacer(Modifier.height(awareHeaderHeight))
-            }
+            Spacer(Modifier.height(heightAwareFaideHeader.value + heightStickyHeader.value))
+
             ComposeView(viewModel.viewState.value)
         }
 
     }
+
 
     override fun onPause() {
         super.onPause()
