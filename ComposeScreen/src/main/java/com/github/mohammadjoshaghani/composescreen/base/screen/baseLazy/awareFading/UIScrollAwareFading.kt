@@ -1,4 +1,4 @@
-package com.github.mohammadjoshaghani.composescreen.commonCompose.awareFading
+package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.awareFading
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -10,26 +10,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
-
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 
 @Composable
 fun UIScrollAwareFading(
     screen: BaseScreenLazyList<*, *, *, *>,
     modifier: Modifier = Modifier,
     contentItemRows: @Composable () -> Unit,
-    stickyheadContent: @Composable () -> Unit,
+    stickyheadContent: @Composable (IShowStickyHeader) -> Unit,
     fadeHeaderContent: @Composable (Modifier) -> Unit,
 ) {
-
+    if (screen !is IShowScrollAwareFadingHeader) return
     val density = LocalDensity.current
 
-    screen.viewModel.launchOnScope {
+    LaunchedEffect(Unit) {
         screen.scrollEvents.collect {
-            screen.showAwareHeader = it
+            screen.showAwareHeader.value = it
         }
     }
 
@@ -40,27 +43,30 @@ fun UIScrollAwareFading(
 
         // بالای کانتنت
         AnimatedVisibility(
-            visible = screen.showAwareHeader,
+            visible = screen.showAwareHeader.value,
             enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
-            exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut()
+            exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
         ) {
             Column {
-                if (screen.isPermissionShowSticky.value)
-                    Spacer(modifier = Modifier.height(screen.heightStickyHeader.value))
+                screen.RunIfShowSticky {
+                    Spacer(Modifier.height(heightStickyHeader.value))
+                }
+
                 fadeHeaderContent(
                     Modifier
                         .onGloballyPositioned {
-                            screen.heightAwareFaideHeader.value =
-                                with(density) { it.size.height.toDp() }
+                            val newHeight = with(density) { it.size.height.toDp() }
+                            if (screen.heightAwareFaideHeader.value != newHeight) {
+                                screen.heightAwareFaideHeader.value = newHeight
+                            }
                         }
                 )
             }
         }
 
         // بالاترین سطح
-        if (screen.isPermissionShowSticky.value) {
-            stickyheadContent()
+        screen.RunIfShowSticky {
+            stickyheadContent(this)
         }
-
     }
 }

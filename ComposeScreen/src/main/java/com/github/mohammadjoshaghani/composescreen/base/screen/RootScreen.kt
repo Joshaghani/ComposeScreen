@@ -9,11 +9,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,12 +26,14 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IDeactiveSwipeBackHandler
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowAwareHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.commonCompose.bottomSheet.UIBottomSheet
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastCreator
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> {
@@ -43,19 +44,12 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     internal var isVisibleAnimation = mutableStateOf(false)
 
-    open var isPermissionShowSticky = mutableStateOf(true)
 
     val screenSize = mutableStateOf(ScreenSize(0.dp, 0.dp))
 
-    var showAwareHeader by mutableStateOf(true)
-
-    val heightStickyHeader = mutableStateOf(0.dp)
-
-    val heightAwareFaideHeader = mutableStateOf(0.dp)
-
     private var updatedDataModel: List<Any>? = null
 
-    val windowSizeClass = MutableStateFlow(WindowSizeClass.Expanded)
+    val windowSizeClass = MutableStateFlow(WindowWidthSizeClass.Expanded)
 
 
     var onEventSent: (Event) -> Unit = { event ->
@@ -121,6 +115,9 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         }
 
         RenderDialogs()
+        if (this is IShowStickyHeader) {
+            SetStickyForSelectedSizeClass(this, windowSizeClass.value)
+        }
     }
 
     @Composable
@@ -193,38 +190,28 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     fun ExpandedUI(compactUI: @Composable () -> Unit) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column {
-                Spacer(
-                    Modifier.height(
-                        if (isPermissionShowSticky.value) {
-                            heightStickyHeader.value
-                        } else {
-                            0.dp
-                        } + if (showAwareHeader) {
-                            heightAwareFaideHeader.value
-                        } else {
-                            0.dp
-                        }
-                    )
-                )
+
+                RunIfShowSticky {
+                    Spacer(Modifier.height(heightStickyHeader.value))
+                }
+
+                RunIfShowAwareHeader {
+                    Spacer(Modifier.height(if (showAwareHeader.value) heightAwareFaideHeader.value else 0.dp))
+                }
+
                 StartedExpandedUI()
             }
             Column(Modifier.fillMaxHeight().weight(1f)) {
                 compactUI()
             }
             Column {
-                Spacer(
-                    Modifier.height(
-                        if (isPermissionShowSticky.value) {
-                            heightStickyHeader.value
-                        } else {
-                            0.dp
-                        } + if (showAwareHeader) {
-                            heightAwareFaideHeader.value
-                        } else {
-                            0.dp
-                        }
-                    )
-                )
+                RunIfShowSticky {
+                    Spacer(Modifier.height(heightStickyHeader.value))
+                }
+
+                RunIfShowAwareHeader {
+                    Spacer(Modifier.height(if (showAwareHeader.value) heightAwareFaideHeader.value else 0.dp))
+                }
                 EndedExpandedUI()
             }
         }
@@ -234,19 +221,14 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     fun MediumUI(compactUI: @Composable () -> Unit) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column {
-                Spacer(
-                    Modifier.height(
-                        if (isPermissionShowSticky.value) {
-                            heightStickyHeader.value
-                        } else {
-                            0.dp
-                        } + if (showAwareHeader) {
-                            heightAwareFaideHeader.value
-                        } else {
-                            0.dp
-                        }
-                    )
-                )
+                RunIfShowSticky {
+                    Spacer(Modifier.height(heightStickyHeader.value))
+                }
+
+                RunIfShowAwareHeader {
+                    Spacer(Modifier.height(if (showAwareHeader.value) heightAwareFaideHeader.value else 0.dp))
+                }
+
                 StartedExpandedUI()
             }
             Column(Modifier.fillMaxHeight().weight(1f)) {
@@ -273,16 +255,6 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     open fun EndedExpandedUI() {
     }
 
-
-    /**
-     * این متد باید درون ComposeView صدا زده شود
-     */
-    @Composable
-    fun SetStickyForSelectedSizeClass(sizeClass: WindowSizeClass) {
-        LaunchedEffect(Unit) {
-            isPermissionShowSticky.value = windowSizeClass.value == sizeClass
-        }
-    }
 
     companion object {
         fun setResult(value: List<Any>?) {

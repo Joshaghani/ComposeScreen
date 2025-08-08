@@ -1,9 +1,10 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
@@ -35,6 +36,8 @@ abstract class BaseScreenLazyList<
 
     private var scrollPositionListScreen = 0
 
+    var isScrolledNow: Boolean = false
+
     @Composable
     override fun ShowScreenFromApp() {
         UIAnimatedVisibility {
@@ -48,16 +51,19 @@ abstract class BaseScreenLazyList<
             LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
         }
         lazyListState = listState
+
+        isScrolledNow = remember {
+            derivedStateOf {
+                listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0
+            }
+        }.value
+
         ContentScreen(state)
     }
 
 
     @Composable
     override fun ComposeView(state: State) {
-    }
-
-    @Composable
-    open fun ComposeStickyView(state: State) {
     }
 
     override fun onPause() {

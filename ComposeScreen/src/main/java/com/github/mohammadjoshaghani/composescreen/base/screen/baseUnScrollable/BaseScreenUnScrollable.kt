@@ -4,8 +4,13 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
@@ -14,10 +19,10 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
 abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
@@ -39,35 +44,37 @@ abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEven
         }
 
         BoxWithConstraints {
-            val sizeClass = WindowSizeClass.fromWidth(this.maxWidth)
-
-            LaunchedEffect(sizeClass) {
-                windowSizeClass.value = sizeClass
-            }
-
-            LaunchedEffect(maxWidth, maxHeight) {
+            LaunchedEffect(this.maxWidth, maxHeight) {
                 val width = maxWidth
                 val height = maxHeight
                 screenSize.value = ScreenSize(width, height)
             }
 
-            when (sizeClass) {
-                WindowSizeClass.Compact -> {
+            var stateSize by remember { mutableStateOf(WindowWidthSizeClass.Compact) }
+            LaunchedEffect(windowSizeClass.value) {
+                windowSizeClass.collect {
+                    stateSize = it
+                }
+            }
+
+            when (stateSize) {
+                WindowWidthSizeClass.Compact -> {
                     CompactUI(maxHeight)
                 }
 
-                WindowSizeClass.Medium -> {
+                WindowWidthSizeClass.Medium -> {
                     MediumUI {
                         CompactUI(maxHeight)
                     }
                 }
 
-                WindowSizeClass.Expanded -> {
+                WindowWidthSizeClass.Expanded -> {
                     ExpandedUI {
                         CompactUI(maxHeight)
                     }
                 }
             }
+
         }
     }
 

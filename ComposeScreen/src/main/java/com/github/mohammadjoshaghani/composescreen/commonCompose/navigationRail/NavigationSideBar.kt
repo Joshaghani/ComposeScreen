@@ -1,5 +1,7 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +14,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,16 +33,20 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationS
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
 class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     fun Show() {
 
-        val windowClass = WindowSizeClass.fromWidth(startScreen.screenSize.value.width)
+        val windowClass = calculateWindowSizeClass(LocalActivity.current as Activity)
+        LaunchedEffect(windowClass) {
+            startScreen.windowSizeClass.emit(windowClass.widthSizeClass)
+        }
+        val showNavigationRail =
+            windowClass.widthSizeClass != WindowWidthSizeClass.Compact
 
-        val showNavigationRail = windowClass != WindowSizeClass.Compact
 
         if (showNavigationRail) {
             var show by rememberSaveable { mutableStateOf(false) }

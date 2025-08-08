@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,11 +33,13 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowAwareHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIStickyHeader
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
 abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
@@ -57,33 +60,37 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        mainScrollState = rememberScrollState()
+        val scrollState = rememberScrollState()
+        mainScrollState = scrollState
 
-        LaunchedEffect(scrollPositionBaseScreen) {
-            mainScrollState?.scrollTo(scrollPositionBaseScreen.intValue)
+        LaunchedEffect(scrollPositionBaseScreen.intValue) {
+            mainScrollState!!.scrollTo(scrollPositionBaseScreen.intValue)
         }
 
         UIRefreshableContent {
             this@BaseScreen.maxHeight = maxHeight
-            val sizeClass = remember(this.maxWidth) {
-                windowSizeClass.value = WindowSizeClass.Companion.fromWidth(maxWidth)
-                windowSizeClass.value
-            }
 
-            Box (){
+            Box {
 
-                when (sizeClass) {
-                    WindowSizeClass.Compact -> {
+                var stateSize by remember { mutableStateOf(WindowWidthSizeClass.Compact) }
+                LaunchedEffect(windowSizeClass.value) {
+                    windowSizeClass.collect {
+                        stateSize = it
+                    }
+                }
+
+                when (stateSize) {
+                    WindowWidthSizeClass.Compact -> {
                         CompactUI()
                     }
 
-                    WindowSizeClass.Medium -> {
+                    WindowWidthSizeClass.Medium -> {
                         MediumUI {
                             CompactUI()
                         }
                     }
 
-                    WindowSizeClass.Expanded -> {
+                    WindowWidthSizeClass.Expanded -> {
                         ExpandedUI {
                             CompactUI()
                         }
@@ -91,7 +98,7 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
                 }
 
                 Column {
-                    StickyHeader(state)
+                    StickyHeader()
                     ScrollAwareFadingHeaderPreservingSpace()
                 }
 
@@ -100,56 +107,58 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
     @Composable
-    private fun StickyHeader(state: State) {
-        if (!isPermissionShowSticky.value) return
-        UIStickyHeader(this) {
-            ComposeStickyView(state)
+    private fun StickyHeader() {
+        RunIfShowSticky {
+            UIStickyHeader(this) {
+                ComposeStickyView()
+            }
         }
     }
 
-    @Composable
-    open fun ComposeStickyView(state: State) {
-    }
 
     @Composable
     private fun ScrollAwareFadingHeaderPreservingSpace() {
-        if (this@BaseScreen !is IShowScrollAwareFadingHeader) return
+        if (this is IShowScrollAwareFadingHeader) {
+            val density = LocalDensity.current
+            var lastScrollOffset by remember { mutableStateOf(0) }
+            val scrollThreshold = 100
 
-        val density = LocalDensity.current
-        var lastScrollOffset by remember { mutableStateOf(0) }
-        val scrollThreshold = 100
+            LaunchedEffect(mainScrollState) {
+                snapshotFlow { mainScrollState!!.value }
+                    .collect { offset ->
+                        val delta = offset - lastScrollOffset
 
-        LaunchedEffect(mainScrollState) {
-            snapshotFlow { mainScrollState!!.value }
-                .collect { offset ->
-                    val delta = offset - lastScrollOffset
+                        when {
+                            delta > scrollThreshold -> {
+                                showAwareHeader.value = false
+                                lastScrollOffset = offset
+                            }
 
-                    when {
-                        delta > scrollThreshold -> {
-                            showAwareHeader = false
-                            lastScrollOffset = offset
-                        }
-
-                        delta < -scrollThreshold -> {
-                            showAwareHeader = true
-                            lastScrollOffset = offset
+                            delta < -scrollThreshold -> {
+                                showAwareHeader.value = true
+                                lastScrollOffset = offset
+                            }
                         }
                     }
-                }
+            }
+
+
+            AnimatedVisibility(
+                visible = showAwareHeader.value,
+                enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut()
+            ) {
+                UIScrollAwareFadingHeader(
+                    modifier = Modifier.onGloballyPositioned {
+                        val newHeight = with(density) { it.size.height.toDp() }
+                        if (heightAwareFaideHeader.value != newHeight) {
+                            heightAwareFaideHeader.value = newHeight
+                        }
+                    }
+                )
+            }
         }
 
-        AnimatedVisibility(
-            visible = showAwareHeader,
-            enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
-            exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut()
-        ) {
-            UIScrollAwareFadingHeader(
-                modifier = Modifier.onGloballyPositioned { coordinates ->
-                    heightAwareFaideHeader.value =
-                        with(density) { coordinates.size.height.toDp() }
-                }
-            )
-        }
     }
 
     @Composable
@@ -160,7 +169,13 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
                 .height(this@BaseScreen.maxHeight)
                 .verticalScroll(mainScrollState!!)
         ) {
-            Spacer(Modifier.height(heightAwareFaideHeader.value + heightStickyHeader.value))
+            RunIfShowAwareHeader {
+                Spacer(Modifier.height(if (showAwareHeader.value) heightAwareFaideHeader.value else 0.dp))
+            }
+
+            if (this@BaseScreen is IShowStickyHeader) {
+                Spacer(Modifier.height(heightStickyHeader.value))
+            }
 
             ComposeView(viewModel.viewState.value)
         }

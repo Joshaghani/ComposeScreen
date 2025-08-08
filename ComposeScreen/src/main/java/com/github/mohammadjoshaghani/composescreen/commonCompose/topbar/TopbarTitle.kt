@@ -7,9 +7,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
@@ -61,7 +67,17 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
     )
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
-        if (screen!!.isPermissionShowSticky.value) return
-        HorizontalDivider()
+        if (screen is IShowStickyHeader) {
+            var isShowStickyHeader by remember { mutableStateOf(false) }
+            LaunchedEffect(screen.isPermissionShowSticky.value) {
+                screen.isPermissionShowSticky.collect {
+                    isShowStickyHeader = it
+                }
+            }
+
+            if (!isShowStickyHeader) {
+                HorizontalDivider()
+            }
+        }
     }
 }

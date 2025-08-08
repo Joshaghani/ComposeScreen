@@ -24,6 +24,8 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScre
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderEmptyState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderItemsIndexed
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderLoadMore
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowAwareHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 
 
@@ -63,10 +65,12 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
             modifier = Modifier.nestedScroll(nestedScrollConnection).fillMaxSize()
         ) {
             item {
-                if (isPermissionShowSticky.value) {
+                RunIfShowSticky {
                     Spacer(modifier = Modifier.height(heightStickyHeader.value))
                 }
-                Spacer(modifier = Modifier.height(heightAwareFaideHeader.value))
+                RunIfShowAwareHeader {
+                    Spacer(Modifier.height(heightAwareFaideHeader.value))
+                }
                 ComposeView(state)
             }
             renderItemsIndexed(getItemsList(state)) { index, item ->
@@ -84,10 +88,12 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
             modifier = Modifier.nestedScroll(nestedScrollConnection).fillMaxSize()
         ) {
             item {
-                if (isPermissionShowSticky.value) {
+                RunIfShowSticky {
                     Spacer(modifier = Modifier.height(heightStickyHeader.value))
                 }
-                Spacer(modifier = Modifier.height(heightAwareFaideHeader.value))
+                RunIfShowAwareHeader {
+                    Spacer(Modifier.height(heightAwareFaideHeader.value))
+                }
                 ComposeView(state)
             }
             renderItemsIndexed(getItemsList(state)) { index, item ->

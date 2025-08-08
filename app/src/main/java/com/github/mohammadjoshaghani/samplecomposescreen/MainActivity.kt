@@ -43,24 +43,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-class MainScreen : BaseScreen<
-        MainScreenContract.State,
-        MainScreenContract.Event,
-        MainScreenContract.Effect,
-        MainScreenViewModel
-        >(), IShowTopbarMain {
-    override val viewModel: MainScreenViewModel = MainScreenViewModel()
-    override val handler: MainScreenHandler = MainScreenHandler()
-
-    @Composable
-    override fun ComposeView(state: MainScreenContract.State) {
-    }
-
-    override fun menuIconTopBar(): IClickableIconModel? {
-        return null
-    }
-
-}
 
 class MainScreenContract {
 

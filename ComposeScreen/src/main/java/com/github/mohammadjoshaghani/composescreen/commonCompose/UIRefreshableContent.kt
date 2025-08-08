@@ -10,19 +10,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.UiComposable
+import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
+import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content: @Composable @UiComposable BoxWithConstraintsScope.(WindowSizeClass) -> Unit) {
+internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content: @Composable @UiComposable BoxWithConstraintsScope.() -> Unit) {
 
     val isRefreshable = this is IRefreshableScreen
 
@@ -30,10 +32,16 @@ internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content: @Composable @U
 
     val content: @Composable BoxScope.() -> Unit = {
         BoxWithConstraints {
-            val sizeClass = remember(maxWidth) {
-                WindowSizeClass.fromWidth(maxWidth)
+            LaunchedEffect(maxWidth, maxHeight) {
+                if (screenSize.value.height == 0.dp) {
+                    val width = maxWidth
+                    val height = maxHeight
+                    screenSize.value = ScreenSize(width, height)
+                }
             }
-            content(sizeClass)
+
+            content()
+
         }
     }
 
@@ -68,3 +76,4 @@ internal fun RootScreen<*, *, *, *>.UIRefreshableContent(content: @Composable @U
         }
     }
 }
+

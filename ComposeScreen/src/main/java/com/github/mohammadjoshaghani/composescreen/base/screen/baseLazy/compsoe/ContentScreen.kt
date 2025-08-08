@@ -1,44 +1,50 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
-import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeClass
 
 @Composable
 fun <State : ViewState<Event>, Event : ViewEvent>
         BaseScreenLazyList<State, *, *, *>.ContentScreen(state: State) {
 
     UIRefreshableContent {
-        val sizeClass = remember(this.maxWidth) {
-            windowSizeClass.value = WindowSizeClass.Companion.fromWidth(maxWidth)
-            windowSizeClass.value
-        }
 
-        ScrollAwareFadingHeaderWrappeUI(
-            this@ContentScreen, state) {
-            when (sizeClass) {
-                WindowSizeClass.Compact -> {
+        ScrollAwareFadingHeaderWrappeUI(this@ContentScreen) {
+
+            var stateSize by remember { mutableStateOf(WindowWidthSizeClass.Compact) }
+            LaunchedEffect(windowSizeClass.value) {
+                windowSizeClass.collect {
+                    stateSize = it
+                }
+            }
+
+            when (stateSize) {
+                WindowWidthSizeClass.Compact -> {
                     CompactUI(state)
                 }
 
-                WindowSizeClass.Medium -> {
+                WindowWidthSizeClass.Medium -> {
                     MediumUI {
                         CompactUI(state)
                     }
                 }
 
-                WindowSizeClass.Expanded -> {
+                WindowWidthSizeClass.Expanded -> {
                     ExpandedUI {
                         CompactUI(state)
                     }
                 }
             }
         }
-
     }
 }
 
