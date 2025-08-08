@@ -19,7 +19,6 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize

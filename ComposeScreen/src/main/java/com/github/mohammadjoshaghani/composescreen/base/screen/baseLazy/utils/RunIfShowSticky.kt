@@ -1,13 +1,11 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils
 
-import androidx.compose.material3.FloatingActionButtonDefaults.elevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 
