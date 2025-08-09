@@ -93,7 +93,8 @@ class MainScreen :
     @Composable
     override fun EndedExpandedUI() {
         Column(
-            modifier = Modifier.background(colorTheme.background)
+            modifier = Modifier
+                .background(colorTheme.background)
                 .verticalScroll(rememberScrollState())
                 .fillMaxHeight()
         ) {
@@ -127,46 +128,29 @@ class MainScreen :
     override fun headerIconsSideBar(): List<NavigationItem> {
         return listOf(
             NavigationItem(
-                "مدیریت فروشگاه",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
+                "Items Icon",
+                R.drawable.ic_launcher_foreground,
+                R.drawable.ic_launcher_foreground,
                 false, 0, {}),
 
             NavigationItem(
-                "انبار داری",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
+                "Items Icon",
+                R.drawable.ic_launcher_foreground,
+                R.drawable.ic_launcher_foreground,
                 false, 0, {}),
 
             NavigationItem(
-                "نظرات",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
+                "Items Icon",
+                R.drawable.ic_launcher_foreground,
+                R.drawable.ic_launcher_foreground,
                 false, 0, {}),
 
             NavigationItem(
-                "تیکت ها",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
+                "Items Icon",
+                R.drawable.ic_launcher_foreground,
+                R.drawable.ic_launcher_foreground,
                 false, 0, {}),
-
-            NavigationItem(
-                "مشتریان",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                false, 0, {}),
-            NavigationItem(
-                "سفارشات",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                false, 0, {}),
-            NavigationItem(
-                "انواع ارسال",
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                com.github.mohammadjoshaghani.composescreen.R.drawable.failed_internet,
-                false, 0, {}),
-
-            )
+        )
     }
 
 

@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +35,7 @@ import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertD
 import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastCreator
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
 abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> {
 
@@ -48,8 +49,6 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     val screenSize = mutableStateOf(ScreenSize(0.dp, 0.dp))
 
     private var updatedDataModel: List<Any>? = null
-
-    val windowSizeClass = MutableStateFlow(WindowWidthSizeClass.Expanded)
 
 
     var onEventSent: (Event) -> Unit = { event ->
@@ -116,7 +115,8 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
         RenderDialogs()
         if (this is IShowStickyHeader) {
-            SetStickyForSelectedSizeClass(this, windowSizeClass.value)
+            val stateSize by WindowSizeBus.windowSizeClass.collectAsState()
+            SetStickyForSelectedSizeClass(this, stateSize)
         }
     }
 
@@ -201,7 +201,9 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
                 StartedExpandedUI()
             }
-            Column(Modifier.fillMaxHeight().weight(1f)) {
+            Column(Modifier
+                .fillMaxHeight()
+                .weight(1f)) {
                 compactUI()
             }
             Column {
@@ -231,7 +233,9 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
                 StartedExpandedUI()
             }
-            Column(Modifier.fillMaxHeight().weight(1f)) {
+            Column(Modifier
+                .fillMaxHeight()
+                .weight(1f)) {
                 compactUI()
             }
         }

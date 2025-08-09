@@ -1,11 +1,8 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 
@@ -16,13 +13,7 @@ fun RootScreen<*, *, *, *>.RunIfShowSticky(
     content: @Composable IShowStickyHeader.() -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        var isPermission by remember { mutableStateOf(false) }
-        LaunchedEffect(this.isPermissionShowSticky.value) {
-            this@RunIfShowSticky.isPermissionShowSticky.collect {
-                isPermission = it
-            }
-        }
-
+        val isPermission by isPermissionShowSticky.collectAsState()
         if (isPermission) {
             content()
         } else {
@@ -36,17 +27,12 @@ fun RootScreen<*, *, *, *>.RunIfShowStickyBoolean(
     content: @Composable (Boolean) -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        var isPermission by remember { mutableStateOf(false) }
-        LaunchedEffect(this.isPermissionShowSticky.value) {
-            isPermissionShowSticky.collect {
-                isPermission = it
-            }
-        }
+        val isPermission by isPermissionShowSticky.collectAsState()
         content(isPermission)
     }
 }
 
 
-fun RootScreen<*, *, *, *>.isStickyBoolean() : Boolean {
+fun RootScreen<*, *, *, *>.isStickyBoolean(): Boolean {
     return this is IShowStickyHeader
 }

@@ -8,11 +8,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -87,13 +84,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
         if (screen is IShowStickyHeader) {
-            var isShowStickyHeader by remember { mutableStateOf(false) }
-            LaunchedEffect(screen.isPermissionShowSticky.value) {
-                screen.isPermissionShowSticky.collect {
-                    isShowStickyHeader = it
-                }
-            }
-
+            val isShowStickyHeader by screen.isPermissionShowSticky.collectAsState()
             if (!isShowStickyHeader) {
                 HorizontalDivider()
             }

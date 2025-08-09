@@ -33,6 +33,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationS
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
+import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
 class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
@@ -41,8 +42,9 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
     fun Show() {
 
         val windowClass = calculateWindowSizeClass(LocalActivity.current as Activity)
+
         LaunchedEffect(windowClass) {
-            startScreen.windowSizeClass.emit(windowClass.widthSizeClass)
+            WindowSizeBus.windowSizeClass.value = windowClass.widthSizeClass
         }
         val showNavigationRail =
             windowClass.widthSizeClass != WindowWidthSizeClass.Compact

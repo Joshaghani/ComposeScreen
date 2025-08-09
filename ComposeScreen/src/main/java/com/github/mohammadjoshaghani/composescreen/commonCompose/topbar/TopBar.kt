@@ -42,7 +42,6 @@ class TopBar {
             isScrolled.value = scrollBehavior.state.contentOffset < 0
         }
 
-
         println("contentOffset  ${scrollBehavior.state.contentOffset}")
 
         println("--------------------------------------------------")
