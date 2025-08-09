@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -67,7 +69,12 @@ class MainScreen :
     }
 
     override fun menuIconTopBar(): IClickableIconModel? {
-        return null
+        return IClickableIconModel.ClickableIconVectorModel(
+            Icons.Rounded.Menu,
+            onIconPressed = {
+                SecondScreen().show()
+            }
+        )
     }
 
     override fun actionIconsTopBar(): List<IClickableIconModel> {
@@ -131,7 +138,9 @@ class MainScreen :
                 "Items Icon",
                 R.drawable.ic_launcher_foreground,
                 R.drawable.ic_launcher_foreground,
-                false, 0, {}),
+                false, 0, {
+                    SecondScreen().show()
+                }),
 
             NavigationItem(
                 "Items Icon",

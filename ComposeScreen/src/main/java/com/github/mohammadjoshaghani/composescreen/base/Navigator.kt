@@ -3,6 +3,7 @@ package com.github.mohammadjoshaghani.composescreen.base
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import kotlinx.coroutines.delay
 
 object Navigator {
 
@@ -33,9 +34,15 @@ object Navigator {
 
     fun back(): Boolean {
         if (stack.size <= 1) return false
-        getCurrentScreen()?.pauseAndDestroy()
+        val current = getCurrentScreen() ?: return false
+        current.isVisibleAnimation.value = false
+
+        current.pauseAndDestroy()
         stack.removeLastOrNull()
-        updateCurrentScreen()
+        current.viewModel.launchOnScope {
+            delay(current.animationTime)
+            updateCurrentScreen()
+        }
         return true
     }
 

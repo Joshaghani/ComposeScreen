@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +20,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowStickyBoolean
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 class TopBar {
@@ -31,8 +33,8 @@ class TopBar {
         if (screen is BaseScreenLazyList) {
             isScrolled.value = screen.isScrolledNow
             LaunchedEffect(
-                screen.lazyListState?.firstVisibleItemIndex,
-                screen.lazyListState?.firstVisibleItemScrollOffset
+                remember { derivedStateOf { screen.lazyListState?.firstVisibleItemIndex } },
+                remember { derivedStateOf { screen.lazyListState?.firstVisibleItemScrollOffset } }
             ) {
                 if (screen.lazyListState?.firstVisibleItemIndex == 0 && screen.lazyListState?.firstVisibleItemScrollOffset == 0) {
                     scrollBehavior.state.contentOffset = 0f
@@ -65,19 +67,21 @@ class TopBar {
             }
         }
 
-        Surface(
-            shadowElevation = elevation,
-        ) {
-            Column(
-                Modifier
-                    .background(ApplicationConfig.config.color.background)
+        UIAnimatedVisibility {
+            Surface(
+                shadowElevation = elevation,
             ) {
-                when (screen) {
-                    is IShowTopbarMain -> ShowTitleMain(scrollBehavior, isScrolled.value)
-                    is IShowTopbar -> ShowTitle(scrollBehavior, isScrolled.value)
+                Column(
+                    Modifier
+                        .background(ApplicationConfig.config.color.background)
+                ) {
+                    when (screen) {
+                        is IShowTopbarMain -> ShowTitleMain(scrollBehavior, isScrolled.value)
+                        is IShowTopbar -> ShowTitle(scrollBehavior, isScrolled.value)
+                    }
                 }
-            }
 
+            }
         }
     }
 

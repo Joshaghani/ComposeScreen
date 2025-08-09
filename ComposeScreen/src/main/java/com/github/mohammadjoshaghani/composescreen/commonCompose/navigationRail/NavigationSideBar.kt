@@ -20,6 +20,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,12 +62,14 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
     @Composable
     fun UIContentSideBar() {
-        val screen = Navigator.currentScreen.value as IShowNavigationSideBar
+        val screen = Navigator.currentScreen.value
+        if (screen !is IShowNavigationSideBar) return
+
         NavigationRail(
             contentColor = ApplicationConfig.config.color.onBackground,
             containerColor = ApplicationConfig.config.color.background,
             header = {
-                var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+                var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
 
                 screen.headerIconsSideBar()
                     .forEachIndexed { index, item ->
@@ -90,7 +93,7 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
                 .clip(CircleShape)
                 .padding(16.dp)
         ) {
-            var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+            var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
 
             Column(
                 modifier = Modifier.fillMaxHeight(),

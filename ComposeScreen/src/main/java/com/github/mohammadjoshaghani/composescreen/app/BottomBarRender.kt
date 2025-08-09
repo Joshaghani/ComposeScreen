@@ -3,6 +3,7 @@ package com.github.mohammadjoshaghani.composescreen.app
 import androidx.compose.runtime.Composable
 import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowBottombar
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 
 @Composable
 fun BottomBarRender() {
@@ -13,7 +14,9 @@ fun BottomBarRender() {
     if (viewState.errorScreen != null || viewState.isLoading) return
 
     if (currentScreen is IShowBottombar) {
-        currentScreen.BottomBarView()
+        UIAnimatedVisibility {
+            currentScreen.BottomBarView()
+        }
     }
 
 }

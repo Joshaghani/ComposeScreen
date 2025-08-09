@@ -88,6 +88,8 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
             if (!isShowStickyHeader) {
                 HorizontalDivider()
             }
+        } else {
+            HorizontalDivider()
         }
     }
 }
