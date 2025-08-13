@@ -29,7 +29,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
     ) {
         item {
             RunIfShowSticky {
-                Spacer(modifier = Modifier.height(heightStickyHeader.value))
+                Spacer(modifier = Modifier.height(stickyState.stickyHeaderHeight))
             }
             RunIfShowAwareHeader {
                 Spacer(Modifier.height(heightAwareFaideHeader.value))

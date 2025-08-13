@@ -26,7 +26,7 @@ fun BaseScreen<*, *, *, *>.CompactUI() {
         }
 
         if (this@CompactUI is IShowStickyHeader) {
-            Spacer(Modifier.height(heightStickyHeader.value))
+            Spacer(Modifier.height(stickyState.stickyHeaderHeight))
         }
 
         ComposeView(viewModel.viewState.value)

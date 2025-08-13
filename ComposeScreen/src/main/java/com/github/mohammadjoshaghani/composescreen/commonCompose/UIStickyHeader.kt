@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.topbar.TopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 
 @Composable
 fun UIStickyHeader(
-    screen: IShowStickyHeader,
+    screen: RootScreen<*, *, *, *>,
     content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current
@@ -31,8 +31,8 @@ fun UIStickyHeader(
             Column(
                 Modifier.onGloballyPositioned {
                     val newHeight = with(density) { it.size.height.toDp() }
-                    if (screen.heightStickyHeader.value != newHeight) {
-                        screen.heightStickyHeader.value = newHeight
+                    if (screen.stickyState.stickyHeaderHeight != newHeight) {
+                        screen.stickyState.stickyHeaderHeight = newHeight
                     }
                 }
             ) {

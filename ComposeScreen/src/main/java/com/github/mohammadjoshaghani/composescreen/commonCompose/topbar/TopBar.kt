@@ -6,18 +6,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowStickyBoolean
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
@@ -25,28 +24,20 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 class TopBar {
 
-    val screen = Navigator.currentScreen.value
+    val screen = Navigator.state.current.value
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Show(scrollBehavior: TopAppBarScrollBehavior) {
         if (screen is BaseScreenLazyList) {
-            isScrolled.value = screen.isScrolledNow
-            LaunchedEffect(
-                remember { derivedStateOf { screen.lazyListState?.firstVisibleItemIndex } },
-                remember { derivedStateOf { screen.lazyListState?.firstVisibleItemScrollOffset } }
-            ) {
-                if (screen.lazyListState?.firstVisibleItemIndex == 0 && screen.lazyListState?.firstVisibleItemScrollOffset == 0) {
-                    scrollBehavior.state.contentOffset = 0f
-                }
-            }
+            isScrolled.value = screen.isScrolledNow.collectAsState().value
         } else {
             isScrolled.value = scrollBehavior.state.contentOffset < 0
         }
 
-        println("contentOffset  ${scrollBehavior.state.contentOffset}")
-
-        println("--------------------------------------------------")
+//        println("contentOffset  ${scrollBehavior.state.contentOffset}")
+//
+//        println("--------------------------------------------------")
 
         var elevation by remember { mutableStateOf(0.dp) }
 

@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 
 @Composable
 fun BackButton() {
@@ -21,7 +21,7 @@ fun BackButton() {
         modifier = Modifier
             .size(56.dp)
             .clip(CircleShape)
-            .clickable { Navigator.currentScreen.value?.onBackPressed() },
+            .clickable { Navigator.state.current.value?.onBackPressed() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {

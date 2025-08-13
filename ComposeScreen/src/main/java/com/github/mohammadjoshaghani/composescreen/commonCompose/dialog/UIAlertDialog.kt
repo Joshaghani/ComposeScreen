@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.compose.CustomUIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.compose.SampleUiAlertDialog
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -38,7 +38,7 @@ class UIAlertDialog(
 
 
     fun onDismissRequest(action: () -> Unit) = apply {
-        Navigator.getCurrentScreen()?.viewModel?.launchOnScope {
+        Navigator.state.current.value?.viewModel?.launchOnScope {
             isShowDialogFlow.collect {
                 if (!it) action()
             }
@@ -46,7 +46,7 @@ class UIAlertDialog(
     }
 
     @Composable
-    fun SetCustomContent(
+    fun setCustomContent(
         padding: Int = 0,
         content: @Composable ColumnScope.(UIAlertDialog) -> Unit,
     ) = apply {

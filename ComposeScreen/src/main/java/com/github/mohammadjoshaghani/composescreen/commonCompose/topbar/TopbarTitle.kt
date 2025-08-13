@@ -8,12 +8,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -34,7 +33,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
             BackButton()
         },
         actions = {
-            val screen = Navigator.currentScreen.value
+            val screen = Navigator.state.current.value
             if (screen is IShowTopbar) {
                 screen.actionIconsTopBar().forEach { icon ->
                     when (icon) {
@@ -65,8 +64,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
         if (screen is IShowStickyHeader) {
-            val isShowStickyHeader by screen.isPermissionShowSticky.collectAsState()
-            if (!isShowStickyHeader) {
+            if (!screen.stickyState.hasStickyHeader.collectAsState().value) {
                 HorizontalDivider()
             }
         } else {

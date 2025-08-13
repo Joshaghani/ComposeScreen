@@ -1,10 +1,8 @@
 package com.github.mohammadjoshaghani.samplecomposescreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,19 +12,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
@@ -34,25 +26,18 @@ import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIBorderCard
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIRowSpaceBetween
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainScreen :
     BaseScreenLazyList<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect, MainScreenViewModel>(),
     IShowNavigationSideBar,
     IShowTopbarMain,
-    IShowScrollAwareFadingHeader,
-    IShowStickyHeader,
+//    IShowScrollAwareFadingHeader,
+//    IShowStickyHeader,
     IClearStackScreen {
 
     override val viewModel: MainScreenViewModel = MainScreenViewModel()
 
     override val handler: MainScreenHandler = MainScreenHandler()
-
-    override val isPermissionShowSticky: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val heightStickyHeader: MutableState<Dp> = mutableStateOf(56.dp)
-
-    override var showAwareHeader = mutableStateOf(true)
-    override val heightAwareFaideHeader: MutableState<Dp> = mutableStateOf(0.dp)
 
 
     @Composable
@@ -163,21 +148,21 @@ class MainScreen :
     }
 
 
-    @Composable
-    override fun UIScrollAwareFadingHeader(modifier: Modifier) {
-        UIBorderCard(
-            backgroundColor = colorTheme.background,
-            modifier = modifier.height(100.dp)
-        ) {
-            Column(
-                Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text("Hello from fade menu")
-            }
-        }
-    }
+//    @Composable
+//    override fun UIScrollAwareFadingHeader(modifier: Modifier) {
+//        UIBorderCard(
+//            backgroundColor = colorTheme.background,
+//            modifier = modifier.height(100.dp)
+//        ) {
+//            Column(
+//                Modifier.fillMaxSize(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                verticalArrangement = Arrangement.Center
+//            ) {
+//                Text("Hello from fade menu")
+//            }
+//        }
+//    }
 
     override fun getItemsList(state: MainScreenContract.State): MutableList<IIdentifiable> {
         return mutableListOf(
@@ -259,22 +244,22 @@ class MainScreen :
     }
 
 
-    @Composable
-    override fun ComposeStickyView() {
-        Column(
-            modifier = Modifier
-                .height(56.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Compose Sticky View", color = colorTheme.onBackground)
-        }
-    }
-
-    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
-        return WindowWidthSizeClass.Medium
-    }
-
+//    @Composable
+//    override fun ComposeStickyView(modifier: Modifier) {
+//        Column(
+//            modifier = modifier
+//                .height(56.dp)
+//                .fillMaxWidth(),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            Text("Compose Sticky View", color = colorTheme.onBackground)
+//        }
+//    }
+//
+//
+//    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
+//        return WindowWidthSizeClass.Compact
+//    }
 }
 
 

@@ -9,7 +9,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -84,8 +83,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
 
     if (isScrolled && ApplicationConfig.config.isDarkTheme) {
         if (screen is IShowStickyHeader) {
-            val isShowStickyHeader by screen.isPermissionShowSticky.collectAsState()
-            if (!isShowStickyHeader) {
+            if (!screen.stickyState.hasStickyHeader.collectAsState().value) {
                 HorizontalDivider()
             }
         } else {

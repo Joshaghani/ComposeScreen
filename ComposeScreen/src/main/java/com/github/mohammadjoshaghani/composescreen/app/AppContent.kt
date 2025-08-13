@@ -1,8 +1,8 @@
 package com.github.mohammadjoshaghani.composescreen.app
 
 import androidx.compose.runtime.Composable
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 
 @Composable
 fun AppContent(startScreen: RootScreen<*, *, *, *>) {
@@ -12,7 +12,7 @@ fun AppContent(startScreen: RootScreen<*, *, *, *>) {
         RenderNotifications()
     }
 
-    if (Navigator.getCurrentScreen() == null) {
+    if (Navigator.state.current.value == null) {
         startScreen.show(animation = false)
     }
 

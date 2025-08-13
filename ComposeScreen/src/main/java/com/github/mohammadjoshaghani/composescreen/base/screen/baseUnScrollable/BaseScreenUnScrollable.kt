@@ -7,7 +7,7 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable.compose.ContentScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 

@@ -2,9 +2,8 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 
 
 @Composable
@@ -13,8 +12,7 @@ fun RootScreen<*, *, *, *>.RunIfShowSticky(
     content: @Composable IShowStickyHeader.() -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        val isPermission by isPermissionShowSticky.collectAsState()
-        if (isPermission) {
+        if (stickyState.hasStickyHeader.collectAsState().value) {
             content()
         } else {
             isNotStickyHeader
@@ -27,8 +25,7 @@ fun RootScreen<*, *, *, *>.RunIfShowStickyBoolean(
     content: @Composable (Boolean) -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        val isPermission by isPermissionShowSticky.collectAsState()
-        content(isPermission)
+        content(stickyState.hasStickyHeader.collectAsState().value)
     }
 }
 

@@ -2,6 +2,7 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
@@ -20,8 +21,8 @@ internal fun <State : ViewState<Event>, Event : ViewEvent> ScrollAwareFadingHead
             screen = screen,
             contentItemRows = content,
             stickyheadContent = { sticky ->
-                UIStickyHeader(sticky) {
-                    sticky.ComposeStickyView()
+                UIStickyHeader(screen) {
+                    sticky.ComposeStickyView(Modifier)
                 }
 
             },

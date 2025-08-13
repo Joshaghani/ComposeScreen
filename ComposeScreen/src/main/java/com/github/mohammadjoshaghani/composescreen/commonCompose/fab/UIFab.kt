@@ -1,13 +1,13 @@
 package com.github.mohammadjoshaghani.composescreen.commonCompose.fab
 
 import androidx.compose.runtime.Composable
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowFab
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 
 @Composable
 fun UIFab() {
-    val currentScreen = Navigator.currentScreen.value
+    val currentScreen = Navigator.state.current.value
 
     if (currentScreen !is IShowFab) return
 

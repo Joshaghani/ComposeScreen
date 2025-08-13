@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class UIBottomSheet : IBottomSheet {
@@ -15,7 +15,7 @@ class UIBottomSheet : IBottomSheet {
 
 
     @Composable
-    fun SetCustomContent(content: @Composable ColumnScope.() -> Unit) = apply {
+    fun setCustomContent(content: @Composable ColumnScope.() -> Unit) = apply {
         sampleBottomSheetContent = content
     }
 
@@ -37,7 +37,7 @@ class UIBottomSheet : IBottomSheet {
     }
 
     fun onDismissRequest(dismiss: () -> Unit) = apply {
-        Navigator.getCurrentScreen()!!.viewModel.launchOnScope {
+        Navigator.state.current.value!!.viewModel.launchOnScope {
             isShowDialogFlow.collect {
                 if (it.not())
                     dismiss()

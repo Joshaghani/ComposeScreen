@@ -2,17 +2,17 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshotFlow
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyListScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.ContentScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -35,7 +35,7 @@ abstract class BaseScreenLazyList<
 
     private var scrollPositionListScreen = 0
 
-    var isScrolledNow: Boolean = false
+    val isScrolledNow = MutableStateFlow(false)
 
     @Composable
     override fun ShowScreenFromApp() {
@@ -51,11 +51,13 @@ abstract class BaseScreenLazyList<
         }
         lazyListState = listState
 
-        isScrolledNow = remember {
-            derivedStateOf {
+        LaunchedEffect(listState) {
+            snapshotFlow {
                 listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0
+            }.collect { scrolled ->
+                isScrolledNow.value = scrolled
             }
-        }.value
+        }
 
         ContentScreen(state)
     }

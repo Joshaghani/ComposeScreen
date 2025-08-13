@@ -16,8 +16,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.fab.UIFab
 import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.NavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.commonCompose.topbar.TopBar
@@ -67,7 +67,7 @@ fun RenderScreenContent(startScreen: RootScreen<*, *, *, *>) {
                             hideKeyboard()
                         }
                 ) {
-                    Navigator.currentScreen.value?.let { screen ->
+                    Navigator.state.current.value?.let { screen ->
                         screen.ShowScreenFromApp()
                         screen.isVisibleAnimation.value = true
                     }

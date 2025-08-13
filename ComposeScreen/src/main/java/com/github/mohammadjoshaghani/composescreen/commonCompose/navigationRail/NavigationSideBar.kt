@@ -29,9 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
-import com.github.mohammadjoshaghani.composescreen.base.screen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
@@ -53,8 +53,8 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
         if (showNavigationRail) {
             var show by rememberSaveable { mutableStateOf(false) }
-            LaunchedEffect(Navigator.currentScreen.value) {
-                show = Navigator.currentScreen.value is IShowNavigationSideBar
+            LaunchedEffect(Navigator.state.current.value ) {
+                show = Navigator.state.current.value is IShowNavigationSideBar
             }
             if (show) UIContentSideBar()
         }
@@ -62,7 +62,7 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
 
     @Composable
     fun UIContentSideBar() {
-        val screen = Navigator.currentScreen.value
+        val screen = Navigator.state.current.value
         if (screen !is IShowNavigationSideBar) return
 
         NavigationRail(

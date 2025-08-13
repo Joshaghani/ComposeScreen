@@ -49,7 +49,7 @@ fun UIScrollAwareFading(
         ) {
             Column {
                 screen.RunIfShowSticky {
-                    Spacer(Modifier.height(heightStickyHeader.value))
+                    Spacer(Modifier.height(screen.stickyState.stickyHeaderHeight))
                 }
 
                 fadeHeaderContent(

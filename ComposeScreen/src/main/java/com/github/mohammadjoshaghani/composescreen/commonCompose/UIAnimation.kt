@@ -9,11 +9,11 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.github.mohammadjoshaghani.composescreen.base.Navigator
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 
 @Composable
 fun UIAnimatedVisibility(function: @Composable () -> Unit) {
-    val screen = Navigator.currentScreen.value
+    val screen = Navigator.state.current.value
     screen ?: return
 
     if (!screen.showAnimation) {
