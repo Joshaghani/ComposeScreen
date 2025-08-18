@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
@@ -122,6 +123,8 @@ class MainScreen :
             NavigationItem(
                 "Items Icon",
                 R.drawable.ic_launcher_foreground,
+                unselectedColor = Color.Red,
+                selectedColor = Color.Blue,
                 R.drawable.ic_launcher_foreground,
                 false, 0, {
                     SecondScreen().show()
@@ -130,18 +133,24 @@ class MainScreen :
             NavigationItem(
                 "Items Icon",
                 R.drawable.ic_launcher_foreground,
+                unselectedColor = Color.Red,
+                selectedColor = Color.Blue,
                 R.drawable.ic_launcher_foreground,
                 false, 0, {}),
 
             NavigationItem(
                 "Items Icon",
                 R.drawable.ic_launcher_foreground,
+                unselectedColor = Color.Red,
+                selectedColor = Color.Blue,
                 R.drawable.ic_launcher_foreground,
                 false, 0, {}),
 
             NavigationItem(
                 "Items Icon",
                 R.drawable.ic_launcher_foreground,
+                unselectedColor = Color.Red,
+                selectedColor = Color.Blue,
                 R.drawable.ic_launcher_foreground,
                 false, 0, {}),
         )

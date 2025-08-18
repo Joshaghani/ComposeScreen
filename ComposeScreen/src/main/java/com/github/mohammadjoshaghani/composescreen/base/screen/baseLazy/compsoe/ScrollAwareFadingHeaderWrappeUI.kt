@@ -22,7 +22,7 @@ internal fun <State : ViewState<Event>, Event : ViewEvent> ScrollAwareFadingHead
             contentItemRows = content,
             stickyheadContent = { sticky ->
                 UIStickyHeader(screen) {
-                    sticky.ComposeStickyView(Modifier)
+                    sticky.ComposeStickyView(it)
                 }
 
             },

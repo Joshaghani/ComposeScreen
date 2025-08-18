@@ -14,8 +14,6 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScre
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderEmptyState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderItemsIndexed
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderLoadMore
-import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowAwareHeader
-import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 
 @Composable
@@ -23,17 +21,19 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
     state: State,
     modifier: Modifier = Modifier,
 ) {
+
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(verticalGridMinSize.dp),
         modifier = modifier
     ) {
+
         item {
-            RunIfShowSticky {
-                Spacer(modifier = Modifier.height(stickyState.stickyHeaderHeight))
-            }
-            RunIfShowAwareHeader {
-                Spacer(Modifier.height(heightAwareFaideHeader.value))
-            }
+            Spacer(modifier = Modifier.height(stickyState.stickyHeaderHeight))
+            Spacer(Modifier.height(heightAwareFaideHeader.value))
+        }
+
+        item {
             ComposeView(state)
         }
         renderItemsIndexed(getItemsList(state)) { index, item ->

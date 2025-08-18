@@ -64,7 +64,6 @@ object Navigator {
         state.set(now)
         now?.let { lifecycle.onBecameCurrent(it) } // onRestart + onResume
 
-        // اگر خواستی انیمیشن گروهی هم بگذاری، اینجا مشابه pop() زمان‌بندی کن.
     }
 
     fun forward(): Boolean {

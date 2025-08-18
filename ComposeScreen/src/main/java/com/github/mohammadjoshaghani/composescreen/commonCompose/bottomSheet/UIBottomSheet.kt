@@ -15,7 +15,7 @@ class UIBottomSheet : IBottomSheet {
 
 
     @Composable
-    fun setCustomContent(content: @Composable ColumnScope.() -> Unit) = apply {
+    fun SetCustomContent(content: @Composable ColumnScope.() -> Unit) = apply {
         sampleBottomSheetContent = content
     }
 

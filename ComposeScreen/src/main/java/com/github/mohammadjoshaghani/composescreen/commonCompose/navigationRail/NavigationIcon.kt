@@ -25,7 +25,8 @@ fun NavigationIcon(
     ) {
         Icon(
             painter = painterResource(if (selected) item.selectedIcon else item.unselectedIcon),
-            contentDescription = item.title
+            contentDescription = item.title,
+            tint = if (selected) item.selectedColor else item.unselectedColor
         )
     }
 }

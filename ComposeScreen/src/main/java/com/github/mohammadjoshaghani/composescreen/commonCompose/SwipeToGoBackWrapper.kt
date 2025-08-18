@@ -1,3 +1,5 @@
+package com.github.mohammadjoshaghani.composescreen.commonCompose
+
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures

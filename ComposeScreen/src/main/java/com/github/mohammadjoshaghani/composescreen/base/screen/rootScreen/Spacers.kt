@@ -1,23 +1,25 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun StickySpacer(state: StickyHeaderState) {
     if (state.hasStickyHeader.collectAsState().value) {
-        androidx.compose.foundation.layout.Spacer(
-            androidx.compose.ui.Modifier.height(state.stickyHeaderHeight)
+        Spacer(
+            Modifier.height(state.stickyHeaderHeight)
         )
     }
 }
 
 @Composable
 fun AwareHeaderSpacer(showAware: Boolean, height: Dp) {
-    androidx.compose.foundation.layout.Spacer(
-        androidx.compose.ui.Modifier.height(if (showAware) height else 0.dp)
+    Spacer(
+        Modifier.height(if (showAware) height else 0.dp)
     )
 }

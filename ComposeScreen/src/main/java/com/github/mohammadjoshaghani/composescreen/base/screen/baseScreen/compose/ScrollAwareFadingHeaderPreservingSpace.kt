@@ -24,7 +24,7 @@ fun BaseScreen<*, *, *, *>.ScrollAwareFadingHeaderPreservingSpace() {
     if (this is IShowScrollAwareFadingHeader) {
         val density = LocalDensity.current
         var lastScrollOffset by remember { mutableStateOf(0) }
-        val scrollThreshold = 100
+        val scrollThreshold = 0
 
         LaunchedEffect(mainScrollState) {
             snapshotFlow { mainScrollState!!.value }

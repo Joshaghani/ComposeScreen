@@ -1,6 +1,5 @@
 package com.github.mohammadjoshaghani.composescreen.extension
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.ripple
@@ -10,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
-@SuppressLint("SuspiciousModifierThen")
 fun Modifier.clickableTheme(
     color: Color = ApplicationConfig.config.color.primary,
     enabled: Boolean = true,
@@ -29,7 +27,6 @@ fun Modifier.clickableTheme(
 
 }
 
-@SuppressLint("SuspiciousModifierThen")
 @Composable
 fun Modifier.clickableWitoutHighlight(
     enabled: Boolean = true,

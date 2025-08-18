@@ -17,8 +17,6 @@ class StickyHeaderState(
         internal set
 }
 
-@Composable
-fun rememberStickyHeaderState() = remember { StickyHeaderState() }
 
 @Composable
 fun StickyHeaderHost(

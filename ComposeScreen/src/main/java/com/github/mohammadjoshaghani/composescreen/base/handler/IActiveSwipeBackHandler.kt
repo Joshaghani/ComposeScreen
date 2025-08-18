@@ -1,3 +1,3 @@
 package com.github.mohammadjoshaghani.composescreen.base.handler
 
-interface IDeactiveSwipeBackHandler
+interface IActiveSwipeBackHandler

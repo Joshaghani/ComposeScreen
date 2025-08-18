@@ -3,7 +3,6 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
@@ -35,7 +34,7 @@ abstract class BaseScreenLazyList<
 
     private var scrollPositionListScreen = 0
 
-    val isScrolledNow = MutableStateFlow(false)
+    var isScrolledNow = MutableStateFlow(false)
 
     @Composable
     override fun ShowScreenFromApp() {
@@ -46,9 +45,8 @@ abstract class BaseScreenLazyList<
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        val listState = rememberSaveable(saver = LazyListState.Saver) {
-            LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
-        }
+        val listState = LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
+
         lazyListState = listState
 
         LaunchedEffect(listState) {

@@ -53,7 +53,7 @@ fun BaseScreen<*, *, *, *>.ContentScreen() {
 private fun BaseScreen<*, *, *, *>.StickyHeader() {
     RunIfShowSticky {
         UIStickyHeader(this@StickyHeader) {
-            ComposeStickyView(Modifier )
+            ComposeStickyView(it )
         }
     }
 }

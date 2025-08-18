@@ -12,12 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.MeasureHeight
 
 @Composable
 fun UIScrollAwareFading(
@@ -28,7 +27,6 @@ fun UIScrollAwareFading(
     fadeHeaderContent: @Composable (Modifier) -> Unit,
 ) {
     if (screen !is IShowScrollAwareFadingHeader) return
-    val density = LocalDensity.current
 
     LaunchedEffect(Unit) {
         screen.scrollEvents.collect {
@@ -52,15 +50,12 @@ fun UIScrollAwareFading(
                     Spacer(Modifier.height(screen.stickyState.stickyHeaderHeight))
                 }
 
-                fadeHeaderContent(
-                    Modifier
-                        .onGloballyPositioned {
-                            val newHeight = with(density) { it.size.height.toDp() }
-                            if (screen.heightAwareFaideHeader.value != newHeight) {
-                                screen.heightAwareFaideHeader.value = newHeight
-                            }
-                        }
-                )
+                MeasureHeight(onHeightChanged = { h ->
+                    if (screen.heightAwareFaideHeader.value != h) screen.heightAwareFaideHeader.value =
+                        h
+                }) { measuredModifier ->
+                    fadeHeaderContent(measuredModifier)
+                }
             }
         }
 

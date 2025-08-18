@@ -12,5 +12,4 @@ data class Config(
         message: String,
         retryClick: () -> Unit,
     ) -> Unit,
-    val backHandler: () -> Unit = {},
 )
