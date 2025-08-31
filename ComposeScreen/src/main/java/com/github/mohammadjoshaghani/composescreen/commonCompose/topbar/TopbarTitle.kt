@@ -19,7 +19,8 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
+fun ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
+    val screen = Navigator.state.current.value
 
     TopAppBar(
         title = {
@@ -39,6 +40,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
                     when (icon) {
                         is IClickableIconModel.ClickableIconModel -> ClickableIcon(
                             icon.iconId,
+                            title = icon.title,
                             badgeCount = icon.badgeCount,
                             onClick = icon.onIconPressed
                         )
@@ -46,6 +48,7 @@ fun TopBar.ShowTitle(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolea
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
                                 icon.iconId,
+                                title = icon.title,
                                 onClick = icon.onIconPressed,
                                 badgeCount = icon.badgeCount,
                             )

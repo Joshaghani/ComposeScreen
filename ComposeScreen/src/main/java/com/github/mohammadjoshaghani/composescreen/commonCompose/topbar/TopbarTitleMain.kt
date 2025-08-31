@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.ClickableIcon
 import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -21,7 +22,8 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
+fun ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) {
+    val screen = Navigator.state.current.value
 
     CenterAlignedTopAppBar(
         title = {
@@ -37,6 +39,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                     when (icon) {
                         is IClickableIconModel.ClickableIconModel -> ClickableIcon(
                             icon.iconId,
+                            title = icon.title,
                             badgeCount = icon.badgeCount,
                             onClick = icon.onIconPressed
                         )
@@ -44,6 +47,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
                                 icon.iconId,
+                                title = icon.title,
                                 badgeCount = icon.badgeCount,
                                 onClick = icon.onIconPressed
                             )
@@ -58,6 +62,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                     when (icon) {
                         is IClickableIconModel.ClickableIconModel -> ClickableIcon(
                             icon.iconId,
+                            title = icon.title,
                             badgeCount = icon.badgeCount,
                             onClick = icon.onIconPressed
                         )
@@ -65,6 +70,7 @@ fun TopBar.ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Bo
                         is IClickableIconModel.ClickableIconVectorModel -> {
                             ClickableIcon(
                                 icon.iconId,
+                                title = icon.title,
                                 badgeCount = icon.badgeCount,
                                 onClick = icon.onIconPressed
                             )

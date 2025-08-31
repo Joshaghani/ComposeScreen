@@ -27,7 +27,7 @@ fun <State : ViewState<Event>, Event : ViewEvent>
 
             // یک فریم صبر کن تا استیکی یا فید هدر ساخته بشن
             LaunchedEffect(Unit) {
-                delay(16) // یک فریم تاخیر
+               delay(16)
                 showItem = true
             }
 
@@ -51,6 +51,7 @@ fun <State : ViewState<Event>, Event : ViewEvent>
                         }
                     }
                 }
+
             }
         }
     }

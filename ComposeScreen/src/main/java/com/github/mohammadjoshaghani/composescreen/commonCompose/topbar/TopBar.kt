@@ -19,25 +19,21 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowStickyBoolean
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
 import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 class TopBar {
 
-    val screen = Navigator.state.current.value
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Show(scrollBehavior: TopAppBarScrollBehavior) {
+        val screen = Navigator.state.current.value
         if (screen is BaseScreenLazyList) {
             isScrolled.value = screen.isScrolledNow.collectAsState().value
-        } else {
-            isScrolled.value = scrollBehavior.state.contentOffset < 0
+        } else if (screen is BaseScreen) {
+            isScrolled.value = screen.isScrolledNow.collectAsState().value
         }
-
-//        println("contentOffset  ${scrollBehavior.state.contentOffset}")
-//
-//        println("--------------------------------------------------")
 
         var elevation by remember { mutableStateOf(0.dp) }
 

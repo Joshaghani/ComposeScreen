@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseHandler
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
-import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
@@ -24,6 +23,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScree
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.commonCompose.bottomSheet.UIBottomSheet
 import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -43,7 +43,8 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     var stickyState = StickyHeaderState()
 
-    var showAwareHeader: MutableState<Boolean> = mutableStateOf(this is IShowScrollAwareFadingHeader)
+    var showAwareHeader: MutableState<Boolean> =
+        mutableStateOf(this is IShowScrollAwareFadingHeader)
     val heightAwareFaideHeader: MutableState<Dp> = mutableStateOf(0.dp)
 
     var onEventSent: (Event) -> Unit = { viewModel.setEvent(it) }

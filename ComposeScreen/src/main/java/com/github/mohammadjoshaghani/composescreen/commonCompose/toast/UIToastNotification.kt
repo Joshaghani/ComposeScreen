@@ -30,8 +30,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 import com.github.mohammadjoshaghani.composescreen.R
+import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 

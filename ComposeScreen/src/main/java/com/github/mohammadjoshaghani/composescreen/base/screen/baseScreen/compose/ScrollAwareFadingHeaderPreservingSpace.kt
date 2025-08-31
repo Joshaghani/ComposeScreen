@@ -8,7 +8,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -23,7 +23,7 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseSc
 fun BaseScreen<*, *, *, *>.ScrollAwareFadingHeaderPreservingSpace() {
     if (this is IShowScrollAwareFadingHeader) {
         val density = LocalDensity.current
-        var lastScrollOffset by remember { mutableStateOf(0) }
+        var lastScrollOffset by remember { mutableIntStateOf(0) }
         val scrollThreshold = 0
 
         LaunchedEffect(mainScrollState) {
@@ -60,6 +60,8 @@ fun BaseScreen<*, *, *, *>.ScrollAwareFadingHeaderPreservingSpace() {
                 }
             )
         }
+
+
     }
 
 }
