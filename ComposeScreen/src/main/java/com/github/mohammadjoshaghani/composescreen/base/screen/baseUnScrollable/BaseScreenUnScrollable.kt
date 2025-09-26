@@ -9,7 +9,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScre
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable.compose.ContentScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
+import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 
 abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {

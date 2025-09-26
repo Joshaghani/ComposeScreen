@@ -1,0 +1,42 @@
+package com.github.mohammadjoshaghani.composescreen.compose
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
+
+@Composable
+fun UIAnimatedVisibility(function: @Composable () -> Unit) {
+    val screen = Navigator.state.current.value
+    screen ?: return
+
+    if (!screen.showAnimation) {
+        function()
+        return
+    }
+
+
+    val visibleState by screen.isVisibleAnimation.collectAsState()
+
+    AnimatedVisibility(
+        visible = visibleState,
+        enter = slideInHorizontally(
+            animationSpec = tween(durationMillis = screen.animationTime.toInt()) // ورود آرام‌تر
+        ) + fadeIn(
+            animationSpec = tween(durationMillis = screen.animationTime.toInt())
+        ),
+        exit = slideOutHorizontally(
+            animationSpec = tween(durationMillis = screen.animationTime.toInt()) // خروج آرام‌تر
+        ) + fadeOut(
+            animationSpec = tween(durationMillis = screen.animationTime.toInt())
+        )
+    ) {
+        function()
+    }
+}

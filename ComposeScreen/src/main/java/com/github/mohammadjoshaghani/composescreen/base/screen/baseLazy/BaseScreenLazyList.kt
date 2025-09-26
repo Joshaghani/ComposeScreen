@@ -1,9 +1,9 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
@@ -12,7 +12,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyListScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.ContentScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
+import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseScreenLazyList<
@@ -26,13 +26,14 @@ abstract class BaseScreenLazyList<
 
     var warningMessageEmptyList = "لیست خالی می‌باشد!"
 
-    open val verticalGridMinSize = 1
+    open var verticalGridMinSize = 0.dp
 
     var lazyListState: LazyListState? = null
+    var lazyGridState: LazyGridState? = null
 
     val scrollEvents = MutableStateFlow(true)
 
-    private var scrollPositionListScreen = 0
+    var scrollPositionListScreen = 0
 
     var isScrolledNow = MutableStateFlow(false)
 
@@ -45,18 +46,6 @@ abstract class BaseScreenLazyList<
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        val listState = LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
-
-        lazyListState = listState
-
-        LaunchedEffect(listState) {
-            snapshotFlow {
-                listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0
-            }.collect { scrolled ->
-                isScrolledNow.value = scrolled
-            }
-        }
-
         ContentScreen(state)
     }
 

@@ -4,8 +4,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import com.github.mohammadjoshaghani.composescreen.commonCompose.bottomSheet.UIBottomSheet
-import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
+import com.github.mohammadjoshaghani.composescreen.compose.bottomSheet.UIBottomSheet
+import com.github.mohammadjoshaghani.composescreen.compose.dialog.UIAlertDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

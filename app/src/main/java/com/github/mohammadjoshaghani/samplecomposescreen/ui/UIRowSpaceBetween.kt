@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UISpacer
+import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
 
 @Composable
 fun UIRowSpaceBetween(

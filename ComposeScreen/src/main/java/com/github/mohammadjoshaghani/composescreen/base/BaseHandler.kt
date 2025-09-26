@@ -2,8 +2,8 @@ package com.github.mohammadjoshaghani.composescreen.base
 
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
-import com.github.mohammadjoshaghani.composescreen.commonCompose.errorScreen.ErrorScreenMessageModel
-import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.errorScreen.ErrorScreenMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
 
 
 interface BaseHandler<VM : BaseViewModel<*, *, Effect>, Effect : ViewSideEffect, Event: ViewEvent> {

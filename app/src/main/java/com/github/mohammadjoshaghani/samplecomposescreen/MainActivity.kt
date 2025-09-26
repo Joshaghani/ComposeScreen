@@ -11,8 +11,8 @@ import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
-import com.github.mohammadjoshaghani.composescreen.commonCompose.errorScreen.ErrorScreenMessageModel
-import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.errorScreen.ErrorScreenMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
 import com.github.mohammadjoshaghani.composescreen.utils.Config
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.SampleComposeScreenTheme
 
@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
                 ComposeScreen(
                     MainScreen(),
                     config = Config(
-                        appIconId = R.drawable.ic_launcher_background,
                         color = darkColorScheme(),
                         isDarkTheme = true,
                         errorScreen = { message, retryClick ->

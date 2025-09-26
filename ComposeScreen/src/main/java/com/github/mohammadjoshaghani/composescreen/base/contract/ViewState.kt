@@ -1,7 +1,7 @@
 package com.github.mohammadjoshaghani.composescreen.base.contract
 
-import com.github.mohammadjoshaghani.composescreen.commonCompose.errorScreen.ErrorScreenMessageModel
-import com.github.mohammadjoshaghani.composescreen.commonCompose.toast.ToastMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.errorScreen.ErrorScreenMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
 
 
 interface ViewState<Event : ViewEvent> {

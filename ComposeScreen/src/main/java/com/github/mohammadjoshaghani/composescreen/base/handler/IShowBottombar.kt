@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 interface IShowBottombar {
     @Composable
-    fun BottomBarView()
+    fun  BottomBarView()
 }

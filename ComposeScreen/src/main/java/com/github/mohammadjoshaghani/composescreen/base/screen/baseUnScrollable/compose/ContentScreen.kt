@@ -12,7 +12,7 @@ import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
 
 @Composable
-fun BaseScreenUnScrollable<*,*,*,*>.ContentScreen() {
+fun BaseScreenUnScrollable<*, *, *, *>.ContentScreen() {
     BoxWithConstraints {
         LaunchedEffect(this.maxWidth, maxHeight) {
             val width = maxWidth
@@ -28,9 +28,7 @@ fun BaseScreenUnScrollable<*,*,*,*>.ContentScreen() {
             }
 
             WindowWidthSizeClass.Medium -> {
-                MediumUI {
-                    CompactUI(maxHeight)
-                }
+                CompactUI(maxHeight)
             }
 
             WindowWidthSizeClass.Expanded -> {

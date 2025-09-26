@@ -36,8 +36,8 @@ class SecondScreen :
 
     }
 
-    override fun titleTopBar(): String {
-        return "Second"
+    override fun titleTopBar(): IShowTopbar.UiTitle {
+        return IShowTopbar.UiTitle.TextResult("Second")
     }
 
 

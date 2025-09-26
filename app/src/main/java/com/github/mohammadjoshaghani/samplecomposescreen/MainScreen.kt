@@ -22,8 +22,8 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
-import com.github.mohammadjoshaghani.composescreen.commonCompose.clickableIcon.IClickableIconModel
-import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.NavigationItem
+import com.github.mohammadjoshaghani.composescreen.compose.component.clickableIcon.IClickableIconModel
+import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIBorderCard
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIRowSpaceBetween
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
@@ -54,7 +54,7 @@ class MainScreen :
 
     }
 
-    override fun menuIconTopBar(): IClickableIconModel? {
+    override fun menuIconTopBar(): IClickableIconModel {
         return IClickableIconModel.ClickableIconVectorModel(
             Icons.Rounded.Menu,
             onIconPressed = {

@@ -24,8 +24,8 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializ
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
-import com.github.mohammadjoshaghani.composescreen.commonCompose.bottomSheet.UIBottomSheet
-import com.github.mohammadjoshaghani.composescreen.commonCompose.dialog.UIAlertDialog
+import com.github.mohammadjoshaghani.composescreen.compose.bottomSheet.UIBottomSheet
+import com.github.mohammadjoshaghani.composescreen.compose.dialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -105,7 +105,9 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
         ScreenSideEffects(
             state = viewModel.viewState.value,
-            clearToast = { viewModel.viewState.value.toastMessage = null }
+            clearToast = {
+                viewModel.viewState.value.toastMessage = null
+            }
         )
 
         // اگر این صفحه Sticky دارد، گیت سایز را اعمال کن
@@ -144,21 +146,6 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         }
     }
 
-    @Composable
-    fun MediumUI(compactUI: @Composable () -> Unit) {
-        Row(Modifier.fillMaxSize()) {
-            Column {
-                StickySpacer()
-                AwareHeaderSpacer(showAwareHeader.value, heightAwareFaideHeader.value)
-                StartedExpandedUI()
-            }
-            Column(
-                Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            ) { compactUI() }
-        }
-    }
 
     @Composable
     open fun StartedExpandedUI() {
@@ -172,8 +159,8 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     @Composable
     private fun ShowLoadingIndicator() {
         Box(
-            modifier = Modifier.Companion.fillMaxSize(),
-            contentAlignment = Alignment.Companion.Center
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
@@ -201,8 +188,8 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
     private fun cleanupResources() {
-        UIBottomSheet.Companion.getBottomSheet()?.hide()
-        UIAlertDialog.Companion.getDialog()?.dismiss()
+        UIBottomSheet.getBottomSheet()?.hide()
+        UIAlertDialog.getDialog()?.dismiss()
     }
 
     open fun onPause() {
@@ -221,12 +208,12 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
         return when {
             backFromDialog -> {
-                UIAlertDialog.Companion.getDialog()?.dismiss()
+                UIAlertDialog.getDialog()?.dismiss()
                 Navigator.pop()
             }
 
-            UIAlertDialog.Companion.isShow() -> {
-                UIAlertDialog.Companion.getDialog()?.dismiss()
+            UIAlertDialog.isShow() -> {
+                UIAlertDialog.getDialog()?.dismiss()
                 true
             }
 

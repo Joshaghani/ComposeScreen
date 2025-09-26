@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
+import com.github.mohammadjoshaghani.composescreen.compose.UIRefreshableContent
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 import kotlinx.coroutines.delay
 
@@ -27,7 +27,7 @@ fun <State : ViewState<Event>, Event : ViewEvent>
 
             // یک فریم صبر کن تا استیکی یا فید هدر ساخته بشن
             LaunchedEffect(Unit) {
-               delay(16)
+                delay(16)
                 showItem = true
             }
 
@@ -40,9 +40,7 @@ fun <State : ViewState<Event>, Event : ViewEvent>
                     }
 
                     WindowWidthSizeClass.Medium -> {
-                        MediumUI {
-                            CompactUI(state)
-                        }
+                        CompactUI(state)
                     }
 
                     WindowWidthSizeClass.Expanded -> {

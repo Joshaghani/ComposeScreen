@@ -1,6 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.base.handler
 
-import com.github.mohammadjoshaghani.composescreen.commonCompose.navigationRail.NavigationItem
+import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
 
 interface IShowNavigationSideBar {
 

@@ -4,7 +4,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 
 data class Config(
-    var appIconId: Int,
     var color: ColorScheme,
     var isDarkTheme: Boolean = false,
     var isRtl: Boolean = true,

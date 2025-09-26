@@ -2,7 +2,7 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen
 
 import androidx.compose.runtime.Composable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IActiveSwipeBackHandler
-import com.github.mohammadjoshaghani.composescreen.commonCompose.SwipeToGoBackWrapper
+import com.github.mohammadjoshaghani.composescreen.compose.SwipeToGoBackWrapper
 
 @Composable
 fun WithSwipeBackIfNeeded(

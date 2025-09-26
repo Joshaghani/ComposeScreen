@@ -8,8 +8,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIRefreshableContent
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIStickyHeader
+import com.github.mohammadjoshaghani.composescreen.compose.UIRefreshableContent
+import com.github.mohammadjoshaghani.composescreen.compose.UIStickyHeader
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
 @Composable
@@ -27,9 +27,7 @@ fun BaseScreen<*, *, *, *>.ContentScreen() {
                 }
 
                 WindowWidthSizeClass.Medium -> {
-                    MediumUI {
-                        CompactUI()
-                    }
+                    CompactUI()
                 }
 
                 WindowWidthSizeClass.Expanded -> {

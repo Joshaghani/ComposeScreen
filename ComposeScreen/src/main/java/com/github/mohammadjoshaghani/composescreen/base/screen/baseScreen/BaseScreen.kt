@@ -15,7 +15,7 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.compose.ContentScreen
-import com.github.mohammadjoshaghani.composescreen.commonCompose.UIAnimatedVisibility
+import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
@@ -37,7 +37,7 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        val scrollState = rememberScrollState(scrollPositionBaseScreen.intValue)
+        val scrollState = rememberScrollState(scrollPositionBaseScreen.value)
         mainScrollState = scrollState
 
         LaunchedEffect(scrollState) {
