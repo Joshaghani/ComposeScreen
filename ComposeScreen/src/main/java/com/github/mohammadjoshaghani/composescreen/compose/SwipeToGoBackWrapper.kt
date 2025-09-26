@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.LayoutDirection
@@ -22,6 +22,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
+import com.github.mohammadjoshaghani.composescreen.compose.component.UIIcon
 
 @Composable
 fun SwipeToGoBackWrapper(
@@ -44,7 +45,6 @@ fun SwipeToGoBackWrapper(
             .pointerInput(layoutDirection) {
                 detectHorizontalDragGestures(
                     onDragStart = {
-                        totalDrag = 0f
                         showIcon = false
                     },
                     onHorizontalDrag = { change, dragAmount ->
@@ -75,9 +75,8 @@ fun SwipeToGoBackWrapper(
     ) {
         content()
 
-        Icon(
+        UIIcon(
             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-            contentDescription = "Back",
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .offset(x = iconOffset)

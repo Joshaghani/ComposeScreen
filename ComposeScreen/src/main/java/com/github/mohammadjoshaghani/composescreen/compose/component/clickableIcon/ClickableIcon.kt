@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.compose.component.UIBorderButton
 import com.github.mohammadjoshaghani.composescreen.compose.component.UIBorderButtonVector
 import com.github.mohammadjoshaghani.composescreen.compose.component.UITextButton
+import com.github.mohammadjoshaghani.composescreen.compose.component.UITextButtonVector
 import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
 
 @Composable
@@ -170,7 +172,7 @@ fun IconBox(
     modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
-    doTooltipHaveBorder: Boolean = true,
+    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -178,7 +180,7 @@ fun IconBox(
     if (title == null) {
 
         TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
             tooltip = {
                 tooltip?.let {
                     PlainTooltip {
@@ -208,7 +210,7 @@ fun IconBox(
             title,
             icon,
             modifier,
-            doTooltipHaveBorder,
+            doesButtonHaveBorder,
             tint,
             contentDescription,
             onClick
@@ -223,7 +225,7 @@ fun IconBox(
     modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
-    doTooltipHaveBorder: Boolean = true,
+    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -231,7 +233,7 @@ fun IconBox(
     if (title == null) {
 
         TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
             tooltip = {
                 tooltip?.let {
                     PlainTooltip {
@@ -261,7 +263,7 @@ fun IconBox(
             title,
             icon,
             modifier,
-            doTooltipHaveBorder,
+            doesButtonHaveBorder,
             tint,
             contentDescription,
             onClick
@@ -275,13 +277,13 @@ fun IconButtonMenu(
     title: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    doTooltipHaveBorder: Boolean = true,
+    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
 ) {
 
-    if (doTooltipHaveBorder) {
+    if (doesButtonHaveBorder) {
         UIBorderButtonVector(
             title = title,
             modifier = modifier,
@@ -290,7 +292,7 @@ fun IconButtonMenu(
             textColor = tint,
         )
     } else {
-        UITextButton(
+        UITextButtonVector(
             title = title,
             modifier = modifier,
             leftIconVector = icon,
@@ -306,12 +308,12 @@ fun IconButtonMenu(
     title: String,
     icon: Int,
     modifier: Modifier = Modifier,
-    doTooltipHaveBorder: Boolean = true,
+    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
 ) {
-    if (doTooltipHaveBorder) {
+    if (doesButtonHaveBorder) {
         UIBorderButton(
             title = title,
             modifier = modifier,

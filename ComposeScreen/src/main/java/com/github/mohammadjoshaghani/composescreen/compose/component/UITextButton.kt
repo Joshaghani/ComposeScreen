@@ -39,7 +39,6 @@ fun UITextButton(
                 clickable()
             }
             .padding(horizontal = paddingHorizontal.dp),
-
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -66,9 +65,8 @@ fun UITextButton(
     }
 }
 
-
 @Composable
-fun UITextButton(
+fun UITextButtonVector(
     title: String,
     modifier: Modifier = Modifier,
     enable: Boolean = true,

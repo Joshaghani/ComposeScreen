@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library") version "8.12.0"
-    id("org.jetbrains.kotlin.android") version "2.2.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
+    id("com.android.library") version "8.13.0"
+    id("org.jetbrains.kotlin.android") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
     id("maven-publish")
 }
 
@@ -26,11 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -41,15 +38,17 @@ android {
 
 dependencies {
     //noinspection UseTomlInstead
-    implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.compose.material3:material3:1.4.0")
     // viewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
     // stickyHeader in BaseScreenLazyList
-    implementation("androidx.compose.foundation:foundation:1.8.3")
+    implementation("androidx.compose.foundation:foundation:1.9.2")
     // BackHandler
-    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.activity:activity-compose:1.11.0")
     // window size class
-    api("androidx.compose.material3:material3-window-size-class-android:1.3.2")
+    api("androidx.compose.material3:material3-window-size-class-android:1.4.0")
+
+    implementation(libs.androidx.compose.material.icons.extended)
 }
 
 publishing {
