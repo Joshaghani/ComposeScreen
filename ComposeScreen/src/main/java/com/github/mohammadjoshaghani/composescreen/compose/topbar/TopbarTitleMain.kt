@@ -75,7 +75,7 @@ fun ShowTitleMain(scrollBehavior: TopAppBarScrollBehavior, isScrolled: Boolean) 
                             }
                         }
                     }
-                    val last = screen.actionIconsTopBar().last()
+                    val last = screen.actionIconsTopBar().lastOrNull()
 
                     if (last is IClickableIconModel.ClickableIconModel) {
                         if (last.title != null && last.doesButtonHaveBorder) {
