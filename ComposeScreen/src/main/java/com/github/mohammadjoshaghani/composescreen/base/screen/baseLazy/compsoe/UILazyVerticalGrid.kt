@@ -12,11 +12,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowFab
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderItemsIndexed
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderLoadMore
 import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
+import com.github.mohammadjoshaghani.composescreen.compose.topbar.TopBar
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *, *>.UILazyVerticalGrid(
@@ -29,9 +30,9 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
 
     LaunchedEffect(listState) {
         snapshotFlow {
-            listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0
-        }.collect { scrolled ->
-            isScrolledNow.value = scrolled
+            listState.firstVisibleItemScrollOffset > 1
+        }.distinctUntilChanged().collect { lifted ->
+            TopBar.isLifted.value = lifted
         }
     }
 
@@ -42,7 +43,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
     ) {
 
         item(span = { GridItemSpan(maxLineSpan) }) {
-            Spacer(modifier = Modifier.height(stickyState.stickyHeaderHeight))
+            Spacer(modifier = Modifier.height(stickyHeaderHeight.value))
             Spacer(Modifier.height(heightAwareFaideHeader.value))
         }
 
@@ -55,7 +56,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
             item { EmptyListUI(state) }
         } else {
             renderItemsIndexed(list) { index, item ->
-                ItemUI(index, item)
+                ItemUI(state, index, item)
             }
         }
         renderLoadMore(list, lazyGridState!!, this@UILazyVerticalGrid)
@@ -64,7 +65,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
             FooterUI(state)
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
-            UISpacer(if (this@UILazyVerticalGrid is IShowFab) 150 else 50)
+            UISpacer(if (this@UILazyVerticalGrid.iconFab() != null) 150 else 50)
         }
     }
 

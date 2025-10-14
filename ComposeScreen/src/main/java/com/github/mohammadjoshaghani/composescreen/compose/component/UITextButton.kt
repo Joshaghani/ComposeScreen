@@ -16,14 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
-
+import com.github.mohammadjoshaghani.composescreen.extension.themeClickable
 
 @Composable
 fun UITextButton(
     title: String,
-    modifier: Modifier = Modifier,
     enable: Boolean = true,
+    modifier: Modifier = Modifier,
     paddingHorizontal: Int = 16,
     textColor: Color = MaterialTheme.colorScheme.primary,
     leftIcon: Int? = null,
@@ -35,10 +34,11 @@ fun UITextButton(
         modifier = modifier
             .clipToBounds()
             .clip(MaterialTheme.shapes.medium)
-            .clickableTheme(enabled = enable) {
+            .themeClickable(enabled = enable) {
                 clickable()
             }
             .padding(horizontal = paddingHorizontal.dp),
+
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -65,11 +65,12 @@ fun UITextButton(
     }
 }
 
+
 @Composable
 fun UITextButtonVector(
     title: String,
-    modifier: Modifier = Modifier,
     enable: Boolean = true,
+    modifier: Modifier = Modifier,
     paddingHorizontal: Int = 16,
     textColor: Color = MaterialTheme.colorScheme.primary,
     leftIconVector: ImageVector? = null,
@@ -81,7 +82,7 @@ fun UITextButtonVector(
         modifier = modifier
             .clipToBounds()
             .clip(MaterialTheme.shapes.medium)
-            .clickableTheme(enabled = enable) {
+            .themeClickable(enabled = enable) {
                 clickable()
             }
             .padding(horizontal = paddingHorizontal.dp),

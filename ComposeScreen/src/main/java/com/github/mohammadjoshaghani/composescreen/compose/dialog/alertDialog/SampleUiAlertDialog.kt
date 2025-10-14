@@ -1,4 +1,4 @@
-package com.github.mohammadjoshaghani.composescreen.compose.dialog.compose
+package com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
-import com.github.mohammadjoshaghani.composescreen.compose.dialog.UIAlertDialog
+import com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.compose.toast.UIToastNotification
-import com.github.mohammadjoshaghani.composescreen.extension.clickableWitoutHighlight
+import com.github.mohammadjoshaghani.composescreen.extension.noRippleClickable
 
 
 @Composable
@@ -35,7 +35,7 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .clickableWitoutHighlight {
+            .noRippleClickable {
                 if (setCanceledOnTouchOutside) {
                     dismiss()
                 }
@@ -49,7 +49,7 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(
-                modifier = Modifier.widthIn(max = 300.dp),
+                modifier = Modifier.noRippleClickable {}.widthIn(max = 300.dp),
                 colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -84,8 +84,7 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                     ) {
                         buttonCancelTitle?.let {
                             TextButton(
-                                modifier = Modifier
-                                    .weight(1f),
+                                modifier = Modifier.weight(1f),
                                 onClick = {
                                     dismiss()
                                     buttonCancelBlock?.invoke()
@@ -126,7 +125,6 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                                 )
                             }
 
-
                         }
                     }
                 }
@@ -135,4 +133,5 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
 
         UIToastNotification()
     }
+
 }

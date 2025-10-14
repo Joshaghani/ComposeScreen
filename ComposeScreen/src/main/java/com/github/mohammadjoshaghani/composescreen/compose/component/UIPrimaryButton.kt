@@ -91,7 +91,7 @@ fun UIPrimaryButtonVector(
     textColor: Color = White,
     color: Color = MaterialTheme.colorScheme.primary,
     tint: Color = MaterialTheme.colorScheme.onPrimary,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = ButtonDefaults.shape,
     onClick: () -> Unit,
 ) {
     Button(

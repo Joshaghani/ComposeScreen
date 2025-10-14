@@ -24,7 +24,7 @@ fun BaseScreen<*, *, *, *>.CompactUI() {
 
 
         if (this@CompactUI is IShowStickyHeader) {
-            Spacer(Modifier.height(stickyState.stickyHeaderHeight))
+            Spacer(Modifier.height(stickyHeaderHeight.value))
         }
 
 

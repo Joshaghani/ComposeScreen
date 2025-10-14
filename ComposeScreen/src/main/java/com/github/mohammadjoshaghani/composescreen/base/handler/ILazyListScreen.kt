@@ -15,7 +15,7 @@ interface ILazyListScreen<State : ViewState<Event>, Event : ViewEvent> {
     fun getItemsList(state: State): MutableList<IIdentifiable>
 
     @Composable
-    fun ItemUI(index: Int, item: Any)
+    fun ItemUI(state: State, index: Int, item: Any)
 
     @Composable
     fun FooterUI(state: State) {

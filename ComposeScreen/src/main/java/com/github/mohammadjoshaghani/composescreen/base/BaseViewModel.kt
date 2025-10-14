@@ -63,7 +63,4 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
         launchOnScope { _effect.send(effectValue) }
     }
 
-
-    open fun getResult(updatedData: List<Any>) {}
-
 }

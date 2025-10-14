@@ -1,19 +1,19 @@
 package com.github.mohammadjoshaghani.composescreen.base.navigation
 
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
 import kotlinx.coroutines.MainScope
 
 object Navigator {
 
-    private val backStack = BackStack<RootScreen<*, *, *, *>>()
-    private val forwardStack = ArrayDeque<RootScreen<*, *, *, *>>()
+    private val backStack = BackStack<IRootScreen>()
+    private val forwardStack = ArrayDeque<IRootScreen>()
 
     private val lifecycle = LifecycleOrchestrator
     private val transitions = TransitionManager(scope = MainScope())
 
     val state = NavigatorState()
 
-    fun push(screen: RootScreen<*, *, *, *>) {
+    fun push(screen: IRootScreen) {
         current()?.onPause()
         // هر بار صفحه جدید باز می‌کنیم، forward دیگه معنایی نداره
         forwardStack.clear()
@@ -23,7 +23,7 @@ object Navigator {
         lifecycle.onAdded(screen)  // onStart + onResume
     }
 
-    fun replace(screen: RootScreen<*, *, *, *>) {
+    fun replace(screen: IRootScreen) {
         current()?.let {
             lifecycle.onRemoved(it) // onPause + onDestroy
             backStack.pop()

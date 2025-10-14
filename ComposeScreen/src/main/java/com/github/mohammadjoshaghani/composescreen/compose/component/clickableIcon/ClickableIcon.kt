@@ -12,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
@@ -28,16 +27,16 @@ import com.github.mohammadjoshaghani.composescreen.compose.component.UIBorderBut
 import com.github.mohammadjoshaghani.composescreen.compose.component.UIBorderButtonVector
 import com.github.mohammadjoshaghani.composescreen.compose.component.UITextButton
 import com.github.mohammadjoshaghani.composescreen.compose.component.UITextButtonVector
-import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
+import com.github.mohammadjoshaghani.composescreen.extension.themeClickable
 
 @Composable
 fun ClickableIcon(
     icon: ImageVector,
-    modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
     doesButtonHaveBorder: Boolean = true,
     badgeCount: Int? = null,
+    modifier: Modifier = Modifier,
     contentDescription: String? = null,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     onClick: () -> Unit,
@@ -47,10 +46,10 @@ fun ClickableIcon(
         null -> {
             IconBox(
                 icon,
-                modifier,
                 title,
                 tooltip,
                 doesButtonHaveBorder,
+                modifier,
                 tint,
                 contentDescription,
                 onClick
@@ -63,10 +62,10 @@ fun ClickableIcon(
             ) {
                 IconBox(
                     icon,
-                    modifier,
                     title,
                     tooltip,
                     doesButtonHaveBorder,
+                    modifier,
                     tint,
                     contentDescription,
                     onClick
@@ -84,10 +83,10 @@ fun ClickableIcon(
             ) {
                 IconBox(
                     icon,
-                    modifier,
                     title,
                     tooltip,
                     doesButtonHaveBorder,
+                    modifier,
                     tint,
                     contentDescription,
                     onClick
@@ -101,11 +100,11 @@ fun ClickableIcon(
 @Composable
 fun ClickableIcon(
     icon: Int,
-    modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
     doesButtonHaveBorder: Boolean = true,
     badgeCount: Int? = null,
+    modifier: Modifier = Modifier,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -115,10 +114,10 @@ fun ClickableIcon(
         null -> {
             IconBox(
                 icon,
-                modifier,
                 title,
                 tooltip,
                 doesButtonHaveBorder,
+                modifier,
                 tint,
                 contentDescription,
                 onClick
@@ -131,10 +130,10 @@ fun ClickableIcon(
             ) {
                 IconBox(
                     icon,
-                    modifier,
                     title,
                     tooltip,
                     doesButtonHaveBorder,
+                    modifier,
                     tint,
                     contentDescription,
                     onClick
@@ -152,10 +151,10 @@ fun ClickableIcon(
             ) {
                 IconBox(
                     icon,
-                    modifier,
                     title,
                     tooltip,
                     doesButtonHaveBorder,
+                    modifier,
                     tint,
                     contentDescription,
                     onClick
@@ -169,10 +168,10 @@ fun ClickableIcon(
 @Composable
 fun IconBox(
     icon: Int,
-    modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
     doesButtonHaveBorder: Boolean = true,
+    modifier: Modifier = Modifier,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -180,7 +179,7 @@ fun IconBox(
     if (title == null) {
 
         TooltipBox(
-            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
             tooltip = {
                 tooltip?.let {
                     PlainTooltip {
@@ -194,7 +193,7 @@ fun IconBox(
                 modifier = modifier
                     .size(56.dp)
                     .clip(CircleShape)
-                    .clickableTheme(onClick = onClick),
+                    .themeClickable(onClick = onClick),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -208,9 +207,9 @@ fun IconBox(
     } else {
         IconButtonMenu(
             title,
+            doesButtonHaveBorder,
             icon,
             modifier,
-            doesButtonHaveBorder,
             tint,
             contentDescription,
             onClick
@@ -222,10 +221,10 @@ fun IconBox(
 @Composable
 fun IconBox(
     icon: ImageVector,
-    modifier: Modifier = Modifier,
     title: String? = null,
     tooltip: String? = null,
     doesButtonHaveBorder: Boolean = true,
+    modifier: Modifier = Modifier,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -233,7 +232,7 @@ fun IconBox(
     if (title == null) {
 
         TooltipBox(
-            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
             tooltip = {
                 tooltip?.let {
                     PlainTooltip {
@@ -247,7 +246,7 @@ fun IconBox(
                 modifier = modifier
                     .size(56.dp)
                     .clip(CircleShape)
-                    .clickableTheme(onClick = onClick),
+                    .themeClickable(onClick = onClick),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -261,9 +260,9 @@ fun IconBox(
     } else {
         IconButtonMenu(
             title,
+            doesButtonHaveBorder,
             icon,
             modifier,
-            doesButtonHaveBorder,
             tint,
             contentDescription,
             onClick
@@ -275,9 +274,9 @@ fun IconBox(
 @Composable
 fun IconButtonMenu(
     title: String,
+    doesButtonHaveBorder: Boolean = true,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -297,6 +296,7 @@ fun IconButtonMenu(
             modifier = modifier,
             leftIconVector = icon,
             clickable = onClick,
+            textColor = tint,
         )
     }
 
@@ -306,9 +306,9 @@ fun IconButtonMenu(
 @Composable
 fun IconButtonMenu(
     title: String,
+    doesButtonHaveBorder: Boolean = true,
     icon: Int,
     modifier: Modifier = Modifier,
-    doesButtonHaveBorder: Boolean = true,
     tint: Color = MaterialTheme.colorScheme.onSurface,
     contentDescription: String? = null,
     onClick: () -> Unit,
@@ -327,6 +327,7 @@ fun IconButtonMenu(
             modifier = modifier,
             leftIcon = icon,
             clickable = onClick,
+            textColor = tint,
         )
     }
 

@@ -1,12 +1,14 @@
 package com.github.mohammadjoshaghani.composescreen.base.navigation
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
-import kotlinx.coroutines.*
+import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TransitionManager(
     private val scope: CoroutineScope
 ) {
     fun popWithAnimation(
-        current: RootScreen<*, *, *, *>,
+        current: IRootScreen,
         delayMs: Long,
         after: () -> Unit
     ) {

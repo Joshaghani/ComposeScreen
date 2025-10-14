@@ -16,7 +16,7 @@ import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAware
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.MeasureHeight
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.MeasureHeight
 
 @Composable
 fun UIScrollAwareFading(
@@ -47,7 +47,7 @@ fun UIScrollAwareFading(
         ) {
             Column {
                 screen.RunIfShowSticky {
-                    Spacer(Modifier.height(screen.stickyState.stickyHeaderHeight))
+                    Spacer(Modifier.height(screen.stickyHeaderHeight.value))
                 }
 
                 MeasureHeight(onHeightChanged = { h ->

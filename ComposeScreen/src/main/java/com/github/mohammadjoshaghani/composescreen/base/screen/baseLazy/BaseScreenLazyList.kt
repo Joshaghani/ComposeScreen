@@ -35,7 +35,6 @@ abstract class BaseScreenLazyList<
 
     var scrollPositionListScreen = 0
 
-    var isScrolledNow = MutableStateFlow(false)
 
     @Composable
     override fun ShowScreenFromApp() {

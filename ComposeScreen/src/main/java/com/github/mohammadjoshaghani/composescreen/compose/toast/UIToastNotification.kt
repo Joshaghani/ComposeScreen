@@ -12,6 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Message
+import androidx.compose.material.icons.rounded.Error
+import androidx.compose.material.icons.rounded.Event
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,9 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.github.mohammadjoshaghani.composescreen.R
+import com.github.mohammadjoshaghani.composescreen.app.ProvideLayoutDirection
 import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -51,7 +55,8 @@ fun UIToastNotification() {
     }
 
     AnimatedVisibility(
-        modifier = Modifier.testTag("ToastAnimatedVisibility"),
+        modifier = Modifier
+            .testTag("ToastAnimatedVisibility"),
         visible = isshowToast,
         enter = slideInVertically(
             initialOffsetY = { -it }
@@ -70,10 +75,10 @@ fun UIToastNotification() {
             }
 
             val drawable = when (state) {
-                ToastState.ERROR -> R.drawable.ic_warning
-                ToastState.WARNING -> R.drawable.ic_law
-                ToastState.SUCCESS -> R.drawable.ic_shield_tick
-                ToastState.MESSAGE -> R.drawable.ic_info_circle
+                ToastState.ERROR -> Icons.Rounded.Error
+                ToastState.WARNING -> Icons.Rounded.Warning
+                ToastState.SUCCESS -> Icons.Rounded.Event
+                ToastState.MESSAGE -> Icons.AutoMirrored.Rounded.Message
             }
 
             val message = message
@@ -95,36 +100,38 @@ fun UIToastNotification() {
                     shape = MaterialTheme.shapes.medium
 
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .heightIn(min = 60.dp)
-                            .clip(MaterialTheme.shapes.medium)
-                            .background(MaterialTheme.colorScheme.background)
-                            .border(
-                                1.dp,
-                                textColor,
-                                MaterialTheme.shapes.medium
-                            ),
+                    ProvideLayoutDirection {
+                        Row(
+                            modifier = Modifier
+                                .heightIn(min = 60.dp)
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.background)
+                                .border(
+                                    1.dp,
+                                    textColor,
+                                    MaterialTheme.shapes.medium
+                                ),
 
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
 
-                        UISpacer(16)
+                            UISpacer(16)
 
-                        Text(message)
+                            Icon(
+                                imageVector = drawable,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                                tint = textColor
+                            )
 
-                        UISpacer(8)
+                            UISpacer(8)
 
-                        Icon(
-                            painter = painterResource(drawable),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                            tint = textColor
-                        )
+                            Text(message)
 
-                        UISpacer(16)
+                            UISpacer(16)
 
+                        }
                     }
                 }
             }

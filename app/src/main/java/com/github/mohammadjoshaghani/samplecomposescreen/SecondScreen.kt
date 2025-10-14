@@ -6,8 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbar
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
+import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
 
 class SecondScreen :
@@ -15,8 +15,7 @@ class SecondScreen :
             MainScreenContract.State,
             MainScreenContract.Event,
             MainScreenContract.Effect,
-            MainScreenViewModel>(),
-    IShowTopbar {
+            MainScreenViewModel>() {
 
     override val viewModel: MainScreenViewModel = MainScreenViewModel()
 
@@ -36,8 +35,8 @@ class SecondScreen :
 
     }
 
-    override fun titleTopBar(): IShowTopbar.UiTitle {
-        return IShowTopbar.UiTitle.TextResult("Second")
+    override fun titleTopBar(): UITopBar.Text {
+        return UITopBar.Text("Second")
     }
 
 

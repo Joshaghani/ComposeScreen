@@ -32,12 +32,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
-import com.github.mohammadjoshaghani.composescreen.extension.clickableTheme
+import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
+import com.github.mohammadjoshaghani.composescreen.extension.themeClickable
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
-class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
+class NavigationSideBar(val startScreen: IRootScreen) {
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
@@ -78,7 +78,7 @@ class NavigationSideBar(val startScreen: RootScreen<*, *, *, *>) {
                             contentDescription = null,
                             modifier = Modifier
                                 .clip(MaterialTheme.shapes.large)
-                                .clickableTheme {
+                                .themeClickable {
                                     selectedItemIndex = index
                                     item.onIconClicked()
                                 }

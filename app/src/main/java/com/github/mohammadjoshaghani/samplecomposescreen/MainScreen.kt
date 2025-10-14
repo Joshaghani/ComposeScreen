@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
-import com.github.mohammadjoshaghani.composescreen.base.handler.IShowTopbarMain
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.compose.component.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
@@ -31,7 +30,6 @@ import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
 class MainScreen :
     BaseScreenLazyList<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect, MainScreenViewModel>(),
     IShowNavigationSideBar,
-    IShowTopbarMain,
 //    IShowScrollAwareFadingHeader,
 //    IShowStickyHeader,
     IClearStackScreen {
@@ -54,14 +52,7 @@ class MainScreen :
 
     }
 
-    override fun menuIconTopBar(): IClickableIconModel {
-        return IClickableIconModel.ClickableIconVectorModel(
-            Icons.Rounded.Menu,
-            onIconPressed = {
-                SecondScreen().show()
-            }
-        )
-    }
+
 
     override fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()
@@ -243,7 +234,7 @@ class MainScreen :
     ) : IIdentifiable
 
     @Composable
-    override fun ItemUI(index: Int, item: Any) {
+    override fun ItemUI(state: MainScreenContract.State, index: Int, item: Any) {
         UIBorderCard(
             backgroundColor = colorTheme.background,
             modifier = Modifier.padding(horizontal = 16.dp)

@@ -3,29 +3,30 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
+import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 
 
 @Composable
-fun RootScreen<*, *, *, *>.RunIfShowSticky(
+fun IRootScreen.RunIfShowSticky(
     isNotStickyHeader: (@Composable IShowStickyHeader.() -> Unit) = { },
     content: @Composable IShowStickyHeader.() -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        if (stickyState.hasStickyHeader.collectAsState().value) {
+        if (hasStickyHeader.collectAsState().value) {
             content()
         } else {
-            isNotStickyHeader
+            isNotStickyHeader()
         }
     }
 }
 
 @Composable
-fun RootScreen<*, *, *, *>.RunIfShowStickyBoolean(
+fun IRootScreen.RunIfShowStickyBoolean(
     content: @Composable (Boolean) -> Unit,
 ) {
     if (this is IShowStickyHeader) {
-        content(stickyState.hasStickyHeader.collectAsState().value)
+        content(hasStickyHeader.collectAsState().value)
     }
 }
 

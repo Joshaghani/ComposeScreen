@@ -1,23 +1,28 @@
 package com.github.mohammadjoshaghani.composescreen.compose.fab
 
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.res.painterResource
+import com.github.mohammadjoshaghani.composescreen.compose.component.UIIcon
 
 @Composable
-internal fun SimpleFab(iconId: Int, onClick: () -> Unit) {
+internal fun SimpleFab(fabIconModel: FabIconModel) {
     FloatingActionButton(
         containerColor = MaterialTheme.colorScheme.primary,
-        onClick = onClick
+        onClick = fabIconModel.onFabPressed
     ) {
-        Icon(
-            painter = painterResource(iconId),
-            contentDescription = null,
-            tint = White
-        )
+        if (fabIconModel.iconResource != null) {
+            UIIcon(
+                fabIconModel.iconResource,
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+        } else if (fabIconModel.iconVector != null) {
+            UIIcon(
+                fabIconModel.iconVector,
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+
     }
 }
 

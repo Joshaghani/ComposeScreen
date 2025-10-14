@@ -1,4 +1,4 @@
-package com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen
+package com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose
 
 import androidx.compose.runtime.Composable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IActiveSwipeBackHandler

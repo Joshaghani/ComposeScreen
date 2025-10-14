@@ -13,10 +13,11 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.compose.ContentScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.github.mohammadjoshaghani.composescreen.compose.topbar.TopBar
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
@@ -24,7 +25,6 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     private var scrollPositionBaseScreen = mutableIntStateOf(0)
 
-    var isScrolledNow = MutableStateFlow(false)
 
     var maxHeight: Dp = 0.dp
 
@@ -43,9 +43,8 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         LaunchedEffect(scrollState) {
             snapshotFlow {
                 scrollState.value > 0
-            }.collect { scrolled ->
-                isScrolledNow.value = scrolled
-                println(scrolled)
+            }.distinctUntilChanged().collect { lifted ->
+                TopBar.isLifted.value = lifted
             }
         }
 
