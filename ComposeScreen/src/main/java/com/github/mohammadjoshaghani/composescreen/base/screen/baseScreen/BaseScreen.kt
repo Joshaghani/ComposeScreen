@@ -6,8 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
@@ -24,9 +22,6 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     var mainScrollState: ScrollState? = null
 
     private var scrollPositionBaseScreen = mutableIntStateOf(0)
-
-
-    var maxHeight: Dp = 0.dp
 
     @Composable
     override fun ShowScreenFromApp() {

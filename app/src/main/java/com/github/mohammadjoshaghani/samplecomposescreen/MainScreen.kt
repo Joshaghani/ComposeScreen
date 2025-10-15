@@ -9,9 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,10 +47,17 @@ class MainScreen :
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Compose View", color = colorTheme.onBackground)
+
+            TextField(value = "", onValueChange = {})
+
         }
 
     }
 
+    @Composable
+    override fun BottomBarView() {
+        TextField(value = "", onValueChange = {})
+    }
 
 
     override fun actionIconsTopBar(): List<IClickableIconModel> {

@@ -13,31 +13,26 @@ import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 
 @Composable
 fun BaseScreenUnScrollable<*, *, *, *>.ContentScreen() {
-    BoxWithConstraints {
-        LaunchedEffect(this.maxWidth, maxHeight) {
-            val width = maxWidth
-            val height = maxHeight
-            screenSize.value = ScreenSize(width, height)
-        }
+
 
         val stateSize by WindowSizeBus.windowSizeClass.collectAsState()
 
         when (stateSize) {
             WindowWidthSizeClass.Compact -> {
-                CompactUI(maxHeight)
+                CompactUI()
             }
 
             WindowWidthSizeClass.Medium -> {
-                CompactUI(maxHeight)
+                CompactUI()
             }
 
             WindowWidthSizeClass.Expanded -> {
                 ExpandedUI {
-                    CompactUI(maxHeight)
+                    CompactUI()
                 }
             }
         }
 
-    }
+
 
 }

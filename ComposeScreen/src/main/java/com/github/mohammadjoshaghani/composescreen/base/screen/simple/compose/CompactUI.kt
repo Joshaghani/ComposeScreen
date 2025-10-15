@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.github.mohammadjoshaghani.composescreen.base.screen.simple.BaseSimpleScreen
 
 @Composable
-fun BaseSimpleScreen.CompactUI(maxHeight: Dp) {
+fun BaseSimpleScreen.CompactUI() {
     Column(
         modifier = Modifier.Companion
             .fillMaxSize()
-            .height(maxHeight)
+            .height(screenSize.value.height)
     ) {
         ComposeView()
     }

@@ -6,15 +6,13 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
 
 @Composable
 fun AppContent(startScreen: IRootScreen) {
-
-    RenderScreenContent(startScreen)
-    RenderNotifications()
-
+    AppParentContent {
+        RenderScreenContent(startScreen)
+        RenderNotifications()
+    }
     if (Navigator.state.current.value == null) {
         startScreen.show(animation = false)
     }
-
 }
-
 
 

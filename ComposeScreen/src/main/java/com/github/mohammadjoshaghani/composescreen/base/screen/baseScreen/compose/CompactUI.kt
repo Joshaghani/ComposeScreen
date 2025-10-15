@@ -16,19 +16,16 @@ fun BaseScreen<*, *, *, *>.CompactUI() {
     Column(
         modifier = Modifier.Companion
             .fillMaxSize()
-            .height(this@CompactUI.maxHeight)
+            .height(screenSize.value.height)
             .verticalScroll(mainScrollState!!)
     ) {
 
         Spacer(Modifier.height(heightAwareFaideHeader.value))
 
-
         if (this@CompactUI is IShowStickyHeader) {
             Spacer(Modifier.height(stickyHeaderHeight.value))
         }
 
-
         ComposeView(viewModel.viewState.value)
     }
-
 }

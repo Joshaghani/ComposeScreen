@@ -15,9 +15,7 @@ fun AppLayout(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
-    BoxWithConstraints(
-        modifier = modifier
-    ) {
+    BoxWithConstraints(modifier = modifier) {
         LaunchedEffect(maxWidth, maxHeight) {
             screenSize.value = ScreenSize(maxWidth, maxHeight)
         }

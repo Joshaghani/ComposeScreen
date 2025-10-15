@@ -15,7 +15,6 @@ import com.github.mohammadjoshaghani.composescreen.utils.WindowSizeBus
 @Composable
 fun BaseScreen<*, *, *, *>.ContentScreen() {
     UIRefreshableContent {
-        this@ContentScreen.maxHeight = maxHeight
 
         Box {
 
