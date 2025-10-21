@@ -31,8 +31,6 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
 
     val viewState: State<UiState> = _viewState
 
-    protected val state: UiState = viewState.value
-
     var effect = _effect.receiveAsFlow()
 
     fun launchOnScope(block: suspend CoroutineScope.() -> Unit) {

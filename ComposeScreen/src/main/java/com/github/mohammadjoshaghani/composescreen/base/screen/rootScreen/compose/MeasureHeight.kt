@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun MeasureHeight(
@@ -17,6 +18,9 @@ fun MeasureHeight(
     Box(
         modifier = Modifier.onGloballyPositioned { coordinates ->
             val newHeight = with(density) { coordinates.size.height.toDp() }
+            if (newHeight == 0.dp) {
+                return@onGloballyPositioned
+            }
             onHeightChanged(newHeight)
         }) {
         content(Modifier)
