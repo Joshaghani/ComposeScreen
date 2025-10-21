@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.compose.component.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
@@ -30,7 +32,7 @@ class MainScreen :
     BaseScreenLazyList<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect, MainScreenViewModel>(),
     IShowNavigationSideBar,
 //    IShowScrollAwareFadingHeader,
-//    IShowStickyHeader,
+    IShowStickyHeader,
     IClearStackScreen {
 
     override val viewModel: MainScreenViewModel = MainScreenViewModel()
@@ -250,22 +252,17 @@ class MainScreen :
     }
 
 
-//    @Composable
-//    override fun ComposeStickyView(modifier: Modifier) {
-//        Column(
-//            modifier = modifier
-//                .height(56.dp)
-//                .fillMaxWidth(),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Text("Compose Sticky View", color = colorTheme.onBackground)
-//        }
-//    }
-//
-//
-//    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
-//        return WindowWidthSizeClass.Compact
-//    }
+    @Composable
+    override fun ComposeStickyView(modifier: Modifier) {
+
+        Text("Compose Sticky View", color = colorTheme.onBackground)
+
+    }
+
+
+    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
+        return WindowWidthSizeClass.Compact
+    }
 }
 
 
