@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
@@ -7,15 +8,18 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
-import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable.compose.ContentScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 
 abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     RootScreen<State, Event, Effect, VM>(), IScreenInitializer<State, Event> {
 
+    lateinit var padding: PaddingValues
+
     @Composable
-    override fun ShowScreenFromApp() {
+    override fun ShowScreenFromApp(padding: PaddingValues) {
+        this.padding = padding
         UIAnimatedVisibility {
             super.SetStateComposeScreen(this)
         }

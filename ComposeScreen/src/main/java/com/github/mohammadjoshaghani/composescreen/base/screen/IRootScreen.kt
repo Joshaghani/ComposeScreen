@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.runtime.Composable
@@ -98,7 +99,7 @@ interface IRootScreen {
     }
 
     @Composable
-    fun ShowScreenFromApp()
+    fun ShowScreenFromApp(padding: PaddingValues)
 
     @Composable
     fun BottomBarView()

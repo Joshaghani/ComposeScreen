@@ -1,6 +1,7 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.simple
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,6 +59,7 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
 
     override val stickyHeaderHeight: MutableState<Dp> = mutableStateOf(0.dp)
 
+    lateinit var padding: PaddingValues
 
     override fun show(replace: Boolean, animation: Boolean) {
         this.showAnimation = animation
@@ -74,7 +76,8 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
     }
 
     @Composable
-    override fun ShowScreenFromApp() {
+    override fun ShowScreenFromApp(padding: PaddingValues) {
+        this.padding = padding
         UIAnimatedVisibility {
             WithSwipeBackIfNeeded(this) {
                 StickyHeaderHost {

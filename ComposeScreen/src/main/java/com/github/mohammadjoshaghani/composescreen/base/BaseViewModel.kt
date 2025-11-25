@@ -61,4 +61,7 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
         launchOnScope { _effect.send(effectValue) }
     }
 
+    fun clear() {
+    }
+
 }

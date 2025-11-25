@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -25,7 +25,9 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
     modifier: Modifier = Modifier,
 ) {
 
-    val listState = LazyGridState(firstVisibleItemIndex = scrollPositionListScreen)
+    val listState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = scrollPositionListScreen
+    )
     lazyGridState = listState
 
     LaunchedEffect(listState) {

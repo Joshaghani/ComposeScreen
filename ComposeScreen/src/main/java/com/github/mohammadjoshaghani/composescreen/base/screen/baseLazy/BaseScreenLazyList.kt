@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
@@ -35,9 +36,11 @@ abstract class BaseScreenLazyList<
 
     var scrollPositionListScreen = 0
 
+    lateinit var padding: PaddingValues
 
     @Composable
-    override fun ShowScreenFromApp() {
+    override fun ShowScreenFromApp(padding: PaddingValues) {
+        this.padding = padding
         UIAnimatedVisibility {
             super.SetStateComposeScreen(this@BaseScreenLazyList)
         }

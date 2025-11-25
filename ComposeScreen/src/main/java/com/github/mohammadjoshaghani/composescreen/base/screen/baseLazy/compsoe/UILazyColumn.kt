@@ -3,7 +3,7 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -23,7 +23,9 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
     modifier: Modifier = Modifier,
 ) {
 
-    val listState = LazyListState(firstVisibleItemIndex = scrollPositionListScreen)
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = scrollPositionListScreen
+    )
     lazyListState = listState
 
     LaunchedEffect(listState) {

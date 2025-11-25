@@ -42,9 +42,7 @@ fun RenderScreenContent(startScreen: IRootScreen) {
             NavigationSideBar(startScreen).Show()
 
             AppLayout(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
+                modifier = Modifier.weight(1f).fillMaxHeight()
             ) {
                 Scaffold(
                     floatingActionButton = { UIFab() },
@@ -54,10 +52,7 @@ fun RenderScreenContent(startScreen: IRootScreen) {
                 ) { padding ->
                     Column(
                         modifier = Modifier
-                            .padding(
-                                top = padding.calculateTopPadding(),
-                                bottom = padding.calculateBottomPadding()
-                            )
+                            .padding(top = padding.calculateTopPadding())
                             .fillMaxSize()
                             .background(ApplicationConfig.config.color.background)
                             .noRippleClickable {
@@ -65,14 +60,13 @@ fun RenderScreenContent(startScreen: IRootScreen) {
                             }
                     ) {
                         Navigator.state.current.value?.let { screen ->
-                            screen.ShowScreenFromApp()
+                            screen.ShowScreenFromApp(padding)
                             screen.isVisibleAnimation.value = true
                         }
-                    }
 
+                    }
                 }
             }
-
         }
     }
 

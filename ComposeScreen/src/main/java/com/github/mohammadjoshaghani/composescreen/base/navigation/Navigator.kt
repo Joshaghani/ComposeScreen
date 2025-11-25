@@ -14,7 +14,7 @@ object Navigator {
     val state = NavigatorState()
 
     fun push(screen: IRootScreen) {
-        current()?.onPause()
+        current()?.let { lifecycle.onPause(it) }
         // هر بار صفحه جدید باز می‌کنیم، forward دیگه معنایی نداره
         forwardStack.clear()
 

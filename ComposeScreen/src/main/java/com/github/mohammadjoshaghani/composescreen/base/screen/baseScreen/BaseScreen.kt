@@ -1,6 +1,7 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,10 +24,13 @@ abstract class BaseScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     private var scrollPositionBaseScreen = mutableIntStateOf(0)
 
+    lateinit var padding: PaddingValues
+
     @Composable
-    override fun ShowScreenFromApp() {
+    override fun ShowScreenFromApp(padding: PaddingValues) {
+        this.padding = padding
         UIAnimatedVisibility {
-            super.SetStateComposeScreen(this)
+            super.SetStateComposeScreen(this@BaseScreen)
         }
     }
 

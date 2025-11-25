@@ -254,9 +254,7 @@ class MainScreen :
 
     @Composable
     override fun ComposeStickyView(modifier: Modifier) {
-
         Text("Compose Sticky View", color = colorTheme.onBackground)
-
     }
 
 
