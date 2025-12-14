@@ -31,6 +31,8 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 fun ShowTitle() {
     val screen = Navigator.state.current.value ?: return
 
+    if (screen.titleTopBar() is UITopBar.Noting) return
+
     var isShowStickyHeader by remember { mutableStateOf(false) }
     val elevation by animateDpAsState(
         targetValue = if (isLifted.value) 6.dp else 0.dp,
@@ -41,13 +43,11 @@ fun ShowTitle() {
         isShowStickyHeader = it
     }
 
-
     UIAnimatedVisibility {
         Surface(
             shadowElevation = if (isShowStickyHeader) 0.dp else elevation,
         ) {
             Column {
-
                 TopAppBar(
                     title = {
                         when (val title = screen.titleTopBar()) {
@@ -60,6 +60,7 @@ fun ShowTitle() {
                                     contentAlignment = Alignment.CenterStart
                                 )
                             }
+                            else -> {}
                         }
                     },
                     navigationIcon = {
@@ -121,3 +122,5 @@ fun ShowTitle() {
     }
 
 }
+
+

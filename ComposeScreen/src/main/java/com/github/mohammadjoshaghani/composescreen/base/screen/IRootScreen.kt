@@ -47,7 +47,7 @@ interface IRootScreen {
     fun onRestart(vararg result: Any?) {
     }
 
-    fun setReuslt(vararg result: Any) {
+    fun setResult(vararg result: Any) {
         Navigator.previous()?.result = result.toList()
     }
 
@@ -105,7 +105,7 @@ interface IRootScreen {
     fun BottomBarView()
 
 
-    fun titleTopBar(): UITopBar = UITopBar.Compose {}
+    fun titleTopBar(): UITopBar = UITopBar.Noting
 
     fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()

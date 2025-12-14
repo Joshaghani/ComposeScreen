@@ -10,8 +10,7 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 fun ProvideLayoutDirection(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalLayoutDirection provides
-                if (ApplicationConfig.config.isRtl) LayoutDirection.Rtl
-                else LayoutDirection.Ltr
+                if (ApplicationConfig.config.isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
     ) {
         content()
     }
