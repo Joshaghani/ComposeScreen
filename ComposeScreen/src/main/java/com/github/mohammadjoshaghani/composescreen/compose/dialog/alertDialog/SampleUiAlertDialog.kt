@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
-import com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog.UIAlertDialog
 import com.github.mohammadjoshaghani.composescreen.compose.toast.UIToastNotification
 import com.github.mohammadjoshaghani.composescreen.extension.noRippleClickable
 
@@ -93,6 +93,7 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                                 Text(
                                     text = it,
                                     color = cancelButtonContentColor,
+                                    modifier = Modifier.basicMarquee()
                                 )
                             }
                         }
@@ -121,7 +122,9 @@ internal fun UIAlertDialog.SampleUiAlertDialog(modifier: Modifier = Modifier) {
                                     maxLines = 1,
                                     color = primaryButtonContentColor,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.wrapContentWidth()
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .basicMarquee()
                                 )
                             }
 

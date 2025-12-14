@@ -40,11 +40,11 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("androidx.compose.material3:material3:1.4.0")
     // viewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
     // stickyHeader in BaseScreenLazyList
-    implementation("androidx.compose.foundation:foundation:1.9.2")
+    implementation("androidx.compose.foundation:foundation:1.10.0")
     // BackHandler
-    implementation("androidx.activity:activity-compose:1.11.0")
+    implementation("androidx.activity:activity-compose:1.12.1")
     // window size class
     api("androidx.compose.material3:material3-window-size-class-android:1.4.0")
 
