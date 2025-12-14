@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -42,12 +43,15 @@ fun RenderScreenContent(startScreen: IRootScreen) {
             NavigationSideBar(startScreen).Show()
 
             AppLayout(
-                modifier = Modifier.weight(1f).fillMaxHeight()
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
             ) {
                 Scaffold(
                     floatingActionButton = { UIFab() },
                     topBar = { TopBar().Show() },
                     bottomBar = { BottomBarRender() },
+                    floatingActionButtonPosition = ApplicationConfig.config.fabPosition,
                     contentWindowInsets = WindowInsets.safeDrawing,
                 ) { padding ->
                     Column(

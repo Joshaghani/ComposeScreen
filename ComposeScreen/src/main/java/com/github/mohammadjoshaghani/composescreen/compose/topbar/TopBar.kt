@@ -19,7 +19,6 @@ class TopBar {
         }
 
         ShowTitle()
-
     }
 
 
