@@ -49,7 +49,8 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         }
     }
 
-    if (verticalGridMinSize == 0.dp) {
+    val itemWidth = getItemWith()
+    if (itemWidth.itemWidthSize == 0.dp && itemWidth.minimumValue == 1) {
         UILazyColumn(
             state,
             modifier = Modifier
@@ -58,6 +59,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         )
     } else {
         UILazyVerticalGrid(
+            itemWidth,
             state,
             modifier = Modifier
                 .nestedScroll(nestedScrollConnection)

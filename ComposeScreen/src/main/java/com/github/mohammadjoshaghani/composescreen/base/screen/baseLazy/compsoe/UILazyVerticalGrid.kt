@@ -15,12 +15,14 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderItemsIndexed
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.extension.renderLoadMore
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.ItemWidth
 import com.github.mohammadjoshaghani.composescreen.compose.component.UISpacer
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.TopBar
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *, *>.UILazyVerticalGrid(
+    itemWidth: ItemWidth,
     state: State,
     modifier: Modifier = Modifier,
 ) {
@@ -38,9 +40,12 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         }
     }
 
+    val columnCount = (screenSize.value.width / itemWidth.itemWidthSize).toInt()
+        .coerceAtLeast(itemWidth.minimumValue)
+
     LazyVerticalGrid(
         state = lazyGridState!!,
-        columns = GridCells.Adaptive(verticalGridMinSize),
+        columns = GridCells.Fixed(columnCount),
         modifier = modifier
     ) {
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
@@ -12,6 +13,7 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.ILazyListScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe.ContentScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.ItemWidth
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +28,6 @@ abstract class BaseScreenLazyList<
     ILazyListScreen<State, Event> {
 
     var warningMessageEmptyList = "لیست خالی می‌باشد!"
-
-    open var verticalGridMinSize = 0.dp
 
     var lazyListState: LazyListState? = null
     var lazyGridState: LazyGridState? = null
@@ -51,6 +51,9 @@ abstract class BaseScreenLazyList<
         ContentScreen(state)
     }
 
+    open fun getItemWith(): ItemWidth {
+        return ItemWidth()
+    }
 
     @Composable
     override fun ComposeView(state: State) {
