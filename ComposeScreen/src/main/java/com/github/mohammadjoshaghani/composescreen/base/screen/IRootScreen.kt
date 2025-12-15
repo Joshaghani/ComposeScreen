@@ -26,9 +26,9 @@ interface IRootScreen {
 
     var showAnimation: Boolean
 
-    val hasStickyHeader : MutableStateFlow<Boolean>
+    val hasStickyHeader: MutableStateFlow<Boolean>
 
-    val stickyHeaderHeight : MutableState<Dp>
+    val stickyHeaderHeight: MutableState<Dp>
 
     val screenSize: MutableState<ScreenSize>
 
@@ -36,7 +36,7 @@ interface IRootScreen {
 
     val heightAwareFaideHeader: MutableState<Dp>
 
-    var result: List<Any>?
+    var resultScreen: Any?
 
     fun show(replace: Boolean = false, animation: Boolean = true)
 
@@ -44,11 +44,11 @@ interface IRootScreen {
 
     fun onResume() {}
 
-    fun onRestart(vararg result: Any?) {
+    fun onRestart(result: Any?) {
     }
 
-    fun setResult(vararg result: Any) {
-        Navigator.previous()?.result = result.toList()
+    fun setResult(result: Any) {
+        Navigator.previous()?.resultScreen = result
     }
 
     private fun cleanupResources() {

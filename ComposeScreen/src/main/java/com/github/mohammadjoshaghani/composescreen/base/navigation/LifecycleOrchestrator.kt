@@ -16,7 +16,7 @@ object LifecycleOrchestrator {
 
     fun onBecameCurrent(screen: IRootScreen) {
         (screen as? RootScreen<*, *, *, *>)?.viewModel?.initViewModel()
-        screen.onRestart(screen.result)
+        screen.onRestart(screen.resultScreen)
         screen.onResume()
     }
 

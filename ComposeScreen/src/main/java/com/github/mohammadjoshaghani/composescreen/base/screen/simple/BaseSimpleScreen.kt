@@ -46,7 +46,7 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    override var result: List<Any>? = null
+    override var resultScreen: Any? = null
 
     override val screenSize: MutableState<ScreenSize> = mutableStateOf(ScreenSize(0.dp, 0.dp))
     override val showAwareHeader: MutableState<Boolean> =

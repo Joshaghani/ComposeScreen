@@ -60,7 +60,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     var onEventSent: (Event) -> Unit = { viewModel.setEvent(it) }
 
-    override var result: List<Any>? = null
+    override var resultScreen: Any? = null
 
     override fun show(replace: Boolean, animation: Boolean) {
         this.showAnimation = animation
