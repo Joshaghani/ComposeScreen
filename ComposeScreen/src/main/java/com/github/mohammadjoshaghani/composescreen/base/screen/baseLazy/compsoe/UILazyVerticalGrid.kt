@@ -17,6 +17,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *, *>.UILazyVerticalGrid(
+    withGridItems: Dp,
     state: State,
     modifier: Modifier = Modifier,
 ) {
@@ -46,14 +48,10 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         }
     }
 
-    val screenWidth = screenSize.value.width // عرض صفحه
-    var itemWidth by remember { mutableStateOf(0.dp) } // ذخیره عرض آیتم
-    val columnCount = (screenWidth / itemWidth).toInt().coerceAtLeast(1) // تعداد ستون‌ها
-    val density = LocalDensity.current
 
     LazyVerticalGrid(
         state = lazyGridState!!,
-        columns = GridCells.Fixed(columnCount),
+        columns = GridCells.Adaptive(withGridItems),
         modifier = modifier
     ) {
 
@@ -71,15 +69,7 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
             item { EmptyListUI(state) }
         } else {
             renderItemsIndexed(list) { index, item ->
-                Box(
-                    modifier = Modifier
-                        .onGloballyPositioned { coordinates ->
-                            // دریافت عرض آیتم پس از رندر
-                            itemWidth = with(density) { coordinates.size.width.toDp() }
-                        }
-                ) {
-                    ItemUI(state, index, item)
-                }
+                ItemUI(state, index, item)
             }
         }
         renderLoadMore(list, lazyGridState!!, this@UILazyVerticalGrid)

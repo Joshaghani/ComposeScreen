@@ -50,7 +50,7 @@ abstract class BaseScreenLazyList<
         ContentScreen(state)
     }
 
-    open fun isGridItems(): Boolean = false
+    open fun withGridItems(): Dp? = null
 
     @Composable
     override fun ComposeView(state: State) {

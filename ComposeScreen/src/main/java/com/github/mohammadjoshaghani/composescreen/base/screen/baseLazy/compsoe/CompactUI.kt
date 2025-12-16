@@ -49,15 +49,16 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         }
     }
 
-    if (!isGridItems()) {
-        UILazyColumn(
+    withGridItems()?.let { gridItems ->
+        UILazyVerticalGrid(
+            gridItems,
             state,
             modifier = Modifier
                 .nestedScroll(nestedScrollConnection)
                 .fillMaxSize()
         )
-    } else {
-        UILazyVerticalGrid(
+    } ?: run {
+        UILazyColumn(
             state,
             modifier = Modifier
                 .nestedScroll(nestedScrollConnection)
