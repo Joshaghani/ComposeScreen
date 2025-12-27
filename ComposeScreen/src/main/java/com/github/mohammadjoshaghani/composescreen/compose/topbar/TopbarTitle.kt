@@ -34,9 +34,9 @@ fun ShowTitle() {
     val screen = Navigator.state.current.value ?: return
 
     if (screen.titleTopBar() is UITopBar.Nothing
-        ||
+        &&
         screen.navigationIcon() == null
-        ||
+        &&
         screen.actionIconsTopBar().isEmpty()
     ) {
         return
