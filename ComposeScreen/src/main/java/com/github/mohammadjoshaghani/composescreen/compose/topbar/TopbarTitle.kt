@@ -31,7 +31,7 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 fun ShowTitle() {
     val screen = Navigator.state.current.value ?: return
 
-    if (screen.titleTopBar() is UITopBar.Noting) return
+    if (screen.titleTopBar() is UITopBar.Nothing) return
 
     var isShowStickyHeader by remember { mutableStateOf(false) }
     val elevation by animateDpAsState(

@@ -6,5 +6,7 @@ sealed interface UITopBar {
     data class Text(val text: String) : UITopBar
     data class Compose(val compose: @Composable () -> Unit) : UITopBar
 
-    data object Noting : UITopBar
+    data object Nothing : UITopBar
 }
+
+

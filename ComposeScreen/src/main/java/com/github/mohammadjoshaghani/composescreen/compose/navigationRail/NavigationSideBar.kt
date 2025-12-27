@@ -1,5 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.compose.navigationRail
 
+
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -102,11 +103,13 @@ class NavigationSideBar(val startScreen: IRootScreen) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Bottom)
+                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Bottom),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 screen.actionIconsSideBar()
                     .forEachIndexed { index, item ->
                         NavigationRailItem(
+                            modifier = Modifier.padding(horizontal = 8.dp),
                             selected = selectedItemIndex == index,
                             onClick = {
                                 selectedItemIndex = index
@@ -130,6 +133,7 @@ class NavigationSideBar(val startScreen: IRootScreen) {
 
 
     companion object {
-        var selectedItemIndex by  mutableIntStateOf(0)
+        var selectedItemIndex by mutableIntStateOf(0)
     }
 }
+

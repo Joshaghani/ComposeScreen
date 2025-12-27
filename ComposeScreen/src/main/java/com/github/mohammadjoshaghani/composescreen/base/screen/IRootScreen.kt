@@ -105,7 +105,7 @@ interface IRootScreen {
     fun BottomBarView()
 
 
-    fun titleTopBar(): UITopBar = UITopBar.Noting
+    fun titleTopBar(): UITopBar = UITopBar.Nothing
 
     fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()
