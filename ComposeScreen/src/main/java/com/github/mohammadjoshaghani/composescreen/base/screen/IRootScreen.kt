@@ -113,13 +113,9 @@ interface IRootScreen {
 
     fun iconFab(): FabIconModel? = null
 
-    @Composable
-    fun NavigationIcon() {
-        Navigator.previous()?.let {
-            ClickableIcon(icon = Icons.AutoMirrored.Rounded.ArrowBack) {
-                Navigator.state.current.value?.onBackPressed()
-            }
-        }
+
+    fun navigationIcon(): IClickableIconModel? {
+        return null
     }
 
 }
