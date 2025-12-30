@@ -34,6 +34,7 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compos
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickyHeaderHost
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickySpacer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.WithSwipeBackIfNeeded
+import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
@@ -194,6 +195,14 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
 
     @Composable
     open fun BottomBarView(state: State) {
+    }
+
+    override fun iconFab(): FabIconModel? {
+        return iconFab(viewModel.viewState.value)
+    }
+
+    open fun iconFab(state: State): FabIconModel? {
+        return super.iconFab()
     }
 
     override fun onPause() {
