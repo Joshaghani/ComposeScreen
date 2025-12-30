@@ -10,7 +10,6 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -35,10 +34,22 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
 
     var effect = _effect.receiveAsFlow()
 
+    private var currentJob: Job? = null
+
     fun launchOnScope(block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope.launch {
+        currentJob?.cancel()  // لغو Job قبلی
+        currentJob = viewModelScope.launch {
             block()
         }
+    }
+
+    fun restartJob() {
+        cancelCurrentJob()
+        subscribeToEvents()
+    }
+
+    fun cancelCurrentJob() {
+        currentJob?.cancel() // لغو Job جاری
     }
 
     init {
@@ -66,7 +77,6 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
     }
 
     fun clear() {
-        viewModelScope.coroutineContext.cancel()
+        cancelCurrentJob()  // فقط لغو Job جاری
     }
-
 }
