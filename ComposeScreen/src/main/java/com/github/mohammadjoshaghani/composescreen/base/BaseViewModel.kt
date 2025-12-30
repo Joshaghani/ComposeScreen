@@ -34,23 +34,12 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
 
     var effect = _effect.receiveAsFlow()
 
-    private var currentJob: Job? = null
-
     fun launchOnScope(block: suspend CoroutineScope.() -> Unit) {
-        currentJob?.cancel()  // لغو Job قبلی
-        currentJob = viewModelScope.launch {
+        viewModelScope.launch {
             block()
         }
     }
 
-    fun restartJob() {
-        cancelCurrentJob()
-        subscribeToEvents()
-    }
-
-    fun cancelCurrentJob() {
-        currentJob?.cancel() // لغو Job جاری
-    }
 
     init {
         subscribeToEvents()
@@ -77,6 +66,6 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effe
     }
 
     fun clear() {
-        cancelCurrentJob()  // فقط لغو Job جاری
+//        cancelCurrentJob()  // فقط لغو Job جاری
     }
 }
