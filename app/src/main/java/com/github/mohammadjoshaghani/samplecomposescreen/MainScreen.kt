@@ -9,21 +9,35 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.github.mohammadjoshaghani.composescreen.base.BaseHandler
+import com.github.mohammadjoshaghani.composescreen.base.BaseViewModel
+import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
+import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
+import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.compose.component.clickableIcon.IClickableIconModel
+import com.github.mohammadjoshaghani.composescreen.compose.errorScreen.ErrorScreenMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIBorderCard
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIRowSpaceBetween
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
@@ -50,7 +64,11 @@ class MainScreen :
         ) {
             Text("Compose View", color = colorTheme.onBackground)
 
-            TextField(value = "", onValueChange = {})
+            var text by remember { mutableStateOf("") }
+            TextField(value = text, onValueChange = {
+                text = it
+                onEventSent(MainScreenContract.Event.ChangeText(it))
+            })
 
         }
 
@@ -253,11 +271,79 @@ class MainScreen :
     }
 
 
+    override fun iconFab(state: MainScreenContract.State): FabIconModel? {
+        if (state.showFab) {
+            return FabIconModel(
+                iconVector = Icons.AutoMirrored.Default.ArrowBack,
+                onFabPressed = {
+
+                }
+            )
+        }
+        return super.iconFab(state)
+    }
+
+
     override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
         return WindowWidthSizeClass.Compact
     }
 }
 
+
+class MainScreenContract {
+
+    sealed interface Event : ViewEvent {
+        data class ChangeText(var text: String) : Event
+    }
+
+    data class State(
+        override var errorScreen: ErrorScreenMessageModel<Event>? = null,
+        override var isLoading: Boolean = false,
+        override var toastMessage: ToastMessageModel? = null,
+
+        var showFab: Boolean = false
+    ) : ViewState<Event>
+
+    sealed class Effect : ViewSideEffect
+}
+
+
+class MainScreenViewModel : BaseViewModel<
+        MainScreenContract.Event,
+        MainScreenContract.State,
+        MainScreenContract.Effect,
+        >() {
+    override fun setInitialState() = MainScreenContract.State()
+
+    override fun handleEvents(event: MainScreenContract.Event) {
+        when (event) {
+            is MainScreenContract.Event.ChangeText -> {
+                setState { copy(showFab = event.text.length > 5) }
+            }
+        }
+    }
+
+}
+
+class MainScreenHandler : BaseHandler<
+        MainScreenViewModel,
+        MainScreenContract.Effect,
+        MainScreenContract.Event,
+        > {
+    override fun handleEffects(
+        effect: MainScreenContract.Effect,
+        viewModel: MainScreenViewModel,
+    ) {
+    }
+
+    override fun MainScreenViewModel.updateState(
+        isLoading: Boolean,
+        toastMessage: ToastMessageModel?,
+        errorScreen: ErrorScreenMessageModel<MainScreenContract.Event>?,
+    ) {
+    }
+
+}
 
 
 

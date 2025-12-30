@@ -205,14 +205,11 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         return super.iconFab()
     }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.cancelCurrentJob()
+    override fun onBackPressed(isCloseDialogAndBackScreen: Boolean): Boolean {
+        return onBackPressed(viewModel.viewState.value, isCloseDialogAndBackScreen)
     }
-
-    override fun onRestart(result: Any?) {
-        super.onRestart(result)
-        viewModel.restartJob()
+    fun onBackPressed(state: State, isCloseDialogAndBackScreen: Boolean): Boolean {
+        return super.onBackPressed(isCloseDialogAndBackScreen)
     }
 
 }
