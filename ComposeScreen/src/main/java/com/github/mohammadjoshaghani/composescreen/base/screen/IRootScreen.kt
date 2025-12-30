@@ -68,7 +68,6 @@ interface IRootScreen {
     fun onBackPressed(
         isCloseDialogAndBackScreen: Boolean = false,
     ): Boolean {
-
         return when {
             isCloseDialogAndBackScreen -> {
                 UIAlertDialog.getDialog()?.dismiss()
@@ -94,8 +93,6 @@ interface IRootScreen {
 
             else -> Navigator.pop()
         }
-
-
     }
 
     @Composable

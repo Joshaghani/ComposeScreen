@@ -1,6 +1,7 @@
 package com.github.mohammadjoshaghani.samplecomposescreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,7 +63,9 @@ class MainScreen :
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Compose View", color = colorTheme.onBackground)
+            Text("Compose View", color = colorTheme.onBackground, modifier = Modifier.clickable {
+                SecondScreen().show()
+            })
 
             var text by remember { mutableStateOf("") }
             TextField(value = text, onValueChange = {

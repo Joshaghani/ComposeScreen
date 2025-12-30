@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator.state
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
@@ -37,6 +38,12 @@ class SecondScreen :
 
     override fun titleTopBar(): UITopBar.Text {
         return UITopBar.Text("Second")
+    }
+
+    override fun onBackPressed(
+        isCloseDialogAndBackScreen: Boolean
+    ): Boolean {
+        return super.onBackPressed(isCloseDialogAndBackScreen)
     }
 
 

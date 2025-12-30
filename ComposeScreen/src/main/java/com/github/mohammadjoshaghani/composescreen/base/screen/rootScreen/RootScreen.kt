@@ -34,6 +34,9 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compos
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickyHeaderHost
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickySpacer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.WithSwipeBackIfNeeded
+import com.github.mohammadjoshaghani.composescreen.compose.bottomSheet.IBottomSheet
+import com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog.UIAlertDialog
+import com.github.mohammadjoshaghani.composescreen.compose.dialog.base.IBaseDialog
 import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -184,7 +187,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
     open fun titleTopBar(state: State): UITopBar {
-        return super.titleTopBar()
+        return UITopBar.Nothing
     }
 
 
@@ -202,14 +205,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
     open fun iconFab(state: State): FabIconModel? {
-        return super.iconFab()
-    }
-
-    override fun onBackPressed(isCloseDialogAndBackScreen: Boolean): Boolean {
-        return onBackPressed(viewModel.viewState.value, isCloseDialogAndBackScreen)
-    }
-    open fun onBackPressed(state: State, isCloseDialogAndBackScreen: Boolean): Boolean {
-        return super.onBackPressed(isCloseDialogAndBackScreen)
+        return null
     }
 
 }
