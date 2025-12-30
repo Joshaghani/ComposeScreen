@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -33,6 +34,7 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compos
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickyHeaderHost
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickySpacer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.WithSwipeBackIfNeeded
+import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -176,13 +178,33 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         }
     }
 
+    override fun titleTopBar(): UITopBar {
+        return titleTopBar(viewModel.viewState.value)
+    }
+
+    open fun titleTopBar(state: State): UITopBar {
+        return super.titleTopBar()
+    }
+
+
     @Composable
     override fun BottomBarView() {
         BottomBarView(viewModel.viewState.value)
     }
 
     @Composable
-    fun BottomBarView(state: State) {
+    open fun BottomBarView(state: State) {
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.cancelCurrentJob()
+    }
+
+    override fun onRestart(result: Any?) {
+        super.onRestart(result)
+        viewModel.restartJob()
     }
 
 }
+

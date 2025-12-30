@@ -41,10 +41,6 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
 
     override var showAnimation: Boolean = true
 
-    private var job: Job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
 
     override var resultScreen: Any? = null
 
@@ -156,10 +152,6 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
         launch {
             ToastCreator.showToast(message)
         }
-    }
-
-    fun cancelCoroutine() {
-        job.cancel()
     }
 
 }

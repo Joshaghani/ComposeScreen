@@ -56,11 +56,6 @@ class MainScreen :
 
     }
 
-    @Composable
-    override fun BottomBarView() {
-        TextField(value = "", onValueChange = {})
-    }
-
 
     override fun actionIconsTopBar(): List<IClickableIconModel> {
         return listOf()
