@@ -208,7 +208,7 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     override fun onBackPressed(isCloseDialogAndBackScreen: Boolean): Boolean {
         return onBackPressed(viewModel.viewState.value, isCloseDialogAndBackScreen)
     }
-    fun onBackPressed(state: State, isCloseDialogAndBackScreen: Boolean): Boolean {
+    open fun onBackPressed(state: State, isCloseDialogAndBackScreen: Boolean): Boolean {
         return super.onBackPressed(isCloseDialogAndBackScreen)
     }
 
