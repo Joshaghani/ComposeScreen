@@ -35,7 +35,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
+abstract class BaseSimpleScreen : IRootScreen {
+
 
     override var isVisibleAnimation = MutableStateFlow(false)
 
@@ -149,7 +150,7 @@ abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
     }
 
     fun showToast(message: ToastMessageModel) {
-        launch {
+        CoroutineScope(Dispatchers.Main).launch {
             ToastCreator.showToast(message)
         }
     }

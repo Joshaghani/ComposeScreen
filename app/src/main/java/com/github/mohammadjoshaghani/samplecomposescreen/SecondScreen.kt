@@ -40,12 +40,6 @@ class SecondScreen :
         return UITopBar.Text("Second")
     }
 
-    override fun onBackPressed(
-        isCloseDialogAndBackScreen: Boolean
-    ): Boolean {
-        return super.onBackPressed(isCloseDialogAndBackScreen)
-    }
-
 
 }
 
