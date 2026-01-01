@@ -1,8 +1,6 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +11,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
@@ -65,7 +62,5 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
                 .fillMaxSize()
         )
     }
-
-    Spacer(modifier = Modifier.padding(bottom = padding.calculateBottomPadding()))
 
 }

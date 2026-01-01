@@ -35,13 +35,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseSimpleScreen : IRootScreen {
-
+abstract class BaseSimpleScreen : IRootScreen, CoroutineScope {
 
     override var isVisibleAnimation = MutableStateFlow(false)
 
     override var showAnimation: Boolean = true
 
+    private var job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     override var resultScreen: Any? = null
 
@@ -150,9 +153,13 @@ abstract class BaseSimpleScreen : IRootScreen {
     }
 
     fun showToast(message: ToastMessageModel) {
-        CoroutineScope(Dispatchers.Main).launch {
+        launch {
             ToastCreator.showToast(message)
         }
+    }
+
+    fun cancelCoroutine() {
+        job.cancel()
     }
 
 }

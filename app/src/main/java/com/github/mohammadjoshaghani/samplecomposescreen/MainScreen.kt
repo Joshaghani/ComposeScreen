@@ -2,8 +2,10 @@ package com.github.mohammadjoshaghani.samplecomposescreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -32,13 +35,17 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IClearStackScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IIdentifiable
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowNavigationSideBar
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable.BaseScreenUnScrollable
 import com.github.mohammadjoshaghani.composescreen.compose.component.clickableIcon.IClickableIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.errorScreen.ErrorScreenMessageModel
 import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationItem
 import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
+import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIBorderCard
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.UIRowSpaceBetween
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
@@ -46,8 +53,8 @@ import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
 class MainScreen :
     BaseScreenLazyList<MainScreenContract.State, MainScreenContract.Event, MainScreenContract.Effect, MainScreenViewModel>(),
     IShowNavigationSideBar,
-//    IShowScrollAwareFadingHeader,
-    IShowStickyHeader,
+    IShowScrollAwareFadingHeader,
+//    IShowStickyHeader,
     IClearStackScreen {
 
     override val viewModel: MainScreenViewModel = MainScreenViewModel()
@@ -55,27 +62,41 @@ class MainScreen :
     override val handler: MainScreenHandler = MainScreenHandler()
 
 
-    @Composable
-    override fun ComposeView(state: MainScreenContract.State) {
-        Column(
-            modifier = Modifier
-                .height(56.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Compose View", color = colorTheme.onBackground, modifier = Modifier.clickable {
-                SecondScreen().show()
-            })
-
-            var text by remember { mutableStateOf("") }
-            TextField(value = text, onValueChange = {
-                text = it
-                onEventSent(MainScreenContract.Event.ChangeText(it))
-            })
-
-        }
-
+    override fun titleTopBar(): UITopBar {
+        return UITopBar.Text("HELLO TOP BAR")
     }
+
+//    @Composable
+//    override fun ComposeView(state: MainScreenContract.State) {
+//        Column(
+//            modifier = Modifier
+//                .height(56.dp)
+//                .fillMaxWidth(),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            Text("Compose View", color = colorTheme.onBackground, modifier = Modifier.clickable {
+//                SecondScreen().show()
+//            })
+//
+//            var text by remember { mutableStateOf("") }
+//            TextField(value = text, onValueChange = {
+//                text = it
+//                onEventSent(MainScreenContract.Event.ChangeText(it))
+//            })
+//
+////            getItemsList(state).forEachIndexed { index, item ->
+////                UIBorderCard(
+////                    backgroundColor = colorTheme.background,
+////                    modifier = Modifier.padding(horizontal = 16.dp)
+////                ) {
+////                    UIRowSpaceBetween("$index", (item as TestModel).title)
+////                }
+////            }
+//
+//
+//        }
+//
+//    }
 
 
     override fun actionIconsTopBar(): List<IClickableIconModel> {
@@ -171,22 +192,35 @@ class MainScreen :
         )
     }
 
+    @Composable
+    override fun BottomBarView() {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .background(MaterialTheme.colorScheme.error)
+        ) {
 
-//    @Composable
-//    override fun UIScrollAwareFadingHeader(modifier: Modifier) {
-//        UIBorderCard(
-//            backgroundColor = colorTheme.background,
-//            modifier = modifier.height(100.dp)
-//        ) {
-//            Column(
-//                Modifier.fillMaxSize(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Center
-//            ) {
-//                Text("Hello from fade menu")
-//            }
-//        }
-//    }
+
+        }
+    }
+
+
+    @Composable
+    override fun UIScrollAwareFadingHeader(modifier: Modifier) {
+        UIBorderCard(
+            backgroundColor = colorTheme.background,
+            modifier = modifier.height(100.dp)
+        ) {
+            Column(
+                Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text("Hello from fade menu")
+            }
+        }
+    }
 
     override fun getItemsList(state: MainScreenContract.State): MutableList<IIdentifiable> {
         return mutableListOf(
@@ -261,17 +295,19 @@ class MainScreen :
     override fun ItemUI(state: MainScreenContract.State, index: Int, item: Any) {
         UIBorderCard(
             backgroundColor = colorTheme.background,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .height(120.dp)
+                .padding(horizontal = 16.dp)
         ) {
             UIRowSpaceBetween("$index", (item as TestModel).title)
         }
     }
 
 
-    @Composable
-    override fun ComposeStickyView(modifier: Modifier) {
-        Text("Compose Sticky View", color = colorTheme.onBackground)
-    }
+//    @Composable
+//    override fun ComposeStickyView(modifier: Modifier) {
+//        Text("Compose Sticky View", modifier = modifier.height(100.dp), color = colorTheme.onBackground)
+//    }
 
 
     override fun iconFab(state: MainScreenContract.State): FabIconModel? {
@@ -286,10 +322,17 @@ class MainScreen :
         return super.iconFab(state)
     }
 
+//
+//    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
+//        return WindowWidthSizeClass.Compact
+//    }
 
-    override fun getStickyForSizeScreen(): WindowWidthSizeClass? {
-        return WindowWidthSizeClass.Compact
-    }
+//    @Composable
+//    override fun UIScrollAwareFadingHeader(modifier: Modifier) {
+//        Column(modifier) {
+//            Text("HIDE VIEW", Modifier.padding(16.dp))
+//        }
+//    }
 }
 
 
@@ -345,6 +388,7 @@ class MainScreenHandler : BaseHandler<
         errorScreen: ErrorScreenMessageModel<MainScreenContract.Event>?,
     ) {
     }
+
 
 }
 

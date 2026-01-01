@@ -1,13 +1,11 @@
 package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewEvent
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IShowScrollAwareFadingHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.BaseScreenLazyList
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.awareFading.UIScrollAwareFading
-import com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.utils.RunIfShowSticky
 import com.github.mohammadjoshaghani.composescreen.compose.UIStickyHeader
 
 
@@ -16,28 +14,19 @@ internal fun <State : ViewState<Event>, Event : ViewEvent> ScrollAwareFadingHead
     screen: BaseScreenLazyList<State, *, *, *>,
     content: @Composable () -> Unit,
 ) {
-    if (screen is IShowScrollAwareFadingHeader) {
-        UIScrollAwareFading(
-            screen = screen,
-            contentItemRows = content,
-            stickyheadContent = { sticky ->
-                screen.UIStickyHeader {
-                    sticky.ComposeStickyView(it)
-                }
+    UIScrollAwareFading(
+        stickyheadContent = { sticky ->
+            screen.UIStickyHeader {
+                sticky.ComposeStickyView(it)
+            }
 
-            },
-            fadeHeaderContent = { modifier ->
+        },
+        fadeHeaderContent = { modifier ->
+            if (screen is IShowScrollAwareFadingHeader) {
                 screen.UIScrollAwareFadingHeader(modifier)
             }
-        )
-    } else {
-        Column {
-            screen.RunIfShowSticky {
-                screen.UIStickyHeader {
-                    ComposeStickyView(it)
-                }
-            }
-            content()
-        }
-    }
+        },
+        screen = screen,
+        contentItemRows = content,
+    )
 }

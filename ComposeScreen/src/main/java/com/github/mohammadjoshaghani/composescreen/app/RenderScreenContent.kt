@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
+import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.compose.fab.UIFab
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationSideBar
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.TopBar
@@ -27,7 +27,6 @@ import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 
 internal var keyboardController: SoftwareKeyboardController? = null
 internal var focusManager: FocusManager? = null
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,9 +42,7 @@ fun RenderScreenContent(startScreen: IRootScreen) {
             NavigationSideBar(startScreen).Show()
 
             AppLayout(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
+                modifier = Modifier.weight(1f).fillMaxHeight()
             ) {
                 Scaffold(
                     floatingActionButton = { UIFab() },
@@ -64,14 +61,14 @@ fun RenderScreenContent(startScreen: IRootScreen) {
                             }
                     ) {
                         Navigator.state.current.value?.let { screen ->
-                            screen.ShowScreenFromApp(padding)
+                            UIAnimatedVisibility {
+                                screen.ShowScreenFromApp(padding)
+                            }
                             screen.isVisibleAnimation.value = true
                         }
-
                     }
                 }
             }
         }
     }
-
 }

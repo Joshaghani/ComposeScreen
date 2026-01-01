@@ -47,7 +47,7 @@ interface IRootScreen {
     fun onRestart(result: Any?) {
     }
 
-    fun setResult(result: Any) {
+    fun setResult(result: Any?) {
         Navigator.previous()?.resultScreen = result
     }
 
@@ -68,6 +68,7 @@ interface IRootScreen {
     fun onBackPressed(
         isCloseDialogAndBackScreen: Boolean = false,
     ): Boolean {
+
         return when {
             isCloseDialogAndBackScreen -> {
                 UIAlertDialog.getDialog()?.dismiss()
@@ -101,7 +102,6 @@ interface IRootScreen {
     @Composable
     fun BottomBarView()
 
-
     fun titleTopBar(): UITopBar = UITopBar.Nothing
 
     fun actionIconsTopBar(): List<IClickableIconModel> {
@@ -109,7 +109,6 @@ interface IRootScreen {
     }
 
     fun iconFab(): FabIconModel? = null
-
 
     fun navigationIcon(): IClickableIconModel? {
         return null

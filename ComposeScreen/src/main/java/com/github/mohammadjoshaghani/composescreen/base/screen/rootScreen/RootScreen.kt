@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -34,9 +33,6 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compos
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickyHeaderHost
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickySpacer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.WithSwipeBackIfNeeded
-import com.github.mohammadjoshaghani.composescreen.compose.bottomSheet.IBottomSheet
-import com.github.mohammadjoshaghani.composescreen.compose.dialog.alertDialog.UIAlertDialog
-import com.github.mohammadjoshaghani.composescreen.compose.dialog.base.IBaseDialog
 import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
@@ -209,4 +205,3 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     }
 
 }
-

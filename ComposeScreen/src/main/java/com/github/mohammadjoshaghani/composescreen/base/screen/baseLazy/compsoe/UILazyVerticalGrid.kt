@@ -2,6 +2,7 @@ package com.github.mohammadjoshaghani.composescreen.base.screen.baseLazy.compsoe
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -76,6 +77,9 @@ fun <State : ViewState<Event>, Event : ViewEvent> BaseScreenLazyList<State, *, *
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
             UISpacer(if (this@UILazyVerticalGrid.iconFab() != null) 150 else 50)
+        }
+        item {
+            Spacer(modifier = Modifier.padding(bottom = padding.calculateBottomPadding()))
         }
     }
 

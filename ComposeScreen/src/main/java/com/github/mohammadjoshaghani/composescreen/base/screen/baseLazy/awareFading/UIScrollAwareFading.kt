@@ -26,8 +26,6 @@ fun UIScrollAwareFading(
     stickyheadContent: @Composable (IShowStickyHeader) -> Unit,
     fadeHeaderContent: @Composable (Modifier) -> Unit,
 ) {
-    if (screen !is IShowScrollAwareFadingHeader) return
-
     LaunchedEffect(Unit) {
         screen.scrollEvents.collect {
             screen.showAwareHeader.value = it
@@ -46,9 +44,7 @@ fun UIScrollAwareFading(
             exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
         ) {
             Column {
-                screen.RunIfShowSticky {
-                    Spacer(Modifier.height(screen.stickyHeaderHeight.value))
-                }
+                Spacer(Modifier.height(screen.stickyHeaderHeight.value))
 
                 MeasureHeight(onHeightChanged = { h ->
                     if (screen.heightAwareFaideHeader.value != h) screen.heightAwareFaideHeader.value =
