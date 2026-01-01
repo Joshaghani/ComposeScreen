@@ -8,6 +8,7 @@ import com.github.mohammadjoshaghani.composescreen.base.contract.ViewSideEffect
 import com.github.mohammadjoshaghani.composescreen.base.contract.ViewState
 import com.github.mohammadjoshaghani.composescreen.base.handler.IRefreshableScreen
 import com.github.mohammadjoshaghani.composescreen.base.handler.IScreenInitializer
+import com.github.mohammadjoshaghani.composescreen.base.handler.IShowStickyHeader
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseUnScrollable.compose.ContentScreen
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.RootScreen
 import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
@@ -27,10 +28,17 @@ abstract class BaseScreenUnScrollable<State : ViewState<Event>, Event : ViewEven
 
     @Composable
     override fun InitBaseComposeScreen(state: State) {
-        if (this is IRefreshableScreen) {
+        if (this is IRefreshableScreen ) {
             throw IllegalStateException(
                 "This screen must not implement IRefreshableScreen. " +
                         "Use BaseScreenLazyList or BaseScreen instead BaseScreenUnScrollable if you need pull-to-refresh support."
+            )
+        }
+
+        if (this is IShowStickyHeader){
+            throw IllegalStateException(
+                "This screen must not implement IShowStickyHeader. " +
+                        "Use BaseScreenLazyList or BaseScreen instead BaseScreenUnScrollable if you need ComposeSticky support."
             )
         }
 

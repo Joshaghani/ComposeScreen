@@ -22,4 +22,6 @@ sealed interface IClickableIconModel {
         val onIconPressed: () -> Unit,
         val tint: Color = ApplicationConfig.config.color.onBackground,
     ) : IClickableIconModel
+
+    data object Nothing : IClickableIconModel
 }

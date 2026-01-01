@@ -97,6 +97,8 @@ fun ShowTitle() {
                                         tint = icon.tint
                                     )
                                 }
+
+                                IClickableIconModel.Nothing -> {}
                             }
                         } ?: run {
                             Navigator.previous()?.let {
@@ -130,6 +132,8 @@ fun ShowTitle() {
                                         tint = icon.tint
                                     )
                                 }
+
+                                IClickableIconModel.Nothing -> {}
                             }
                         }
 
