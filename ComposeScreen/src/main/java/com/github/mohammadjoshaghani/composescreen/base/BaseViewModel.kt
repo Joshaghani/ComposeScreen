@@ -42,7 +42,9 @@ abstract class BaseViewModel<
     val events = _event.asSharedFlow()
 
     fun setEvent(event: Event) {
-        _event.tryEmit(event) // Non-suspending emit
+        viewModelScope.launch {
+            _event.emit(event)
+        }
     }
 
     abstract fun handleEvents(event: Event)
