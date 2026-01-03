@@ -8,8 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator.state
 import com.github.mohammadjoshaghani.composescreen.base.screen.baseScreen.BaseScreen
+import com.github.mohammadjoshaghani.composescreen.base.screen.simple.BaseSimpleScreen
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.samplecomposescreen.ui.theme.colorTheme
+import kotlinx.coroutines.launch
 
 class SecondScreen :
     BaseScreen<
@@ -44,5 +46,15 @@ class SecondScreen :
 }
 
 
+class TestScreen() : BaseSimpleScreen() {
+
+
+
+    @Composable
+    override fun ComposeView() {
+        TODO("Not yet implemented")
+    }
+
+}
 
 

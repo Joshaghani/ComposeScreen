@@ -34,10 +34,16 @@ import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compos
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.StickySpacer
 import com.github.mohammadjoshaghani.composescreen.base.screen.rootScreen.compose.WithSwipeBackIfNeeded
 import com.github.mohammadjoshaghani.composescreen.compose.fab.FabIconModel
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastCreator
+import com.github.mohammadjoshaghani.composescreen.compose.toast.ToastMessageModel
 import com.github.mohammadjoshaghani.composescreen.compose.topbar.UITopBar
 import com.github.mohammadjoshaghani.composescreen.utils.ApplicationConfig
 import com.github.mohammadjoshaghani.composescreen.utils.ScreenSize
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : ViewSideEffect, VM : BaseViewModel<Event, State, Effect>> :
     IRootScreen {
@@ -63,6 +69,9 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
     var onEventSent: (Event) -> Unit = { viewModel.setEvent(it) }
 
     override var resultScreen: Any? = null
+
+    private var job: Job? = null
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun show(replace: Boolean, animation: Boolean) {
         this.showAnimation = animation
@@ -204,4 +213,22 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         return null
     }
 
+    fun lifecycleScope(block: suspend CoroutineScope.() -> Unit) {
+        job = scope.launch(block = block)
+    }
+
+    fun showToast(message: ToastMessageModel) {
+        lifecycleScope {
+            ToastCreator.showToast(message)
+        }
+    }
+
+    override fun onResume() {
+        job?.cancel()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        job?.cancel()
+    }
 }
