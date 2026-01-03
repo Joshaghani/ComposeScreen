@@ -12,60 +12,65 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState<Event>, Effect : ViewSideEffect> :
-    ViewModel() {
+abstract class BaseViewModel<
+        Event : ViewEvent,
+        UiState : ViewState<Event>,
+        Effect : ViewSideEffect
+        > : ViewModel() {
 
-    open fun initViewModel() {}
-    abstract fun setInitialState(): UiState
-    abstract fun handleEvents(event: Event)
-
+    // ---------------------
+    // State
+    // ---------------------
     private val initialState: UiState by lazy { setInitialState() }
-
     private val _viewState: MutableState<UiState> = mutableStateOf(initialState)
-
-    private val event: MutableSharedFlow<Event> = MutableSharedFlow()
-
-    private var _effect: Channel<Effect> = Channel()
-
     val viewState: State<UiState> = _viewState
 
-    var effect = _effect.receiveAsFlow()
+    fun setState(reducer: UiState.() -> UiState) {
+        _viewState.value = _viewState.value.reducer()
+    }
 
-    fun launchOnScope(block: suspend CoroutineScope.() -> Unit) {
+    abstract fun setInitialState(): UiState
+
+    // ---------------------
+    // Event
+    // ---------------------
+    private val _event = MutableSharedFlow<Event>(extraBufferCapacity = 1)
+    val events = _event.asSharedFlow()
+
+    fun setEvent(event: Event) {
+        _event.tryEmit(event) // Non-suspending emit
+    }
+
+    abstract fun handleEvents(event: Event)
+
+    private fun subscribeToEvents() {
         viewModelScope.launch {
-            block()
+            _event.collect { handleEvents(it) }
         }
     }
 
+    // ---------------------
+    // Side Effect
+    // ---------------------
+    private val _effect = MutableSharedFlow<Effect>(replay = 0, extraBufferCapacity = 1)
+    val effect = _effect.asSharedFlow()
+
+    fun setEffect(builder: () -> Effect) {
+        _effect.tryEmit(builder())
+    }
+
+    // ---------------------
+    // Lifecycle / init
+    // ---------------------
+    open fun initViewModel() {}
 
     init {
         subscribeToEvents()
+        initViewModel()
     }
 
-    private fun subscribeToEvents() {
-        launchOnScope {
-            event.collect { handleEvents(it) }
-        }
-    }
-
-    fun setEvent(event: Event) {
-        launchOnScope { this@BaseViewModel.event.emit(event) }
-    }
-
-    fun setState(reducer: UiState.() -> UiState) {
-        val newState = viewState.value.reducer()
-        _viewState.value = newState
-    }
-
-    fun setEffect(builder: () -> Effect) {
-        val effectValue = builder()
-        launchOnScope { _effect.send(effectValue) }
-    }
-
-    fun clear() {
-//        cancelCurrentJob()  // فقط لغو Job جاری
-    }
 }

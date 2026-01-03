@@ -11,7 +11,6 @@ object LifecycleOrchestrator {
 
     fun onRemoved(screen: IRootScreen) {
         screen.onPause(); screen.onDestroy()
-        (screen as? RootScreen<*, *, *, *>)?.viewModel?.clear()
     }
 
     fun onBecameCurrent(screen: IRootScreen) {
@@ -22,6 +21,5 @@ object LifecycleOrchestrator {
 
     fun onPause(screen: IRootScreen) {
         current()?.onPause()
-        (screen as? RootScreen<*, *, *, *>)?.viewModel?.clear()
     }
 }
