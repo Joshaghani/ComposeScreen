@@ -52,115 +52,113 @@ fun ShowTitle() {
         isShowStickyHeader = it
     }
 
-    UIAnimatedVisibility {
-        Surface(
-            shadowElevation = if (isShowStickyHeader) 0.dp else elevation,
-        ) {
-            Column {
-                TopAppBar(
-                    title = {
-                        when (val title = screen.titleTopBar()) {
-                            is UITopBar.Compose -> title.compose.invoke()
-                            is UITopBar.Text -> {
-                                UISmartMarqueeText(
-                                    title.text,
-                                    textStyle = MaterialTheme.typography.titleMedium,
-                                    width = screenSize.value.width,
-                                    contentAlignment = Alignment.CenterStart
+    Surface(
+        shadowElevation = if (isShowStickyHeader) 0.dp else elevation,
+    ) {
+        Column {
+            TopAppBar(
+                title = {
+                    when (val title = screen.titleTopBar()) {
+                        is UITopBar.Compose -> title.compose.invoke()
+                        is UITopBar.Text -> {
+                            UISmartMarqueeText(
+                                title.text,
+                                textStyle = MaterialTheme.typography.titleMedium,
+                                width = screenSize.value.width,
+                                contentAlignment = Alignment.CenterStart
+                            )
+                        }
+
+                        else -> {}
+                    }
+                },
+                navigationIcon = {
+                    screen.navigationIcon()?.let { icon ->
+                        when (icon) {
+                            is IClickableIconModel.ClickableIconModel -> {
+                                ClickableIcon(
+                                    icon.iconId,
+                                    title = icon.title,
+                                    doesButtonHaveBorder = icon.doesButtonHaveBorder,
+                                    badgeCount = icon.badgeCount,
+                                    onClick = icon.onIconPressed,
+                                    tint = icon.tint
                                 )
                             }
 
-                            else -> {}
-                        }
-                    },
-                    navigationIcon = {
-                        screen.navigationIcon()?.let { icon ->
-                            when (icon) {
-                                is IClickableIconModel.ClickableIconModel -> {
-                                    ClickableIcon(
-                                        icon.iconId,
-                                        title = icon.title,
-                                        doesButtonHaveBorder = icon.doesButtonHaveBorder,
-                                        badgeCount = icon.badgeCount,
-                                        onClick = icon.onIconPressed,
-                                        tint = icon.tint
-                                    )
-                                }
-
-                                is IClickableIconModel.ClickableIconVectorModel -> {
-                                    ClickableIcon(
-                                        icon.iconId,
-                                        title = icon.title,
-                                        doesButtonHaveBorder = icon.doesButtonHaveBorder,
-                                        onClick = icon.onIconPressed,
-                                        badgeCount = icon.badgeCount,
-                                        tint = icon.tint
-                                    )
-                                }
-
-                                IClickableIconModel.Nothing -> {}
+                            is IClickableIconModel.ClickableIconVectorModel -> {
+                                ClickableIcon(
+                                    icon.iconId,
+                                    title = icon.title,
+                                    doesButtonHaveBorder = icon.doesButtonHaveBorder,
+                                    onClick = icon.onIconPressed,
+                                    badgeCount = icon.badgeCount,
+                                    tint = icon.tint
+                                )
                             }
-                        } ?: run {
-                            Navigator.previous()?.let {
-                                ClickableIcon(icon = Icons.AutoMirrored.Rounded.ArrowBack) {
-                                    Navigator.state.current.value?.onBackPressed()
-                                }
+
+                            IClickableIconModel.Nothing -> {}
+                        }
+                    } ?: run {
+                        Navigator.previous()?.let {
+                            ClickableIcon(icon = Icons.AutoMirrored.Rounded.ArrowBack) {
+                                Navigator.state.current.value?.onBackPressed()
                             }
                         }
-                    },
-                    actions = {
-                        screen.actionIconsTopBar().forEach { icon ->
-                            when (icon) {
-                                is IClickableIconModel.ClickableIconModel -> {
-                                    ClickableIcon(
-                                        icon.iconId,
-                                        title = icon.title,
-                                        doesButtonHaveBorder = icon.doesButtonHaveBorder,
-                                        badgeCount = icon.badgeCount,
-                                        onClick = icon.onIconPressed,
-                                        tint = icon.tint
-                                    )
-                                }
-
-                                is IClickableIconModel.ClickableIconVectorModel -> {
-                                    ClickableIcon(
-                                        icon.iconId,
-                                        title = icon.title,
-                                        doesButtonHaveBorder = icon.doesButtonHaveBorder,
-                                        onClick = icon.onIconPressed,
-                                        badgeCount = icon.badgeCount,
-                                        tint = icon.tint
-                                    )
-                                }
-
-                                IClickableIconModel.Nothing -> {}
+                    }
+                },
+                actions = {
+                    screen.actionIconsTopBar().forEach { icon ->
+                        when (icon) {
+                            is IClickableIconModel.ClickableIconModel -> {
+                                ClickableIcon(
+                                    icon.iconId,
+                                    title = icon.title,
+                                    doesButtonHaveBorder = icon.doesButtonHaveBorder,
+                                    badgeCount = icon.badgeCount,
+                                    onClick = icon.onIconPressed,
+                                    tint = icon.tint
+                                )
                             }
+
+                            is IClickableIconModel.ClickableIconVectorModel -> {
+                                ClickableIcon(
+                                    icon.iconId,
+                                    title = icon.title,
+                                    doesButtonHaveBorder = icon.doesButtonHaveBorder,
+                                    onClick = icon.onIconPressed,
+                                    badgeCount = icon.badgeCount,
+                                    tint = icon.tint
+                                )
+                            }
+
+                            IClickableIconModel.Nothing -> {}
                         }
+                    }
 
-                        val last = screen.actionIconsTopBar().lastOrNull()
+                    val last = screen.actionIconsTopBar().lastOrNull()
 
-                        if (last is IClickableIconModel.ClickableIconModel) {
-                            if (last.title != null && last.doesButtonHaveBorder) {
-                                UISpacer()
-                            }
-                        } else if (last is IClickableIconModel.ClickableIconVectorModel) {
-                            if (last.title != null && last.doesButtonHaveBorder) {
-                                UISpacer()
-                            }
+                    if (last is IClickableIconModel.ClickableIconModel) {
+                        if (last.title != null && last.doesButtonHaveBorder) {
+                            UISpacer()
                         }
+                    } else if (last is IClickableIconModel.ClickableIconVectorModel) {
+                        if (last.title != null && last.doesButtonHaveBorder) {
+                            UISpacer()
+                        }
+                    }
 
 
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = ApplicationConfig.config.color.background,
-                        scrolledContainerColor = ApplicationConfig.config.color.background
-                    )
-
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = ApplicationConfig.config.color.background,
+                    scrolledContainerColor = ApplicationConfig.config.color.background
                 )
 
-                if (ApplicationConfig.config.isDarkTheme && !isShowStickyHeader && isLifted.value) {
-                    HorizontalDivider()
-                }
+            )
+
+            if (ApplicationConfig.config.isDarkTheme && !isShowStickyHeader && isLifted.value) {
+                HorizontalDivider()
             }
         }
     }

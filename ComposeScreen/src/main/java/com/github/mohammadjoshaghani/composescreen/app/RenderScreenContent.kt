@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.github.mohammadjoshaghani.composescreen.base.navigation.Navigator
 import com.github.mohammadjoshaghani.composescreen.base.screen.IRootScreen
+import com.github.mohammadjoshaghani.composescreen.compose.BottomBarRender
 import com.github.mohammadjoshaghani.composescreen.compose.UIAnimatedVisibility
 import com.github.mohammadjoshaghani.composescreen.compose.fab.UIFab
 import com.github.mohammadjoshaghani.composescreen.compose.navigationRail.NavigationSideBar
