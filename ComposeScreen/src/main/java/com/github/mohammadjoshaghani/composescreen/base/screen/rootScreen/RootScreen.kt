@@ -223,6 +223,10 @@ abstract class RootScreen<State : ViewState<Event>, Event : ViewEvent, Effect : 
         }
     }
 
+    override fun onRestart(result: Any?) {
+        job?.cancel()
+    }
+
     override fun onResume() {
         job?.cancel()
     }
